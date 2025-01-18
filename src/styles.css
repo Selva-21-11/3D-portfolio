@@ -6,9 +6,9 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #2B32B2;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #2B32B2, #1488CC);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #2B32B2, #1488CC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #2B32B2;
+    background: -webkit-linear-gradient(to right, #2B32B2, #1488CC);
+    background: linear-gradient(to right, #2B32B2, #1488CC);
     overflow-x: hidden;
     scroll-behavior: smooth;
     height: 100%;
@@ -58,16 +58,16 @@ section {
 }
 
 .glass-effect {
-    background: rgba(255, 255, 255, 0.15); /* Slightly darker background */
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 15px;
-    backdrop-filter: blur(30px); /* Enhanced frozen glass effect */
+    backdrop-filter: blur(30px);
     padding: 40px;
     max-width: 80%;
     text-align: center;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     z-index: 10;
     color: white;
-    opacity: 1; /* Full opacity for text */
+    opacity: 1;
 }
 
 .glass-effect h2 {
@@ -82,7 +82,7 @@ section {
 }
 
 section:not(.hero) {
-    background: rgba(255, 255, 255, 0.1); /* Transparent section background */
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .btn {
@@ -100,11 +100,11 @@ section:not(.hero) {
 
 .btn:hover {
     background: #2B32B2;
-    transform: scale(1.1); /* Hover animation */
+    transform: scale(1.1);
 }
 
 .btn:active {
-    transform: scale(0.95); /* Click animation */
+    transform: scale(0.95);
 }
 
 .portfolio-filters {
@@ -127,11 +127,11 @@ section:not(.hero) {
 
 .portfolio-filters .btn:hover {
     background: #2B32B2;
-    transform: scale(1.1); /* Hover animation */
+    transform: scale(1.1);
 }
 
 .portfolio-filters .btn:active {
-    transform: scale(0.95); /* Click animation */
+    transform: scale(0.95);
 }
 
 .portfolio-subsections {
@@ -170,4 +170,73 @@ section:not(.hero) {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
+}
+
+/* Contact Form Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.social-btn {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #1488CC;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    display: inline-flex; /* Ensure button uses flex */
+    align-items: center; /* Align items vertically */
+    justify-content: center; /* Align items horizontally */
+    min-width: 160px; /* Ensure consistent width for all buttons */
+    text-align: center;
+    text-decoration: none; /* Remove underline from links */
+}
+
+.social-btn:hover {
+    background-color: #2B32B2;
+    transform: scale(1.05);
+}
+
+.social-btn:active {
+    transform: scale(0.95);
+}
+
+/* Button Color Customization */
+.linkedin-btn {
+    background-color: #0e76a8; /* LinkedIn color */
+}
+
+.github-btn {
+    background-color: #333; /* GitHub color */
+}
+
+.resume-btn {
+    background-color: #28a745; /* Green for resume */
+}
+
+.social-links a {
+    text-decoration: none;
 }

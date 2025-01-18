@@ -122,4 +122,32 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", () => {
         animateSectionsOnScroll();
     });
+    const contactForm = document.getElementById("contact-form");
+
+    contactForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
+
+        if (!name || !email || !message) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        // Simple email validation
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailPattern.test(email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
+        // If everything is valid, you can proceed to submit the form
+        // For now, we will just log the data to the console
+        console.log("Form Submitted", { name, email, message });
+        alert("Your message has been sent!");
+        contactForm.reset();  // Reset the form
+    });
+    
 });

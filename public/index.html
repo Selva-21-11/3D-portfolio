@@ -1,0 +1,78 @@
+<section class="portfolio" id="portfolio">
+    <div class="glass-effect">
+        <h2>My Portfolio</h2>
+        <p>Showcase of projects like 3D models, animations, etc.</p>
+        <div class="portfolio-tabs">
+            <button class="tab-btn" data-tab="3d-models">3D Models</button>
+            <button class="tab-btn" data-tab="video-renders">Video Renders</button>
+            <button class="tab-btn" data-tab="image-renders">Image Renders</button>
+        </div>
+
+        <div class="portfolio-content">
+            <div class="tab-content" id="3d-models">
+                <!-- Embed 3D Models (Three.js/Verge3D) here -->
+                <div id="3d-model-container"></div>
+            </div>
+
+            <div class="tab-content" id="video-renders">
+                <!-- Embed video renders -->
+                <video controls>
+                    <source src="stormy-animation.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div class="tab-content" id="image-renders">
+                <!-- Display static image renders -->
+                <div class="image-grid">
+                    <img src="project1.jpg" alt="Project 1">
+                    <img src="project2.jpg" alt="Project 2">
+                    <!-- Add more images as necessary -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="experience" id="experience">
+    <div class="glass-effect">
+        <h2>Experience</h2>
+        <div class="timeline">
+            <!-- Timeline items (use 3D models for interactivity or a slider) -->
+            <div class="timeline-item">
+                <h3>Internship at Company XYZ</h3>
+                <p>Worked on VR projects, enhancing interactive experience for users.</p>
+            </div>
+            <div class="timeline-item">
+                <h3>Project: VR Train Simulator</h3>
+                <p>Developed a VR train simulation in Verge3D with realistic physics and controls.</p>
+            </div>
+            <!-- Add more timeline items as necessary -->
+        </div>
+    </div>
+</section>
+
+<section class="contact" id="contact">
+    <div class="glass-effect">
+        <h2>Contact</h2>
+        <form id="contact-form" action="submit_form.php" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+            <a href="https://github.com/yourprofile" target="_blank">GitHub</a>
+            <a href="your-resume.pdf" download>Download Resume</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 Your Name | 3D Artist & Animator</p>
+    <div class="social-footer">
+        <a href="https://www.linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+        <a href="https://github.com/yourprofile" target="_blank">GitHub</a>
+    </div>
+</footer>

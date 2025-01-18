@@ -23,12 +23,66 @@
                 <a href="#contact" class="btn contact">Contact Me</a>
             </div>
         </section>
+        
+        <!-- Portfolio Showcase Section -->
         <section class="portfolio" id="portfolio">
             <div class="glass-effect">
                 <h2>My Portfolio</h2>
                 <p>Showcase of projects like 3D models, animations, etc.</p>
+
+                <!-- Filter Tabs -->
+                <div class="portfolio-filters">
+                    <button class="btn filter" data-filter="3d-models">3D Models</button>
+                    <button class="btn filter" data-filter="image-renders">Image Renders</button>
+                    <button class="btn filter" data-filter="video-renders">Video Renders</button>
+                </div>
+
+                <!-- Portfolio Subsections -->
+                    <div class="portfolio-subsections">
+                        <!-- 3D Models Section -->
+                        <div class="portfolio-section" id="3d-models">
+                            <h3>3D Models</h3>
+                            <div class="portfolio-items">
+                                <div class="portfolio-item">
+                                    <div class="threejs-container">
+                                        <div id="model1"></div>
+                                    </div>
+                                    <p>3D Model 1 Description</p>
+                                </div>
+                                <!-- Add more 3D models here -->
+                            </div>
+                        </div>
+
+                    <!-- Video Renders Section -->
+                    <div class="portfolio-section" id="video-renders">
+                        <h3>Video Renders</h3>
+                        <div class="portfolio-items">
+                            <div class="portfolio-item">
+                                <video controls>
+                                    <source src="path/to/video.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <p>Video Render 1 Description</p>
+                            </div>
+                            <!-- Add more videos here -->
+                        </div>
+                    </div>
+
+                    <!-- Image Renders Section -->
+                    <div class="portfolio-section" id="image-renders">
+                        <h3>Image Renders</h3>
+                        <div class="portfolio-items image-grid">
+                            <div class="portfolio-item">
+                                <img src="path/to/image1.jpg" alt="Render 1">
+                                <p>Image Render 1 Description</p>
+                            </div>
+                            <!-- Add more image renders here -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
+
         <section class="contact" id="contact">
             <div class="glass-effect">
                 <h2>Contact</h2>

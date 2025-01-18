@@ -1,7 +1,59 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Ensure the DOM is fully loaded before selecting elements
     const sections = document.querySelectorAll("section");
-    const titleSection = document.querySelector("#title"); // Assuming title section has the id "title"
-    let lastScrollTop = 0; // Store last scroll position
+    const titleSection = document.querySelector("#hero"); // Assuming the title section is "hero"
+    const filterButtons = document.querySelectorAll(".portfolio-filters .btn"); // Filter buttons
+    const portfolioSections = document.querySelectorAll(".portfolio-section"); // All portfolio subsections
+    const portfolioTitle = document.querySelector("#portfolio-title"); // Portfolio Title Section (Make sure this element exists in your HTML)
+
+    // Portfolio content for different types
+    const portfolioItems = {
+        "3d-model": `
+            <h3>3D Models</h3>
+            <div class="portfolio-items">
+                <div class="portfolio-item">
+                    <div class="threejs-container"></div>
+                    <p>3D Model 1</p>
+                </div>
+                <div class="portfolio-item">
+                    <div class="threejs-container"></div>
+                    <p>3D Model 2</p>
+                </div>
+            </div>
+        `,
+        "video-render": `
+            <h3>Video Renders</h3>
+            <div class="portfolio-items">
+                <div class="portfolio-item">
+                    <video controls>
+                        <source src="video1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p>Video Render 1</p>
+                </div>
+                <div class="portfolio-item">
+                    <video controls>
+                        <source src="video2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p>Video Render 2</p>
+                </div>
+            </div>
+        `,
+        "image-render": `
+            <h3>Image Renders</h3>
+            <div class="image-grid">
+                <div class="portfolio-item">
+                    <img src="image1.jpg" alt="Image Render 1">
+                    <p>Image Render 1</p>
+                </div>
+                <div class="portfolio-item">
+                    <img src="image2.jpg" alt="Image Render 2">
+                    <p>Image Render 2</p>
+                </div>
+            </div>
+        `
+    };
 
     // Function to animate title section on page load
     const animateTitleOnLoad = () => {
@@ -18,90 +70,56 @@ document.addEventListener("DOMContentLoaded", function () {
             const rect = section.getBoundingClientRect();
 
             // Skip the title section and apply animation only to others
-            if (section.id === "title") {
+            if (section.id === "hero") return;
+
+            if (rect.top >= 0 && rect.top <= window.innerHeight / 1.3) {
+                section.style.opacity = 1;
+                section.style.transform = "translateY(0)";
+            } else if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                section.style.opacity = 0;
+                section.style.transform = "translateY(50px)";
+            }
+        });
+    };
+
+    // Portfolio filtering functionality
+    filterButtons.forEach(button => {
+        button.addEventListener("click", (e) => {
+            console.log("Button clicked:", e.target); // Log the clicked button
+            const filterType = e.target.getAttribute("data-filter");
+
+            // Check if the filterType exists
+            if (!filterType) {
+                console.error("No data-filter attribute on the button");
                 return;
             }
 
-            // When scrolling down
-            if (scrollTop > lastScrollTop) {
-                // If section is in view (on the screen)
-                if (rect.top >= 0 && rect.top <= window.innerHeight / 1.3) {
-                    section.style.opacity = 1;
-                    section.style.transform = "translateY(0)";
+            // Remove active class from all buttons and add to the clicked one
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+
+            // Show/Hide sections based on the selected filter
+            portfolioSections.forEach(section => {
+                if (section.id.includes(filterType) || filterType === 'all') {
+                    section.style.display = "block";
+                } else {
+                    section.style.display = "none";
                 }
-                // When section leaves the view upwards (scroll up past it)
-                else if (rect.bottom < 0) {
-                    section.style.opacity = 0;
-                    section.style.transform = "translateY(50px)";
-                }
-            }
-            // When scrolling up (reverse animation)
-            else if (scrollTop < lastScrollTop) {
-                // If section enters view from top (scroll up to it)
-                if (rect.top >= 0 && rect.top <= window.innerHeight / 1.3) {
-                    section.style.opacity = 1;
-                    section.style.transform = "translateY(0)";
-                }
-                // When section goes out of view (scroll up past it)
-                else if (rect.bottom > window.innerHeight) {
-                    section.style.opacity = 0;
-                    section.style.transform = "translateY(50px)";
-                }
+            });
+
+            // Set the portfolio section title based on the filter
+            if (portfolioTitle) {
+                portfolioTitle.innerHTML = `My Portfolio - ${filterType.replace("-", " ").toUpperCase()}`;
             }
         });
-
-        // Update the last scroll position
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    };
-
-    // Function to animate background gradient based on scroll
-    const animateBackgroundGradient = () => {
-        const scrollY = window.scrollY;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercentage = scrollY / maxScroll;
-
-        // Calculate gradient based on scroll
-        const startColor = `#FFFFFF`;
-        const midColor = `#6284FF`;
-        const endColor = `#FF0000`;
-
-        const newGradient = `linear-gradient(180deg, ${startColor} 0%, ${mixColors(midColor, startColor, scrollPercentage)} 50%, ${mixColors(endColor, midColor, scrollPercentage)} 100%)`;
-
-        // Update background gradient
-        document.body.style.background = newGradient;
-    };
-
-    // Function to mix two colors based on a percentage
-    const mixColors = (color1, color2, percentage) => {
-        const hexToRgb = (hex) => {
-            let r = parseInt(hex.substr(1, 2), 16);
-            let g = parseInt(hex.substr(3, 2), 16);
-            let b = parseInt(hex.substr(5, 2), 16);
-            return { r, g, b };
-        };
-
-        const rgbToHex = (r, g, b) => {
-            return `#${(1 << 24) + (r << 16) + (g << 8) + b}.toString(16).slice(1).toUpperCase()`;
-        };
-
-        const color1Rgb = hexToRgb(color1);
-        const color2Rgb = hexToRgb(color2);
-
-        const r = Math.round(color1Rgb.r + (color2Rgb.r - color1Rgb.r) * percentage);
-        const g = Math.round(color1Rgb.g + (color2Rgb.g - color1Rgb.g) * percentage);
-        const b = Math.round(color1Rgb.b + (color2Rgb.b - color1Rgb.b) * percentage);
-
-        return rgbToHex(r, g, b);
-    };
-
-    // Set up scroll listeners
-    window.addEventListener("scroll", () => {
-        animateSectionsOnScroll();
-        animateBackgroundGradient();
     });
 
-    // Initial animation for title and sections
+    // Initial load animations
     animateTitleOnLoad();
     animateSectionsOnScroll();
-    animateBackgroundGradient();
+
+    // Scroll event to animate sections
+    window.addEventListener("scroll", () => {
+        animateSectionsOnScroll();
+    });
 });

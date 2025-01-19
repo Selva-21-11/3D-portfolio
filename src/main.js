@@ -1,5 +1,8 @@
 // Import CSS for Webpack to handle bundling
 import './styles.css';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three-stdlib'; // Import the GLTFLoader from 'three-stdlib'
+import { DRACOLoader } from 'three-stdlib';
 
 document.addEventListener("DOMContentLoaded", function () {
     // Ensure the DOM is fully loaded before selecting elements
@@ -152,5 +155,138 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Form Submitted", { name, email, message });
         alert("Your message has been sent!");
         contactForm.reset();  // Reset the form
+    });
+
+    const modelPopup = document.getElementById("model-popup");
+    const closePopupButton = document.getElementById("close-popup");
+    const popupContainer = document.getElementById("popup-model-container");
+    const loadingMessage = document.getElementById("loading-message");
+
+    if (!loadingMessage) {
+        console.error("Loading message element not found!");
+        return;
+    }
+
+    let scene, camera, renderer, model;
+    let isAnimating = false; // Flag to track whether animation is running
+
+    // Function to initialize the 3D scene
+    const initializeScene = () => {
+        // Create the scene
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 1, 5); // Make sure camera is always set to a good position
+
+        // Create the renderer
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        popupContainer.appendChild(renderer.domElement);
+
+        // Add lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(ambientLight);
+        scene.add(directionalLight);
+    };
+
+    // Function to load the 3D model
+    const load3DModel = () => {
+        loadingMessage.style.display = 'block'; // Show loading message
+
+        if (model) {
+            // Dispose of the previous model
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    child.geometry.dispose();
+                    child.material.dispose();
+                }
+            });
+            scene.remove(model); // Remove the model from the scene
+            model = null; // Reset the model variable
+        }
+
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('/draco/'); // Path to Draco decoder files
+
+        const loader = new GLTFLoader();
+        loader.setDRACOLoader(dracoLoader);
+
+        loader.load(
+            '/models/bmw.glb', // Path to your 3D model
+            function (gltf) {
+                model = gltf.scene;
+                model.scale.set(0.5, 0.5, 0.5); // Scale the model if needed
+                scene.add(model); // Add the model to the scene
+                loadingMessage.style.display = 'none'; // Hide loading message
+                console.log('Model loaded successfully');
+                startAnimation(); // Start animation loop
+            },
+            function (xhr) {
+                if (xhr.total > 0) { // Ensure xhr.total is available
+                    const percent = (xhr.loaded / xhr.total) * 100;
+                    loadingMessage.textContent = `${Math.round(percent)}% loaded`; // Update loading message
+                    console.log(`${Math.round(percent)}% loaded`); // Log the percentage
+                }
+            },
+            function (error) {
+                console.error('An error happened', error);
+                loadingMessage.textContent = 'Failed to load model'; // Update loading message with error
+            }
+        );
+        
+        
+    };
+
+    // Function to start the animation loop
+    const startAnimation = () => {
+        if (!isAnimating) {
+            isAnimating = true; // Set the flag to true to indicate the animation is running
+            animate();
+        }
+    };
+
+    // Function to animate the model
+    const animate = () => {
+        requestAnimationFrame(animate);
+        if (model) {
+            model.rotation.y += 0.01; // Rotate the model
+        }
+        renderer.render(scene, camera);
+    };
+
+    // Show popup and load the model
+    document.querySelectorAll('.view-3d-model').forEach(button => {
+        button.addEventListener('click', () => {
+            modelPopup.style.display = 'flex'; // Show the popup
+            if (!scene) {
+                initializeScene(); // Initialize the scene if not already initialized
+            }
+            load3DModel(); // Load the 3D model inside the popup
+        });
+    });
+
+    // Close the popup and clean up
+    closePopupButton.addEventListener('click', () => {
+        modelPopup.style.display = 'none';
+
+        // Clean up the 3D scene to prevent memory leaks
+        if (model) {
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    child.geometry.dispose();
+                    child.material.dispose();
+                }
+            });
+        }
+    });
+
+    // Ensure proper positioning and rendering after closing and reopening the popup
+    window.addEventListener('resize', () => {
+        if (renderer) {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        }
     });
 });

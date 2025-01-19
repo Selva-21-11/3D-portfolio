@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
+
+
 <body>
     <div class="container">
         <section class="hero" id="hero">
@@ -47,7 +49,12 @@
                                 <div class="threejs-container">
                                     <div id="model1"></div>
                                 </div>
+                                <div class="button-container">
+                                    <button class="view-3d-model" data-model="model1">View 3D Model 1</button>
+                                    <button class="view-3d-model" data-model="model2">View 3D Model 2</button>
+                                </div>
                                 <p>3D Model 1 Description</p>
+                                
                             </div>
                             <!-- Add more 3D models here -->
                         </div>
@@ -119,6 +126,22 @@
                 <a href="#hero" class="btn contact">Back to Top</a>
             </div>
         </section>
+
+        <!-- 3D Model Popup -->
+<div id="model-popup" class="popup">
+    <div class="popup-content">
+        <!-- Model Container (Add your 3D model loader here) -->
+        <div id="popup-model-container"></div>
+        <!-- Make sure this is inside the popup-model-container to show loading status -->
+<div id="loading-message" style="display: none; color: white; text-align: center;">
+    Loading 3D Model...
+</div>
+
+        <!-- Close Button -->
+        <button id="close-popup" class="close-popup">X</button>
+    </div>
+</div>
+
     </div>
 
     <!-- Webpack will inject the bundled script -->

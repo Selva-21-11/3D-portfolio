@@ -19,8 +19,8 @@ module.exports = {
   // Set up the development server for live reloading
   devServer: {
     static: {
-        directory: path.join(__dirname, 'dist')
-      },
+      directory: path.join(__dirname, 'public'), // Correct path to serve from 'public' folder
+    },
     open: true, // Open browser automatically
     hot: true,  // Enable hot module replacement
     port: 3000, // Default port for the dev server

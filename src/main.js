@@ -1,3 +1,6 @@
+// Import CSS for Webpack to handle bundling
+import './styles.css';
+
 document.addEventListener("DOMContentLoaded", function () {
     // Ensure the DOM is fully loaded before selecting elements
     const sections = document.querySelectorAll("section");
@@ -122,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", () => {
         animateSectionsOnScroll();
     });
+    
     const contactForm = document.getElementById("contact-form");
 
     contactForm.addEventListener("submit", function (event) {
@@ -149,5 +153,4 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Your message has been sent!");
         contactForm.reset();  // Reset the form
     });
-    
 });

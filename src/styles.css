@@ -393,7 +393,7 @@ section {
 .welcome-text {
     font-family: 'Titlefont', serif;
     font-size: 7rem;
-    font-weight: 100;
+    font-weight: 1;
     text-transform: uppercase;
     display: inline-block;
     -webkit-background-clip: text;
@@ -412,7 +412,6 @@ section {
 .portfolio-text {
     font-family:'Titlefont1', sans-serif;
     font-size: 10rem;
-    font-weight: 700;
     text-transform: uppercase;
     display: inline-block;
     background-color: #fff;
@@ -446,7 +445,7 @@ section {
     src: url('../public/Adam Ladd  Skie ExtraBold.otf') format('opentype');
 
     font-family: 'Titlefont';
-    src: url('../public/TT Ramillas Trial Light.ttf') format('opentype');
+    src: url('../public/TT Ramillas Trial Variable Roman.ttf') format('opentype');
   }
   
 /* Initial position for the button (hidden below the screen) */
@@ -460,4 +459,11 @@ section {
 .btn.explore.visible {
     opacity: 1;
     transform: translateY(0); /* Move the button to its original position */
+    
 }
+.btn.explore.hover {
+    background: #2B32B2;
+    transform: scale(1.1);
+
+}
+

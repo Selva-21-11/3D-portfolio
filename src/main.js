@@ -28,15 +28,26 @@ const animateTextLetterByLetter = () => {
     const portfolioLetters = portfolioText.querySelectorAll('span');
     const careerLetters = careerText.querySelectorAll('span');
 
-    // Set the button slide up animation to happen at the same time as the text animation
-    exploreButton.style.transition = "transform 1s ease, opacity 1s ease";
+    // Set initial transition for the button
+    exploreButton.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+
+    // Button animation on page load
     exploreButton.style.opacity = 1;
     exploreButton.style.transform = "translateY(0)";
+
+    // Add hover effect via JavaScript
+    exploreButton.addEventListener("mouseenter", () => {
+        exploreButton.style.transform = "scale(1.1)";
+    });
+
+    exploreButton.addEventListener("mouseleave", () => {
+        exploreButton.style.transform = "scale(1)";
+    });
 
     // Trigger the animation for "WELCOME TO MY"
     welcomeLetters.forEach((letter, index) => {
         setTimeout(() => {
-            letter.style.transition = "transform 3s ease, opacity 3s ease";
+            letter.style.transition = "transform 1s ease, opacity 1s ease";
             letter.style.opacity = 1;
             letter.style.transform = "translateY(0)";
         }, index * 100); // Adding delay to each letter animation
@@ -45,7 +56,7 @@ const animateTextLetterByLetter = () => {
     // Trigger the animation for "PORTFOLIO"
     portfolioLetters.forEach((letter, index) => {
         setTimeout(() => {
-            letter.style.transition = "transform 3s ease, opacity 3s ease";
+            letter.style.transition = "transform 1s ease, opacity 1s ease";
             letter.style.opacity = 1;
             letter.style.transform = "translateY(0)";
         }, index * 100); // Adding delay to each letter animation
@@ -438,6 +449,6 @@ popupContainer.addEventListener('click', (event) => {
         animateLight(lightLeft);
         animateLight(lightRight);
     });
-    
-    
+
+
 });

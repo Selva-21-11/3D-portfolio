@@ -8,12 +8,10 @@ body {
     font-family: 'Poppins', sans-serif;
     background: #000000;  /* Black background */
     overflow: auto;
-    height: 100;
+    height: 100%;
     color: white;
     margin: 0; /* Remove default margin */
 }
-
-
 
 /* Styling for the light elements */
 .section-light {
@@ -28,7 +26,6 @@ body {
     will-change: transform, opacity; /* Hint to the browser for smoother animations */
     filter: blur(200px);
     backface-visibility: hidden;  /* Prevent rendering backfaces during animation */
-
 }
 
 canvas {
@@ -40,7 +37,6 @@ canvas {
     z-index: -1;   /* Keep canvas behind the page content */
 }
 
-
 #bg-container {
     position: fixed;  /* Keep the background fixed at all times */
     top: 0;
@@ -51,11 +47,12 @@ canvas {
     pointer-events: none;  /* Prevent background from blocking interactions with page content */
 }
 
-
 h1, p {
     position: relative;
     z-index: 10; /* Ensure text content is above the 3D elements */
+    margin: 0;
 }
+
 .container {
     display: flex;
     flex-direction: column;
@@ -92,26 +89,6 @@ section {
     z-index: -1; /* Put the sphere behind the text */
 }
 
-.hero {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.hero h1 {
-    font-size: 3rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: white;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    font-weight: 300;
-    color: white;
-}
-
 .glass-effect {
     background: rgba(255, 255, 255, 0.15);
     border-radius: 15px;
@@ -126,16 +103,15 @@ section {
 }
 
 .glass-effect h2 {
-    font-size: 2.5rem;
+    font-size: 3rem; /* Increase the size of the subtitle */
     font-weight: 600;
     margin-bottom: 20px;
 }
 
 .glass-effect p {
-    font-size: 1.1rem;
+    font-size: 1.2rem; /* Slightly increase paragraph size */
     font-weight: 300;
 }
-
 
 .btn {
     display: inline-block;
@@ -159,6 +135,7 @@ section {
     transform: scale(0.95);
 }
 
+/* Portfolio section styles */
 .portfolio-filters {
     display: flex;
     justify-content: center;
@@ -167,7 +144,7 @@ section {
 }
 
 .portfolio-filters .btn {
-    font-size: 1rem;
+    font-size: 1.2rem; /* Larger font size for buttons */
     padding: 10px 20px;
     background: #1488CC;
     border: none;
@@ -382,15 +359,78 @@ section {
     background-color: #555;
 }
 
-/* Wrap the buttons in a container for horizontal alignment */
-.button-container {
+/* Center content */
+.center-content {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    margin-bottom: 10px;
+    align-items: center;
 }
 
-.portfolio-item p {
-    margin-top: 20px;
-    text-align: center;
+
+/* Hero Section Styles */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    text-align: left;
 }
+
+/* Title text */
+.hero h1 {
+    width: 100%;
+    margin: 0;
+    letter-spacing: 1px;
+    line-height: 0.9;
+    display: flex;
+    flex-direction: column; /* Stack the text */
+}
+
+/* "WELCOME TO MY" - Thin Serif Font */
+.welcome-text {
+    font-family: 'Titlefont', serif; /* Thin serif font like the reference */
+    -webkit-background-clip: text;
+    background-color: #fff;
+    background-clip: text;
+    color: transparent;
+    font-size: 7rem;
+    font-weight: 100; /* Thin weight */
+    text-transform: uppercase;
+}
+
+/* "PORTFOLIO" - Bold Sans-serif Font */
+.portfolio-text {
+    font-family:'Titlefont1', sans-serif; /* Bold sans-serif font like the reference */
+    background-color: #fff;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 10rem;
+    font-weight: 1000px; /* Bold weight */
+    margin-top: -10px; /* Adjust for proper alignment */
+    text-transform: uppercase;
+    position: relative;
+    left: 0%;
+}
+
+/* Career text */
+.career-text {
+    font-size: 1.6rem;
+    font-weight: 400; /* Standard weight */
+    color: white;
+    text-transform: uppercase; /* Capitalize career text */
+    width: 100%;
+    margin-top: 20px;
+    position: relative;
+    left: 1%;
+}
+@font-face {
+    font-family: 'Titlefont1';
+    src: url('../public/Adam Ladd  Skie ExtraBold.otf') format('opentype');
+
+    font-family: 'Titlefont';
+    src: url('../public/TT Ramillas Trial Light.ttf') format('opentype');
+  }
+  

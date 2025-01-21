@@ -21,20 +21,25 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     const animateSectionsOnScroll = () => {
-        let scrollTop = window.scrollY || window.pageYOffset;
-
-        sections.forEach((section) => {
-            const rect = section.getBoundingClientRect();
-
-            if (section.id === "hero") return;
-
-            if (rect.top >= 0 && rect.top <= window.innerHeight / 1.3) {
-                section.style.opacity = 1;
-                section.style.transform = "translateY(0)";
-            } else if (rect.bottom < 0 || rect.top > window.innerHeight) {
-                section.style.opacity = 0;
-                section.style.transform = "translateY(50px)";
-            }
+        requestAnimationFrame(() => {
+            let scrollTop = window.scrollY || window.pageYOffset;
+    
+            sections.forEach((section) => {
+                const rect = section.getBoundingClientRect();
+    
+                if (section.id === "hero") return;
+    
+                const threshold = window.innerHeight / 2; // Adjust this value for more fluidity
+    
+                if (rect.top >= -threshold && rect.top <= window.innerHeight - threshold) {
+                    section.style.opacity = 1;
+                    section.style.transform = "translateY(0)";
+                    section.style.transition = "opacity 1s ease, transform 1s ease";
+                } else if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                    section.style.opacity = 0;
+                    section.style.transform = "translateY(50px)";
+                }
+            });
         });
     };
 

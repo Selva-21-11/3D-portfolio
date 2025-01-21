@@ -326,7 +326,7 @@ popupContainer.addEventListener('click', (event) => {
     renderBackground();
 
     document.querySelectorAll('section').forEach((section) => {
-        // Create two div elements for the lights (one for left and one for right)
+        // Create two div elements for the lights
         const lightLeft = document.createElement('div');
         const lightRight = document.createElement('div');
         lightLeft.classList.add('section-light');
@@ -336,20 +336,30 @@ popupContainer.addEventListener('click', (event) => {
         section.appendChild(lightLeft);
         section.appendChild(lightRight);
     
-        // Set the size of the light (set in CSS, but left here for clarity)
-        const size = '600px'; // Large size of the light
+        // Set the size of the lights
+        const size = '600px'; // Fixed size for lights
     
         // Randomly position lightLeft on the left edge
-        const topPositionLeft = Math.random() * 100;  // Randomize top position for left light
+        const topPositionLeft = Math.random() * 100; // Randomize top position for left light
         lightLeft.style.position = 'absolute';
-        lightLeft.style.left = `-${parseInt(size) / 2}px`;  // Off-screen on the left
+        lightLeft.style.left = `-${parseInt(size) / 2}px`; // Off-screen on the left
         lightLeft.style.top = `${topPositionLeft}%`;
-        
+    
+        // Randomly assign a background position for lightLeft
+        const randomBackgroundLeftX = Math.random() * 100; // Horizontal position (0-100%)
+        const randomBackgroundLeftY = Math.random() * 100; // Vertical position (0-100%)
+        lightLeft.style.backgroundPosition = `${randomBackgroundLeftX}% ${randomBackgroundLeftY}%`;
+    
         // Randomly position lightRight on the right edge
-        const topPositionRight = Math.random() * 100;  // Randomize top position for right light
+        const topPositionRight = Math.random() * 100; // Randomize top position for right light
         lightRight.style.position = 'absolute';
-        lightRight.style.right = `-${parseInt(size) / 2}px`;  // Off-screen on the right
+        lightRight.style.right = `-${parseInt(size) / 2}px`; // Off-screen on the right
         lightRight.style.top = `${topPositionRight}%`;
+    
+        // Randomly assign a background position for lightRight
+        const randomBackgroundRightX = Math.random() * 100; // Horizontal position (0-100%)
+        const randomBackgroundRightY = Math.random() * 100; // Vertical position (0-100%)
+        lightRight.style.backgroundPosition = `${randomBackgroundRightX}% ${randomBackgroundRightY}%`;
     
         // Animation function for smooth wobble effect
         let time = Date.now() / 1000; // Using time for smooth animation pacing
@@ -359,7 +369,7 @@ popupContainer.addEventListener('click', (event) => {
             let scale = 1 + Math.sin(time) * 0.1; // Smooth scale wobble
             let positionOffset = Math.sin(time * 2) * 50; // Smooth vertical wobble (translateY)
             let opacity = 0.6 + Math.sin(time) * 0.2; // Smooth opacity change
-            
+    
             // Apply the wobble animation (translateY for position wobble, scale, and opacity)
             light.style.transform = `translateY(${positionOffset}px) scale(${scale})`;
             light.style.opacity = opacity;
@@ -375,5 +385,6 @@ popupContainer.addEventListener('click', (event) => {
         animateLight(lightLeft);
         animateLight(lightRight);
     });
+    
     
 });

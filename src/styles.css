@@ -26,11 +26,10 @@ body {
     z-index: 1; /* Ensure it stays behind other elements */
     transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Smooth transition for position and opacity */
     will-change: transform, opacity; /* Hint to the browser for smoother animations */
-    filter: blur(50px);
+    filter: blur(200px);
     backface-visibility: hidden;  /* Prevent rendering backfaces during animation */
 
 }
-
 
 canvas {
     position: fixed; /* Ensure canvas is fixed to the screen */

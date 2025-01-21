@@ -1,0 +1,464 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #000000;  /* Black background */
+    overflow: auto;
+    overflow-x: hidden;
+    height: 100%;
+    color: white;
+    margin: 0; /* Remove default margin */
+}
+
+/* Styling for the light elements */
+.section-light {
+    position: absolute;
+    border-radius: 50%;
+    width: 500px;  /* Large size for the lights */
+    height: 500px; /* Same size for circular shape */
+    background-image: url(images/gradient.jpg);
+    pointer-events: none; /* Prevent interaction */
+    z-index: 1; /* Ensure it stays behind other elements */
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Smooth transition for position and opacity */
+    will-change: transform, opacity; /* Hint to the browser for smoother animations */
+    filter: blur(200px);
+    backface-visibility: hidden;  /* Prevent rendering backfaces during animation */
+}
+
+canvas {
+    position: fixed; /* Ensure canvas is fixed to the screen */
+    top: 0;
+    left: 0;
+    width: 100vw;  /* Use full viewport width */
+    height: 100vh; /* Use full viewport height */
+    z-index: -1;   /* Keep canvas behind the page content */
+}
+
+#bg-container {
+    position: fixed;  /* Keep the background fixed at all times */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Keep it behind the main content */
+    pointer-events: none;  /* Prevent background from blocking interactions with page content */
+}
+
+h1, p {
+    position: relative;
+    z-index: 10; /* Ensure text content is above the 3D elements */
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem;
+    margin: 2rem 0;
+    position: relative;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease, transform 1s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+#sphere-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    z-index: -1; /* Put the sphere behind the text */
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    backdrop-filter: blur(30px);
+    padding: 40px;
+    max-width: 80%;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    color: white;
+    opacity: 1;
+}
+
+.glass-effect h2 {
+    font-size: 3rem; /* Increase the size of the subtitle */
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.glass-effect p {
+    font-size: 1.2rem; /* Slightly increase paragraph size */
+    font-weight: 300;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #1488CC;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background: #2B32B2;
+    transform: scale(1.1);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* Portfolio section styles */
+.portfolio-filters {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.portfolio-filters .btn {
+    font-size: 1.2rem; /* Larger font size for buttons */
+    padding: 10px 20px;
+    background: #1488CC;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.portfolio-filters .btn:hover {
+    background: #2B32B2;
+    transform: scale(1.1);
+}
+
+.portfolio-filters .btn:active {
+    transform: scale(0.95);
+}
+
+.portfolio-subsections {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.portfolio-section {
+    display: none;
+}
+
+.portfolio-section.active {
+    display: block;
+}
+
+.portfolio-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.portfolio-item {
+    text-align: center;
+}
+
+.portfolio-item img,
+.portfolio-item video {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Contact Form Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.social-btn {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #1488CC;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    display: inline-flex; /* Ensure button uses flex */
+    align-items: center; /* Align items vertically */
+    justify-content: center; /* Align items horizontally */
+    min-width: 160px; /* Ensure consistent width for all buttons */
+    text-align: center;
+    text-decoration: none; /* Remove underline from links */
+}
+
+.social-btn:hover {
+    background-color: #2B32B2;
+    transform: scale(1.05);
+}
+
+.social-btn:active {
+    transform: scale(0.95);
+}
+
+/* Button Color Customization */
+.linkedin-btn {
+    background-color: #0e76a8; /* LinkedIn color */
+}
+
+.github-btn {
+    background-color: #333; /* GitHub color */
+}
+
+.resume-btn {
+    background-color: #28a745; /* Green for resume */
+}
+
+.social-links a {
+    text-decoration: none;
+}
+
+/* Popup styles */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup.show {
+    display: flex; /* Show the popup when class 'show' is added */
+}
+
+#popup-model-container {
+    position: relative;
+    width: 97%; /* Adjust as per your design */
+    height: 95%; /* Adjust as per your design */
+    margin: auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1); /* Optional background */
+    border-radius: 10px; /* Optional rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#popup-model-container canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.popup-content {
+    background: #ffffff64;
+    width: 80vw;
+    height: 80vh;
+    max-width: 100%;
+    max-height: 80%;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other elements */
+}
+
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1100; /* Ensure it's above the 3D content */
+}
+
+.close-popup:hover {
+    background: darkred;
+}
+
+/* Style for the View 3D Model buttons */
+.view-3d-model {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    width: 150px;
+}
+
+.view-3d-model:hover {
+    background-color: #555;
+}
+
+/* Center content */
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Hero Section Styles */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    text-align: left;
+}
+
+/* Title text */
+.hero h1 {
+    width: 100%;
+    margin: 0;
+    letter-spacing: 1px;
+    line-height: 0.9;
+    display: flex;
+    flex-direction: column; /* Stack the text */
+}
+
+/* "WELCOME TO MY" - Thin Serif Font */
+.welcome-text {
+    font-family: 'Titlefont', serif;
+    font-size: 7rem;
+    font-weight: 100;
+    text-transform: uppercase;
+    display: inline-block;
+    -webkit-background-clip: text;
+    background-color: #fff;
+    background-clip: text;
+}
+
+.welcome-text span {
+    opacity: 0;  /* Initially hidden */
+    transform: translateY(30px);  /* Start below the normal position */
+    display: inline-block;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+/* "PORTFOLIO" - Bold Sans-serif Font */
+.portfolio-text {
+    font-family:'Titlefont1', sans-serif;
+    font-size: 10rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+    background-color: #fff;
+    -webkit-background-clip: text;
+    background-clip: text;
+
+}
+
+/* Add this CSS to make sure the letters are initially invisible and transform smoothly */
+.welcome-text span,
+.portfolio-text span,
+.career-text span {
+    opacity: 0;  /* Initially hidden */
+    transform: translateY(30px);  /* Start below the normal position */
+    display: inline-block;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+
+/* Career text */
+.career-text {
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: white;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+@font-face {
+    font-family: 'Titlefont1';
+    src: url(86b29adbcc7c76a080a9.otf) format('opentype');
+
+    font-family: 'Titlefont';
+    src: url(45835977ef470e20ba3f.ttf) format('opentype');
+  }
+  
+/* Initial position for the button (hidden below the screen) */
+.btn.explore {
+    opacity: 0;
+    transform: translateY(20px); /* Move the button below */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition */
+}
+
+/* When the button is animated */
+.btn.explore.visible {
+    opacity: 1;
+    transform: translateY(0); /* Move the button to its original position */
+}
+

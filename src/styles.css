@@ -8,6 +8,7 @@ body {
     font-family: 'Poppins', sans-serif;
     background: #000000;  /* Black background */
     overflow: auto;
+    overflow-x: hidden;
     height: 100%;
     color: white;
     margin: 0; /* Remove default margin */
@@ -420,12 +421,16 @@ section {
 
 }
 
-.portfolio-text span {
+/* Add this CSS to make sure the letters are initially invisible and transform smoothly */
+.welcome-text span,
+.portfolio-text span,
+.career-text span {
     opacity: 0;  /* Initially hidden */
     transform: translateY(30px);  /* Start below the normal position */
     display: inline-block;
     transition: opacity 1s ease, transform 1s ease;
 }
+
 
 /* Career text */
 .career-text {
@@ -444,3 +449,15 @@ section {
     src: url('../public/TT Ramillas Trial Light.ttf') format('opentype');
   }
   
+/* Initial position for the button (hidden below the screen) */
+.btn.explore {
+    opacity: 0;
+    transform: translateY(20px); /* Move the button below */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition */
+}
+
+/* When the button is animated */
+.btn.explore.visible {
+    opacity: 1;
+    transform: translateY(0); /* Move the button to its original position */
+}

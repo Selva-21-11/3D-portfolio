@@ -12,22 +12,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const portfolioTitle = document.querySelector("#portfolio-title");
 
 
-    // Function to animate the title text letter by letter
+// Function to animate the title text letter by letter
 const animateTextLetterByLetter = () => {
     const welcomeText = document.querySelector(".welcome-text");
     const portfolioText = document.querySelector(".portfolio-text");
+    const careerText = document.querySelector(".career-text");
+    const exploreButton = document.querySelector(".btn.explore");
 
-    if (!welcomeText || !portfolioText) {
-        console.warn('Text elements not found');
+    if (!welcomeText || !portfolioText || !careerText || !exploreButton) {
+        console.warn('Text or button elements not found');
         return; // Ensure the title elements exist
     }
 
     const welcomeLetters = welcomeText.querySelectorAll('span');
     const portfolioLetters = portfolioText.querySelectorAll('span');
+    const careerLetters = careerText.querySelectorAll('span');
+
+    // Set the button slide up animation to happen at the same time as the text animation
+    exploreButton.style.transition = "transform 1s ease, opacity 1s ease";
+    exploreButton.style.opacity = 1;
+    exploreButton.style.transform = "translateY(0)";
 
     // Trigger the animation for "WELCOME TO MY"
     welcomeLetters.forEach((letter, index) => {
         setTimeout(() => {
+            letter.style.transition = "transform 3s ease, opacity 3s ease";
             letter.style.opacity = 1;
             letter.style.transform = "translateY(0)";
         }, index * 100); // Adding delay to each letter animation
@@ -36,9 +45,19 @@ const animateTextLetterByLetter = () => {
     // Trigger the animation for "PORTFOLIO"
     portfolioLetters.forEach((letter, index) => {
         setTimeout(() => {
+            letter.style.transition = "transform 3s ease, opacity 3s ease";
             letter.style.opacity = 1;
             letter.style.transform = "translateY(0)";
-        }, (welcomeLetters.length + index) * 100); // Adding a delay after "WELCOME TO MY"
+        }, index * 100); // Adding delay to each letter animation
+    });
+
+    // Trigger the animation for ".career-text"
+    careerLetters.forEach((letter, index) => {
+        setTimeout(() => {
+            letter.style.transition = "transform 0.5s ease, opacity 0.5s ease";
+            letter.style.opacity = 1;
+            letter.style.transform = "translateY(0)";
+        }, index * 100); // Adding delay to each letter animation
     });
 };
 
@@ -46,8 +65,6 @@ const animateTextLetterByLetter = () => {
 window.addEventListener("load", () => {
     animateTextLetterByLetter();
 });
-
-    // Portfolio items code remains unchanged
 
     // Function to animate title section on page load
     const animateTitleOnLoad = () => {

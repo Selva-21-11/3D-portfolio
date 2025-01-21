@@ -21,7 +21,7 @@ body {
     border-radius: 50%;
     width: 500px;  /* Large size for the lights */
     height: 500px; /* Same size for circular shape */
-    /*background-image: url('/images/gradient.jpg');*/
+    background-image: url('../public/images/gradient.jpg');
     pointer-events: none; /* Prevent interaction */
     z-index: 1; /* Ensure it stays behind other elements */
     transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Smooth transition for position and opacity */

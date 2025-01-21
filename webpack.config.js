@@ -1,32 +1,23 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  // Entry point: Where Webpack will start bundling
-  entry: './src/main.js', // Change if your entry point is different
+  // Entry point
+  entry: './src/main.js',
 
-  // Output: Where the bundled files will go
+  // Output configuration
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true, // Cleans the dist folder before each build
+    clean: true,
   },
 
-  // Development mode: For building the app in development
-  mode: 'development',
+  // Development mode
+  mode: 'production', // Set to 'production' for final build, 'development' for local server
 
-  // Set up the development server for live reloading
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'), // Correct path to serve from 'public' folder
-    },
-    open: true, // Open browser automatically
-    hot: true,  // Enable hot module replacement
-    port: 3000, // Default port for the dev server
-  },
-
-  // Loaders for different file types
   module: {
     rules: [
       {
@@ -41,33 +32,61 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'], // Ensures that the CSS will be injected into the DOM
+        use: [
+          MiniCssExtractPlugin.loader, // Extract CSS in production
+          'css-loader',
+        ],
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/i,
-        type: 'asset/resource', // Uses Webpack 5's new asset modules instead of file-loader
+        type: 'asset/resource',
         generator: {
-          filename: 'images/[name][ext][query]', // Output image files in the 'images' folder
+          filename: 'images/[name][ext][query]', // Output images in the 'images' folder
         },
       },
       {
         test: /\.(mp4|webm)$/i,
-        type: 'asset/resource', // Handles video files similarly
+        type: 'asset/resource',
         generator: {
-          filename: 'videos/[name][ext][query]', // Output video files in the 'videos' folder
+          filename: 'videos/[name][ext][query]', // Output videos in the 'videos' folder
+        },
+      },
+      {
+        test: /\.glb$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'models/[name][ext][query]', // Output models in the 'models' folder
         },
       },
     ],
   },
 
-  // Plugins to modify the build process
+  // Plugins to handle HTML injection and asset copying
   plugins: [
-    // Automatically inject the script into index.html
     new HtmlWebpackPlugin({
       template: './src/index.html',
       inject: 'body',
     }),
-    // Clean the dist folder before each build
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin(), // Clean up the dist folder before each build
+    new MiniCssExtractPlugin({
+      filename: 'styles.css', // Output CSS file name
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public/images', to: 'public/images' }, // Ensure these paths match what you need in the build
+        { from: 'public/models', to: 'public/models' },
+        { from: 'public/videos', to: 'public/videos' },
+      ],
+    }),
   ],
+
+  // Dev server for local development
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'public'), // Serve from 'public' during development
+    },
+    open: true,
+    hot: true,
+    port: 3000,
+  },
 };

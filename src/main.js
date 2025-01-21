@@ -1,81 +1,31 @@
-// Import CSS for Webpack to handle bundling
 import './styles.css';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three-stdlib'; // Import the GLTFLoader from 'three-stdlib'
+import { GLTFLoader } from 'three-stdlib';
 import { DRACOLoader } from 'three-stdlib';
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Ensure the DOM is fully loaded before selecting elements
-    const sections = document.querySelectorAll("section");
-    const titleSection = document.querySelector("#hero"); // Assuming the title section is "hero"
-    const filterButtons = document.querySelectorAll(".portfolio-filters .btn"); // Filter buttons
-    const portfolioSections = document.querySelectorAll(".portfolio-section"); // All portfolio subsections
-    const portfolioTitle = document.querySelector("#portfolio-title"); // Portfolio Title Section (Make sure this element exists in your HTML)
 
-    // Portfolio content for different types
-    const portfolioItems = {
-        "3d-model": `
-            <h3>3D Models</h3>
-            <div class="portfolio-items">
-                <div class="portfolio-item">
-                    <div class="threejs-container"></div>
-                    <p>3D Model 1</p>
-                </div>
-                <div class="portfolio-item">
-                    <div class="threejs-container"></div>
-                    <p>3D Model 2</p>
-                </div>
-            </div>
-        `,
-        "video-render": `
-            <h3>Video Renders</h3>
-            <div class="portfolio-items">
-                <div class="portfolio-item">
-                    <video controls>
-                        <source src="video1.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <p>Video Render 1</p>
-                </div>
-                <div class="portfolio-item">
-                    <video controls>
-                        <source src="video2.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <p>Video Render 2</p>
-                </div>
-            </div>
-        `,
-        "image-render": `
-            <h3>Image Renders</h3>
-            <div class="image-grid">
-                <div class="portfolio-item">
-                    <img src="image1.jpg" alt="Image Render 1">
-                    <p>Image Render 1</p>
-                </div>
-                <div class="portfolio-item">
-                    <img src="image2.jpg" alt="Image Render 2">
-                    <p>Image Render 2</p>
-                </div>
-            </div>
-        `
-    };
+    const sections = document.querySelectorAll("section");
+    const titleSection = document.querySelector("#hero");
+    const filterButtons = document.querySelectorAll(".portfolio-filters .btn");
+    const portfolioSections = document.querySelectorAll(".portfolio-section");
+    const portfolioTitle = document.querySelector("#portfolio-title");
+
+    // Portfolio items code remains unchanged
 
     // Function to animate title section on page load
     const animateTitleOnLoad = () => {
         titleSection.style.opacity = 1;
         titleSection.style.transform = "translateY(0)";
-        titleSection.style.transition = "opacity 1s, transform 1s"; // Smooth animation
+        titleSection.style.transition = "opacity 1s, transform 1s";
     };
 
-    // Function to animate sections based on scroll
     const animateSectionsOnScroll = () => {
         let scrollTop = window.scrollY || window.pageYOffset;
 
         sections.forEach((section) => {
             const rect = section.getBoundingClientRect();
 
-            // Skip the title section and apply animation only to others
             if (section.id === "hero") return;
 
             if (rect.top >= 0 && rect.top <= window.innerHeight / 1.3) {
@@ -88,32 +38,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 
-    // Portfolio filtering functionality
     filterButtons.forEach(button => {
         button.addEventListener("click", (e) => {
-            console.log("Button clicked:", e.target); // Log the clicked button
             const filterType = e.target.getAttribute("data-filter");
+            if (!filterType) return;
 
-            // Check if the filterType exists
-            if (!filterType) {
-                console.error("No data-filter attribute on the button");
-                return;
-            }
-
-            // Remove active class from all buttons and add to the clicked one
             filterButtons.forEach(btn => btn.classList.remove('active'));
             e.target.classList.add('active');
 
-            // Show/Hide sections based on the selected filter
             portfolioSections.forEach(section => {
-                if (section.id.includes(filterType) || filterType === 'all') {
-                    section.style.display = "block";
-                } else {
-                    section.style.display = "none";
-                }
+                section.style.display = section.id.includes(filterType) || filterType === 'all' ? "block" : "none";
             });
 
-            // Set the portfolio section title based on the filter
             if (portfolioTitle) {
                 portfolioTitle.innerHTML = `My Portfolio - ${filterType.replace("-", " ").toUpperCase()}`;
             }
@@ -128,12 +64,10 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", () => {
         animateSectionsOnScroll();
     });
-    
-    const contactForm = document.getElementById("contact-form");
 
+    const contactForm = document.getElementById("contact-form");
     contactForm.addEventListener("submit", function (event) {
         event.preventDefault();
-
         const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
         const message = document.getElementById("message").value.trim();
@@ -150,11 +84,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // If everything is valid, you can proceed to submit the form
-        // For now, we will just log the data to the console
         console.log("Form Submitted", { name, email, message });
         alert("Your message has been sent!");
-        contactForm.reset();  // Reset the form
+        contactForm.reset();
     });
 
     const modelPopup = document.getElementById("model-popup");
@@ -162,115 +94,192 @@ document.addEventListener("DOMContentLoaded", function () {
     const popupContainer = document.getElementById("popup-model-container");
     const loadingMessage = document.getElementById("loading-message");
 
-    if (!loadingMessage) {
-        console.error("Loading message element not found!");
-        return;
-    }
+    let backgroundRenderer, backgroundScene, backgroundCamera;
+    let popupRenderer, popupScene, popupCamera, model;
+    let isAnimating = false; // Initialize isAnimating
 
-    let scene, camera, renderer, model;
-    let isAnimating = false; // Flag to track whether animation is running
+    // Initialize background 3D scene
+    const initializeBackgroundScene = () => {
+        backgroundScene = new THREE.Scene();
+        backgroundCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        backgroundCamera.position.set(0, 0, 5);
 
-    // Function to initialize the 3D scene
-    const initializeScene = () => {
-        // Create the scene
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 1, 5); // Make sure camera is always set to a good position
+        backgroundRenderer = new THREE.WebGLRenderer({ alpha: true });
+        backgroundRenderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(backgroundRenderer.domElement);  // Attach to body for background rendering
 
-        // Create the renderer
-        renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        popupContainer.appendChild(renderer.domElement);
-
-        // Add lights
         const ambientLight = new THREE.AmbientLight(0xffffff, 1);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
         directionalLight.position.set(1, 1, 1).normalize();
-        scene.add(ambientLight);
-        scene.add(directionalLight);
+        backgroundScene.add(ambientLight);
+        backgroundScene.add(directionalLight);
+
+        // Add background 3D shapes (cube, sphere, pyramid)
+        add3DBackgroundShapes();
     };
 
-    // Function to load the 3D model
-    const load3DModel = () => {
-        loadingMessage.style.display = 'block'; // Show loading message
+    const add3DBackgroundShapes = () => {
+        // Cube shape
+        const geometry1 = new THREE.BoxGeometry();
+        const material1 = new THREE.MeshStandardMaterial({ color: 0x00ff00, roughness: 0.5 });
+        const cube = new THREE.Mesh(geometry1, material1);
+        cube.position.set(-2, 0, -5);
+        backgroundScene.add(cube);
 
-        if (model) {
-            // Dispose of the previous model
-            model.traverse((child) => {
-                if (child.isMesh) {
-                    child.geometry.dispose();
-                    child.material.dispose();
-                }
-            });
-            scene.remove(model); // Remove the model from the scene
-            model = null; // Reset the model variable
+        // Sphere shape
+        const geometry2 = new THREE.SphereGeometry(0.7, 32, 32);
+        const material2 = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.5 });
+        const sphere = new THREE.Mesh(geometry2, material2);
+        sphere.position.set(2, 0, -5);
+        backgroundScene.add(sphere);
+
+        // Pyramid shape (Cone)
+        const geometry3 = new THREE.ConeGeometry(0.7, 1.5, 4);
+        const material3 = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.5 });
+        const pyramid = new THREE.Mesh(geometry3, material3);
+        pyramid.position.set(0, 2, -5);
+        backgroundScene.add(pyramid);
+
+        // Store shapes for animation
+        window.backgroundShapes = { cube, sphere, pyramid };
+    };
+
+    // Start rendering the background scene
+    const renderBackground = () => {
+        requestAnimationFrame(renderBackground);
+        animateBackgroundShapes(); // Animate the shapes
+        backgroundRenderer.render(backgroundScene, backgroundCamera);
+    };
+
+    const animateBackgroundShapes = () => {
+        if (window.backgroundShapes) {
+            // Rotate each shape to create animation
+            window.backgroundShapes.cube.rotation.y += 0.01;
+            window.backgroundShapes.sphere.rotation.x += 0.01;
+            window.backgroundShapes.pyramid.rotation.z += 0.01;
         }
+    };
 
-        const dracoLoader = new DRACOLoader();
-        dracoLoader.setDecoderPath('/draco/'); // Path to Draco decoder files
+  // Initialize popup 3D scene
+const initializePopupScene = () => {
+    popupScene = new THREE.Scene();
 
-        const loader = new GLTFLoader();
-        loader.setDRACOLoader(dracoLoader);
+    // Initialize camera with initial aspect ratio
+    popupCamera = new THREE.PerspectiveCamera(75, popupContainer.clientWidth / popupContainer.clientHeight, 0.1, 1000);
+    popupCamera.position.z = 5;
 
-        loader.load(
-            '/models/bmw.glb', // Path to your 3D model
-            function (gltf) {
-                model = gltf.scene;
-                model.scale.set(0.5, 0.5, 0.5); // Scale the model if needed
-                scene.add(model); // Add the model to the scene
-                loadingMessage.style.display = 'none'; // Hide loading message
-                console.log('Model loaded successfully');
-                startAnimation(); // Start animation loop
-            },
-            function (xhr) {
-                if (xhr.total > 0) { // Ensure xhr.total is available
-                    const percent = (xhr.loaded / xhr.total) * 100;
-                    loadingMessage.textContent = `${Math.round(percent)}% loaded`; // Update loading message
-                    console.log(`${Math.round(percent)}% loaded`); // Log the percentage
-                }
-            },
-            function (error) {
-                console.error('An error happened', error);
-                loadingMessage.textContent = 'Failed to load model'; // Update loading message with error
+    popupRenderer = new THREE.WebGLRenderer({ alpha: true });
+    popupRenderer.setSize(popupContainer.clientWidth, popupContainer.clientHeight);
+    popupContainer.appendChild(popupRenderer.domElement); // Attach canvas to the container
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    popupScene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(1, 1, 1).normalize();
+    popupScene.add(directionalLight);
+
+    // Update camera aspect ratio on window resize
+    window.addEventListener('resize', updateCameraAspectRatio);
+};
+
+// Function to update the camera aspect ratio on window resize
+const updateCameraAspectRatio = () => {
+    const width = popupContainer.clientWidth;
+    const height = popupContainer.clientHeight;
+    
+    popupCamera.aspect = width / height;
+    popupCamera.updateProjectionMatrix(); // Recalculate projection matrix
+
+    // Update renderer size
+    popupRenderer.setSize(width, height);
+};
+
+// Load the 3D model
+const load3DModel = (modelPath) => {
+    loadingMessage.style.display = 'block';
+
+    if (model) {
+        model.traverse((child) => {
+            if (child.isMesh) {
+                child.geometry.dispose();
+                child.material.dispose();
             }
-        );
-        
-        
-    };
+        });
+        popupScene.remove(model);
+        model = null;
+    }
 
-    // Function to start the animation loop
-    const startAnimation = () => {
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('/draco/');
+
+    const loader = new GLTFLoader();
+    loader.setDRACOLoader(dracoLoader);
+
+    loader.load(
+        modelPath,
+        (gltf) => {
+            model = gltf.scene;
+
+            // Use the camera embedded in the GLB file, if available
+            const embeddedCamera = gltf.cameras?.[0];
+            if (embeddedCamera) {
+                popupCamera = embeddedCamera; // Replace the default camera with the embedded one
+                popupCamera.aspect = popupContainer.clientWidth / popupContainer.clientHeight; // Ensure aspect ratio is correct
+                popupCamera.updateProjectionMatrix(); // Update projection matrix
+            } else {
+                console.warn('No camera found in the GLB file. Using default popup camera.');
+            }
+
+            // Adjust model scale if necessary and position it
+            model.scale.set(1, 1, 1); // Ensure the model is scaled properly
+            model.position.set(0, 0, 0); // Center the model in the scene
+            popupScene.add(model);
+
+            loadingMessage.style.display = 'none';
+            startPopupAnimation();
+        },
+        (xhr) => {
+            if (xhr.total > 0) {
+                const percent = (xhr.loaded / xhr.total) * 100;
+                loadingMessage.textContent = `${Math.round(percent)}% loaded`;
+            }
+        },
+        (error) => {
+            console.error('An error happened', error);
+            loadingMessage.textContent = 'Failed to load model';
+        }
+    );
+};
+    
+
+    const startPopupAnimation = () => {
         if (!isAnimating) {
-            isAnimating = true; // Set the flag to true to indicate the animation is running
-            animate();
+            isAnimating = true;
+            renderPopupScene();
         }
     };
 
-    // Function to animate the model
-    const animate = () => {
-        requestAnimationFrame(animate);
+    const renderPopupScene = () => {
+        requestAnimationFrame(renderPopupScene);
         if (model) {
-            model.rotation.y += 0.01; // Rotate the model
+            model.rotation.y += 0.01;
         }
-        renderer.render(scene, camera);
+        popupRenderer.render(popupScene, popupCamera);
     };
 
-    // Show popup and load the model
     document.querySelectorAll('.view-3d-model').forEach(button => {
         button.addEventListener('click', () => {
-            modelPopup.style.display = 'flex'; // Show the popup
-            if (!scene) {
-                initializeScene(); // Initialize the scene if not already initialized
+            modelPopup.style.display = 'flex';
+            if (!popupScene) {
+                initializePopupScene(); // Initialize popup scene
             }
-            load3DModel(); // Load the 3D model inside the popup
+            load3DModel('/models/bmw.glb');
         });
     });
 
-    // Close the popup and clean up
     closePopupButton.addEventListener('click', () => {
         modelPopup.style.display = 'none';
-
-        // Clean up the 3D scene to prevent memory leaks
         if (model) {
             model.traverse((child) => {
                 if (child.isMesh) {
@@ -281,12 +290,38 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Ensure proper positioning and rendering after closing and reopening the popup
+    // Close the popup when clicking on the background (popupContainer)
+popupContainer.addEventListener('click', (event) => {
+    // Only close if the click is directly on the background (not on the popup content itself)
+    if (event.target === popupContainer) {
+        modelPopup.style.display = 'none'; // Hide the popup
+        if (model) {
+            model.traverse((child) => {
+                if (child.isMesh) {
+                    child.geometry.dispose();
+                    child.material.dispose();
+                }
+            });
+        }
+    }
+});
+    
+
     window.addEventListener('resize', () => {
-        if (renderer) {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
+        if (backgroundRenderer) {
+            backgroundRenderer.setSize(window.innerWidth, window.innerHeight);
+            backgroundCamera.aspect = window.innerWidth / window.innerHeight;
+            backgroundCamera.updateProjectionMatrix();
+        }
+
+        if (popupRenderer) {
+            popupRenderer.setSize(popupContainer.clientWidth, popupContainer.clientHeight);
+            popupCamera.aspect = popupContainer.clientWidth / popupContainer.clientHeight;
+            popupCamera.updateProjectionMatrix();
         }
     });
+
+    // Initialize the background scene immediately on page load
+    initializeBackgroundScene();
+    renderBackground();
 });

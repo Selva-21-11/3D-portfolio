@@ -41,23 +41,21 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader'], // Ensures that the CSS will be injected into the DOM
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/i,
-        type: 'asset/resource',
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[path][name].[ext]',
-            },
-          },
-        ],
+        type: 'asset/resource', // Uses Webpack 5's new asset modules instead of file-loader
+        generator: {
+          filename: 'images/[name][ext][query]', // Output image files in the 'images' folder
+        },
       },
       {
         test: /\.(mp4|webm)$/i,
-        type: 'asset/resource',
+        type: 'asset/resource', // Handles video files similarly
+        generator: {
+          filename: 'videos/[name][ext][query]', // Output video files in the 'videos' folder
+        },
       },
     ],
   },

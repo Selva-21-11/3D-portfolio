@@ -8,16 +8,21 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-
 <body>
+    <div class="background" id="dynamic-background">
+        <div class="light"></div>
     <div class="container">
         <section class="hero" id="hero">
             <div class="hero-content">
+                <!-- Use a class for sphere container to avoid duplicate IDs -->
+                <div class="sphere-container"></div>
                 <h1>Welcome to My Portfolio</h1>
                 <p>3D Artist | Animator | Technical Support Engineer</p>
                 <a href="#about" class="btn explore">Explore My Work</a>
             </div>
+            <!-- Removed the duplicate ID for the sphere-container here -->
         </section>
+
         <section class="about" id="about">
             <div class="glass-effect">
                 <h2>About Me</h2>
@@ -54,7 +59,6 @@
                                     <button class="view-3d-model" data-model="model2">View 3D Model 2</button>
                                 </div>
                                 <p>3D Model 1 Description</p>
-                                
                             </div>
                             <!-- Add more 3D models here -->
                         </div>
@@ -66,7 +70,7 @@
                         <div class="portfolio-items">
                             <div class="portfolio-item">
                                 <video controls>
-                                    <source src="path/to/video.mp4" type="video/mp4">
+                                    <source src="/images/video.mp4" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>
                                 <p>Video Render 1 Description</p>
@@ -80,7 +84,7 @@
                         <h3>Image Renders</h3>
                         <div class="portfolio-items image-grid">
                             <div class="portfolio-item">
-                                <img src="path/to/image1.jpg" alt="Render 1">
+                                <img src="/images/github.png" alt="Render 1">
                                 <p>Image Render 1 Description</p>
                             </div>
                             <!-- Add more image renders here -->
@@ -128,20 +132,20 @@
         </section>
 
         <!-- 3D Model Popup -->
-<div id="model-popup" class="popup">
-    <div class="popup-content">
-        <!-- Model Container (Add your 3D model loader here) -->
-        <div id="popup-model-container"></div>
-        <!-- Make sure this is inside the popup-model-container to show loading status -->
-<div id="loading-message" style="display: none; color: white; text-align: center;">
-    Loading 3D Model...
-</div>
+        <div id="model-popup" class="popup">
+            <div class="popup-content">
+                <!-- Model Container (Add your 3D model loader here) -->
+                <div id="popup-model-container"></div>
+                <!-- Make sure this is inside the popup-model-container to show loading status -->
+                <div id="loading-message" style="display: none; color: white; text-align: center;">
+                    Loading 3D Model...
+                </div>
 
-        <!-- Close Button -->
-        <button id="close-popup" class="close-popup">X</button>
+                <!-- Close Button -->
+                <button id="close-popup" class="close-popup" aria-label="Close popup">X</button>
+            </div>
+        </div>
     </div>
-</div>
-
     </div>
 
     <!-- Webpack will inject the bundled script -->

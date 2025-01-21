@@ -390,42 +390,52 @@ section {
 
 /* "WELCOME TO MY" - Thin Serif Font */
 .welcome-text {
-    font-family: 'Titlefont', serif; /* Thin serif font like the reference */
+    font-family: 'Titlefont', serif;
+    font-size: 7rem;
+    font-weight: 100;
+    text-transform: uppercase;
+    display: inline-block;
     -webkit-background-clip: text;
     background-color: #fff;
     background-clip: text;
-    color: transparent;
-    font-size: 7rem;
-    font-weight: 100; /* Thin weight */
-    text-transform: uppercase;
+}
+
+.welcome-text span {
+    opacity: 0;  /* Initially hidden */
+    transform: translateY(30px);  /* Start below the normal position */
+    display: inline-block;
+    transition: opacity 1s ease, transform 1s ease;
 }
 
 /* "PORTFOLIO" - Bold Sans-serif Font */
 .portfolio-text {
-    font-family:'Titlefont1', sans-serif; /* Bold sans-serif font like the reference */
+    font-family:'Titlefont1', sans-serif;
+    font-size: 10rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
     background-color: #fff;
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
-    font-size: 10rem;
-    font-weight: 1000px; /* Bold weight */
-    margin-top: -10px; /* Adjust for proper alignment */
-    text-transform: uppercase;
-    position: relative;
-    left: 0%;
+
+}
+
+.portfolio-text span {
+    opacity: 0;  /* Initially hidden */
+    transform: translateY(30px);  /* Start below the normal position */
+    display: inline-block;
+    transition: opacity 1s ease, transform 1s ease;
 }
 
 /* Career text */
 .career-text {
     font-size: 1.6rem;
-    font-weight: 400; /* Standard weight */
+    font-weight: 400;
     color: white;
-    text-transform: uppercase; /* Capitalize career text */
-    width: 100%;
+    text-transform: uppercase;
     margin-top: 20px;
-    position: relative;
-    left: 1%;
 }
+
 @font-face {
     font-family: 'Titlefont1';
     src: url('../public/Adam Ladd  Skie ExtraBold.otf') format('opentype');

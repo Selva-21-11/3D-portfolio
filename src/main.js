@@ -11,6 +11,42 @@ document.addEventListener("DOMContentLoaded", function () {
     const portfolioSections = document.querySelectorAll(".portfolio-section");
     const portfolioTitle = document.querySelector("#portfolio-title");
 
+
+    // Function to animate the title text letter by letter
+const animateTextLetterByLetter = () => {
+    const welcomeText = document.querySelector(".welcome-text");
+    const portfolioText = document.querySelector(".portfolio-text");
+
+    if (!welcomeText || !portfolioText) {
+        console.warn('Text elements not found');
+        return; // Ensure the title elements exist
+    }
+
+    const welcomeLetters = welcomeText.querySelectorAll('span');
+    const portfolioLetters = portfolioText.querySelectorAll('span');
+
+    // Trigger the animation for "WELCOME TO MY"
+    welcomeLetters.forEach((letter, index) => {
+        setTimeout(() => {
+            letter.style.opacity = 1;
+            letter.style.transform = "translateY(0)";
+        }, index * 100); // Adding delay to each letter animation
+    });
+
+    // Trigger the animation for "PORTFOLIO"
+    portfolioLetters.forEach((letter, index) => {
+        setTimeout(() => {
+            letter.style.opacity = 1;
+            letter.style.transform = "translateY(0)";
+        }, (welcomeLetters.length + index) * 100); // Adding a delay after "WELCOME TO MY"
+    });
+};
+
+// Ensure the animation function runs after the page loads
+window.addEventListener("load", () => {
+    animateTextLetterByLetter();
+});
+
     // Portfolio items code remains unchanged
 
     // Function to animate title section on page load
@@ -21,25 +57,20 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     const animateSectionsOnScroll = () => {
-        requestAnimationFrame(() => {
-            let scrollTop = window.scrollY || window.pageYOffset;
-    
-            sections.forEach((section) => {
-                const rect = section.getBoundingClientRect();
-    
-                if (section.id === "hero") return;
-    
-                const threshold = window.innerHeight / 2; // Adjust this value for more fluidity
-    
-                if (rect.top >= -threshold && rect.top <= window.innerHeight - threshold) {
-                    section.style.opacity = 1;
-                    section.style.transform = "translateY(0)";
-                    section.style.transition = "opacity 1s ease, transform 1s ease";
-                } else if (rect.bottom < 0 || rect.top > window.innerHeight) {
-                    section.style.opacity = 0;
-                    section.style.transform = "translateY(50px)";
-                }
-            });
+        let scrollTop = window.scrollY || window.pageYOffset;
+
+        sections.forEach((section) => {
+            const rect = section.getBoundingClientRect();
+
+            if (section.id === "hero") return;
+
+            if (rect.top >= 0 && rect.top <= window.innerHeight / 1.3) {
+                section.style.opacity = 1;
+                section.style.transform = "translateY(0)";
+            } else if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                section.style.opacity = 0;
+                section.style.transform = "translateY(50px)";
+            }
         });
     };
 

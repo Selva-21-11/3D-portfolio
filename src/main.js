@@ -160,11 +160,11 @@ window.addEventListener("load", () => {
 
     let popupRenderer, popupScene, popupCamera, model;
     let isAnimating = false; // Initialize isAnimating
+    
     let backgroundScene, backgroundCamera, backgroundRenderer;
-    let mouseX = 0;  // Store mouse position (X-axis)
+    let mouseX = 0; // Store mouse position (X-axis)
     
     const initializeBackgroundScene = () => {
-        // Get the hero section where we want to place the canvas
         const heroSection = document.querySelector('.hero');
         if (!heroSection) return;
     
@@ -172,116 +172,111 @@ window.addEventListener("load", () => {
     
         // Set up the OrthographicCamera
         const aspect = window.innerWidth / window.innerHeight;
-        const frustumSize = 20;  // Adjust this value for the visible area size
+        const frustumSize = 20;
         backgroundCamera = new THREE.OrthographicCamera(
-            -frustumSize * aspect / 2, // Left
-            frustumSize * aspect / 2,  // Right
-            frustumSize / 2,           // Top
-            -frustumSize / 2,          // Bottom
-            0.1,                       // Near clipping plane
-            1000                       // Far clipping plane
+            -frustumSize * aspect / 2,
+            frustumSize * aspect / 2,
+            frustumSize / 2,
+            -frustumSize / 2,
+            0.1,
+            1000
         );
-        backgroundCamera.position.set(0, 0, 10); // Set position of the camera
-        backgroundCamera.lookAt(0, 0, 0); // Make the camera look at the center of the scene
+        backgroundCamera.position.set(0, 0, 10);
+        backgroundCamera.lookAt(0, 0, 0);
     
         backgroundRenderer = new THREE.WebGLRenderer({ alpha: true });
         backgroundRenderer.setSize(window.innerWidth, window.innerHeight);
-        backgroundRenderer.shadowMap.enabled = true;  // Enable shadow maps
-        backgroundRenderer.shadowMap.type = THREE.PCFSoftShadowMap;  // Enable soft shadows
-        heroSection.appendChild(backgroundRenderer.domElement);  // Attach to the hero section for background rendering
+        backgroundRenderer.shadowMap.enabled = true;
+        backgroundRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        heroSection.appendChild(backgroundRenderer.domElement);
     
-        // Add directional light with shadow
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);  // Increase intensity to make the light stronger
-        directionalLight.position.set(0, 0, 10).normalize();  // Adjust light position to face the circles directly
-        directionalLight.castShadow = true;  // Enable shadow casting for the light
-        directionalLight.shadow.bias = -0.005; // Adjust shadow bias to prevent shadow acne
-        directionalLight.shadow.mapSize.width = 2048;  // Shadow map width (increased resolution)
-        directionalLight.shadow.mapSize.height = 2048;  // Shadow map height (increased resolution)
-        backgroundScene.add(directionalLight);
+        // Add soft, even lighting using HemisphereLight
+        const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 5); // Top light (white), ground light (gray)
+        hemisphereLight.position.set(0, 20, 0); // Positioned above the scene
+        backgroundScene.add(hemisphereLight);
     
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);  // Ambient light to fill the scene
+        // Add ambient light for uniform illumination
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4); // Lower intensity for soft light
         backgroundScene.add(ambientLight);
     
-        // Add background 3D shapes (big and small circles with basic color)
+        // Add background 3D shapes
         window.backgroundShapes = add3DBackgroundShapes();
     
-        // Event listener for mouse movement to control rotation
+        // Event listener for mouse movement
         window.addEventListener('mousemove', onMouseMove);
     };
     
-    // Handle mouse movement and update mouse position
     const onMouseMove = (event) => {
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;  // Normalize to -1 to 1 range
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1; // Normalize to -1 to 1 range
     };
     
-    // Create the shapes with basic color material
     const add3DBackgroundShapes = () => {
-        // Create a basic material for the circles
-        const basicMaterial = new THREE.MeshStandardMaterial({ color: 0x00aaff });  // Set a basic color for the circles
+        // Big circle material: shiny, reflective, plastic-like
+        const bigCircleMaterial = new THREE.MeshStandardMaterial({
+            color: 0x7A1CAC, // Purple
+            roughness: 0.2, // Low roughness for reflectivity
+            metalness: 0.5, // Moderate metallic effect
+        });
     
-        // Big circle (sphere) with basic material
         const bigCircleGeometry = new THREE.SphereGeometry(7, 64, 64);
-        const bigCircle = new THREE.Mesh(bigCircleGeometry, basicMaterial);
+        const bigCircle = new THREE.Mesh(bigCircleGeometry, bigCircleMaterial);
         bigCircle.position.set(0, 0, -5);
-        bigCircle.castShadow = true;  // Enable shadow casting for big circle
-        bigCircle.receiveShadow = false;  // Not receiving shadows
+        bigCircle.castShadow = true;
+        bigCircle.receiveShadow = false;
         backgroundScene.add(bigCircle);
     
-        // Small circle (sphere) placed behind the big circle with its center at the edge
-        const smallCircleGeometry = new THREE.SphereGeometry(5.5, 64, 64);
-        const smallCircle = new THREE.Mesh(smallCircleGeometry, basicMaterial);
+        // Small circle material: shiny, reflective, plastic-like
+        const smallCircleMaterial = new THREE.MeshStandardMaterial({
+            color: 0x2E073F, // Dark purple
+            roughness: 0.1, // Very smooth surface
+            metalness: 0.6, // Higher metallic effect for more reflectivity
+        });
     
-        // Position small circle behind the big circle (center of small circle at the edge of the big circle)
+        const smallCircleGeometry = new THREE.SphereGeometry(3, 64, 64);
+        const smallCircle = new THREE.Mesh(smallCircleGeometry, smallCircleMaterial);
+    
         const distanceFromCenter = 4; // Big circle radius + small circle radius
         smallCircle.position.set(distanceFromCenter, 0, -15);
-        smallCircle.castShadow = true;  // Enable shadow casting for small circle
-        smallCircle.receiveShadow = false;  // Small circle is not receiving its own shadow
+        smallCircle.castShadow = true;
+        smallCircle.receiveShadow = false;
         backgroundScene.add(smallCircle);
     
-        // Plane that will receive the shadow (simulating ground for shadows)
+        // Plane to receive shadows
         const shadowPlaneGeometry = new THREE.PlaneGeometry(100, 100);
-        const shadowMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });  // Adjust opacity for stronger shadow
+        const shadowMaterial = new THREE.ShadowMaterial({ opacity: 0.2 }); // Softer shadows
         const shadowPlane = new THREE.Mesh(shadowPlaneGeometry, shadowMaterial);
         shadowPlane.rotation.x = -Math.PI / 2;
-        shadowPlane.position.set(0, -6, 0);  // Place it beneath the circles
-        shadowPlane.receiveShadow = true;  // This plane will receive the shadow
+        shadowPlane.position.set(0, -6, 0);
+        shadowPlane.receiveShadow = true;
         backgroundScene.add(shadowPlane);
     
-        // Return the shapes for further manipulation
         return { bigCircle, smallCircle };
     };
     
- // Add a rotation speed constant
-const rotationSpeed = 0.5; // Adjust this value to control the speed (lower = slower)
-
-const animateBackgroundShapes = () => {
-    if (window.backgroundShapes) {
-        // Calculate the rotation angle based on mouse position (for a fixed Z-axis rotation)
-        const angle = mouseX * Math.PI * 2 * rotationSpeed; // Apply rotation speed factor
-
-        // Maintain the distance for depth effect (fixed radius from center of big circle)
-        const distanceFromCenter = 3; // Big circle radius + small circle radius
-
-        // Rotate the small circle around the edge of the big circle (fixed position for the small circle)
-        window.backgroundShapes.smallCircle.position.x = window.backgroundShapes.bigCircle.position.x + distanceFromCenter * Math.cos(angle);
-        window.backgroundShapes.smallCircle.position.y = window.backgroundShapes.bigCircle.position.y + distanceFromCenter * Math.sin(angle);
-
-        // Keep the Z position fixed to maintain depth effect (behind the big circle)
-        window.backgroundShapes.smallCircle.position.z = window.backgroundShapes.bigCircle.position.z - 15; // Small circle remains behind the big circle
-    }
-};
+    const rotationSpeed = 0.5;
     
-    // Start rendering the background scene
+    const animateBackgroundShapes = () => {
+        if (window.backgroundShapes) {
+            const angle = mouseX * Math.PI * 2 * rotationSpeed;
+    
+            const distanceFromCenter = 7; // Big circle radius + small circle radius
+            window.backgroundShapes.smallCircle.position.x = window.backgroundShapes.bigCircle.position.x + distanceFromCenter * Math.cos(angle);
+            window.backgroundShapes.smallCircle.position.y = window.backgroundShapes.bigCircle.position.y + distanceFromCenter * Math.sin(angle);
+    
+            window.backgroundShapes.smallCircle.position.z = window.backgroundShapes.bigCircle.position.z - 15;
+        }
+    };
+    
     const renderBackground = () => {
         requestAnimationFrame(renderBackground);
-        animateBackgroundShapes(); // Animate the shapes
+        animateBackgroundShapes();
         backgroundRenderer.render(backgroundScene, backgroundCamera);
     };
     
-    // Initialize the background scene and start rendering
     initializeBackgroundScene();
     renderBackground();
     
+
 // Initialize popup 3D scene
 const initializePopupScene = () => {
     popupScene = new THREE.Scene();
@@ -489,8 +484,8 @@ popupContainer.addEventListener('click', (event) => {
     
         switch (index) {
             case 0:
-                lightColorLeft = 'orange';
-                lightColorRight = 'orange';
+                lightColorLeft = '#EBD3F8';
+                lightColorRight = '#AD49E1';
                 break;
             case 1:
                 lightColorLeft = 'violet';

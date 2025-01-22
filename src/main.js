@@ -158,78 +158,147 @@ window.addEventListener("load", () => {
     const popupContainer = document.getElementById("popup-model-container");
     const loadingMessage = document.getElementById("loading-message");
 
-    let backgroundRenderer, backgroundScene, backgroundCamera;
     let popupRenderer, popupScene, popupCamera, model;
     let isAnimating = false; // Initialize isAnimating
-
-    // Initialize background 3D scene
+    let backgroundScene, backgroundCamera, backgroundRenderer;
+    let mouseX = 0;  // Store mouse position (X-axis)
+    
     const initializeBackgroundScene = () => {
+        // Get the hero section where we want to place the canvas
+        const heroSection = document.querySelector('.hero');
+        if (!heroSection) return;
+    
         backgroundScene = new THREE.Scene();
-        backgroundCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        backgroundCamera.position.set(0, 0, 5);
-
+    
+        // Set up the OrthographicCamera
+        const aspect = window.innerWidth / window.innerHeight;
+        const frustumSize = 20;  // Adjust this value for the visible area size
+        backgroundCamera = new THREE.OrthographicCamera(
+            -frustumSize * aspect / 2, // Left
+            frustumSize * aspect / 2,  // Right
+            frustumSize / 2,           // Top
+            -frustumSize / 2,          // Bottom
+            0.1,                       // Near clipping plane
+            1000                       // Far clipping plane
+        );
+        backgroundCamera.position.set(0, 0, 10); // Set position of the camera
+        backgroundCamera.lookAt(0, 0, 0); // Make the camera look at the center of the scene
+    
         backgroundRenderer = new THREE.WebGLRenderer({ alpha: true });
         backgroundRenderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(backgroundRenderer.domElement);  // Attach to body for background rendering
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1).normalize();
-        backgroundScene.add(ambientLight);
+        backgroundRenderer.shadowMap.enabled = true;  // Enable shadow maps
+        backgroundRenderer.shadowMap.type = THREE.PCFSoftShadowMap;  // Enable soft shadows
+        heroSection.appendChild(backgroundRenderer.domElement);  // Attach to the hero section for background rendering
+    
+        // Add directional light with shadow
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);  // Increase intensity to make the light stronger
+        directionalLight.position.set(0, 0, 10).normalize();  // Adjust light position to face the circles directly
+        directionalLight.castShadow = true;  // Enable shadow casting for the light
+        directionalLight.shadow.bias = -0.005; // Adjust shadow bias to prevent shadow acne
+        directionalLight.shadow.mapSize.width = 2048;  // Shadow map width (increased resolution)
+        directionalLight.shadow.mapSize.height = 2048;  // Shadow map height (increased resolution)
         backgroundScene.add(directionalLight);
-
-        // Add background 3D shapes (cube, sphere, pyramid)
-        add3DBackgroundShapes();
+    
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);  // Ambient light to fill the scene
+        backgroundScene.add(ambientLight);
+    
+        // Add background 3D shapes (big and small circles with basic color)
+        window.backgroundShapes = add3DBackgroundShapes();
+    
+        // Event listener for mouse movement to control rotation
+        window.addEventListener('mousemove', onMouseMove);
     };
-
+    
+    // Handle mouse movement and update mouse position
+    const onMouseMove = (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;  // Normalize to -1 to 1 range
+    };
+    
+    // Create the shapes with basic color material
     const add3DBackgroundShapes = () => {
-        // Cube shape
-        const geometry1 = new THREE.BoxGeometry();
-        const material1 = new THREE.MeshStandardMaterial({ color: 0x00ff00, roughness: 0.5 });
-        const cube = new THREE.Mesh(geometry1, material1);
-        cube.position.set(-2, 0, -5);
-        backgroundScene.add(cube);
-
-        // Sphere shape
-        const geometry2 = new THREE.SphereGeometry(0.7, 32, 32);
-        const material2 = new THREE.MeshStandardMaterial({ color: 0xff0000, roughness: 0.5 });
-        const sphere = new THREE.Mesh(geometry2, material2);
-        sphere.position.set(2, 0, -5);
-        backgroundScene.add(sphere);
-
-        // Pyramid shape (Cone)
-        const geometry3 = new THREE.ConeGeometry(0.7, 1.5, 4);
-        const material3 = new THREE.MeshStandardMaterial({ color: 0x0000ff, roughness: 0.5 });
-        const pyramid = new THREE.Mesh(geometry3, material3);
-        pyramid.position.set(0, 2, -5);
-        backgroundScene.add(pyramid);
-
-        // Store shapes for animation
-        window.backgroundShapes = { cube, sphere, pyramid };
+        // Create a basic material for the circles
+        const basicMaterial = new THREE.MeshStandardMaterial({ color: 0x00aaff });  // Set a basic color for the circles
+    
+        // Big circle (sphere) with basic material
+        const bigCircleGeometry = new THREE.SphereGeometry(7, 64, 64);
+        const bigCircle = new THREE.Mesh(bigCircleGeometry, basicMaterial);
+        bigCircle.position.set(0, 0, -5);
+        bigCircle.castShadow = true;  // Enable shadow casting for big circle
+        bigCircle.receiveShadow = false;  // Not receiving shadows
+        backgroundScene.add(bigCircle);
+    
+        // Small circle (sphere) placed behind the big circle with its center at the edge
+        const smallCircleGeometry = new THREE.SphereGeometry(5.5, 64, 64);
+        const smallCircle = new THREE.Mesh(smallCircleGeometry, basicMaterial);
+    
+        // Position small circle behind the big circle (center of small circle at the edge of the big circle)
+        const distanceFromCenter = 4; // Big circle radius + small circle radius
+        smallCircle.position.set(distanceFromCenter, 0, -15);
+        smallCircle.castShadow = true;  // Enable shadow casting for small circle
+        smallCircle.receiveShadow = false;  // Small circle is not receiving its own shadow
+        backgroundScene.add(smallCircle);
+    
+        // Plane that will receive the shadow (simulating ground for shadows)
+        const shadowPlaneGeometry = new THREE.PlaneGeometry(100, 100);
+        const shadowMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });  // Adjust opacity for stronger shadow
+        const shadowPlane = new THREE.Mesh(shadowPlaneGeometry, shadowMaterial);
+        shadowPlane.rotation.x = -Math.PI / 2;
+        shadowPlane.position.set(0, -6, 0);  // Place it beneath the circles
+        shadowPlane.receiveShadow = true;  // This plane will receive the shadow
+        backgroundScene.add(shadowPlane);
+    
+        // Return the shapes for further manipulation
+        return { bigCircle, smallCircle };
     };
+    
+ // Add a rotation speed constant
+const rotationSpeed = 0.5; // Adjust this value to control the speed (lower = slower)
 
+const animateBackgroundShapes = () => {
+    if (window.backgroundShapes) {
+        // Calculate the rotation angle based on mouse position (for a fixed Z-axis rotation)
+        const angle = mouseX * Math.PI * 2 * rotationSpeed; // Apply rotation speed factor
+
+        // Maintain the distance for depth effect (fixed radius from center of big circle)
+        const distanceFromCenter = 3; // Big circle radius + small circle radius
+
+        // Rotate the small circle around the edge of the big circle (fixed position for the small circle)
+        window.backgroundShapes.smallCircle.position.x = window.backgroundShapes.bigCircle.position.x + distanceFromCenter * Math.cos(angle);
+        window.backgroundShapes.smallCircle.position.y = window.backgroundShapes.bigCircle.position.y + distanceFromCenter * Math.sin(angle);
+
+        // Keep the Z position fixed to maintain depth effect (behind the big circle)
+        window.backgroundShapes.smallCircle.position.z = window.backgroundShapes.bigCircle.position.z - 15; // Small circle remains behind the big circle
+    }
+};
+    
     // Start rendering the background scene
     const renderBackground = () => {
         requestAnimationFrame(renderBackground);
         animateBackgroundShapes(); // Animate the shapes
         backgroundRenderer.render(backgroundScene, backgroundCamera);
     };
-
-    const animateBackgroundShapes = () => {
-        if (window.backgroundShapes) {
-            // Rotate each shape to create animation
-            window.backgroundShapes.cube.rotation.y += 0.01;
-            window.backgroundShapes.sphere.rotation.x += 0.01;
-            window.backgroundShapes.pyramid.rotation.z += 0.01;
-        }
-    };
-
-  // Initialize popup 3D scene
+    
+    // Initialize the background scene and start rendering
+    initializeBackgroundScene();
+    renderBackground();
+    
+// Initialize popup 3D scene
 const initializePopupScene = () => {
     popupScene = new THREE.Scene();
 
-    // Initialize camera with initial aspect ratio
-    popupCamera = new THREE.PerspectiveCamera(75, popupContainer.clientWidth / popupContainer.clientHeight, 0.1, 1000);
+    // Initialize Orthographic camera with initial aspect ratio
+    const aspect = popupContainer.clientWidth / popupContainer.clientHeight;
+    const frustumSize = 10;  // Adjust this value to control the visible area size
+
+    popupCamera = new THREE.OrthographicCamera(
+        -frustumSize * aspect / 2, // Left
+        frustumSize * aspect / 2,  // Right
+        frustumSize / 2,           // Top
+        -frustumSize / 2,          // Bottom
+        0.1,                       // Near clipping plane
+        1000                       // Far clipping plane
+    );
+
     popupCamera.position.z = 5;
 
     popupRenderer = new THREE.WebGLRenderer({ alpha: true });
@@ -252,7 +321,14 @@ const updateCameraAspectRatio = () => {
     const width = popupContainer.clientWidth;
     const height = popupContainer.clientHeight;
     
-    popupCamera.aspect = width / height;
+    const aspect = width / height;
+    const frustumSize = 10;  // The same value used to initialize the camera
+    
+    popupCamera.left = -frustumSize * aspect / 2;
+    popupCamera.right = frustumSize * aspect / 2;
+    popupCamera.top = frustumSize / 2;
+    popupCamera.bottom = -frustumSize / 2;
+    
     popupCamera.updateProjectionMatrix(); // Recalculate projection matrix
 
     // Update renderer size
@@ -315,46 +391,46 @@ const load3DModel = (modelPath) => {
         }
     );
 };
-    
 
-    const startPopupAnimation = () => {
-        if (!isAnimating) {
-            isAnimating = true;
-            renderPopupScene();
+// Start rendering the popup scene
+const startPopupAnimation = () => {
+    if (!isAnimating) {
+        isAnimating = true;
+        renderPopupScene();
+    }
+};
+
+const renderPopupScene = () => {
+    requestAnimationFrame(renderPopupScene);
+    if (model) {
+        model.rotation.y += 0.01;
+    }
+    popupRenderer.render(popupScene, popupCamera);
+};
+
+document.querySelectorAll('.view-3d-model').forEach(button => {
+    button.addEventListener('click', () => {
+        modelPopup.style.display = 'flex';
+        if (!popupScene) {
+            initializePopupScene(); // Initialize popup scene
         }
-    };
+        load3DModel('../public/models/bmw.glb');
+    });
+});
 
-    const renderPopupScene = () => {
-        requestAnimationFrame(renderPopupScene);
-        if (model) {
-            model.rotation.y += 0.01;
-        }
-        popupRenderer.render(popupScene, popupCamera);
-    };
-
-    document.querySelectorAll('.view-3d-model').forEach(button => {
-        button.addEventListener('click', () => {
-            modelPopup.style.display = 'flex';
-            if (!popupScene) {
-                initializePopupScene(); // Initialize popup scene
+closePopupButton.addEventListener('click', () => {
+    modelPopup.style.display = 'none';
+    if (model) {
+        model.traverse((child) => {
+            if (child.isMesh) {
+                child.geometry.dispose();
+                child.material.dispose();
             }
-            load3DModel('../public/models/bmw.glb');
         });
-    });
+    }
+});
 
-    closePopupButton.addEventListener('click', () => {
-        modelPopup.style.display = 'none';
-        if (model) {
-            model.traverse((child) => {
-                if (child.isMesh) {
-                    child.geometry.dispose();
-                    child.material.dispose();
-                }
-            });
-        }
-    });
-
-    // Close the popup when clicking on the background (popupContainer)
+// Close the popup when clicking on the background (popupContainer)
 popupContainer.addEventListener('click', (event) => {
     // Only close if the click is directly on the background (not on the popup content itself)
     if (event.target === popupContainer) {
@@ -369,7 +445,7 @@ popupContainer.addEventListener('click', (event) => {
         }
     }
 });
-    
+
 
     window.addEventListener('resize', () => {
         if (backgroundRenderer) {
@@ -384,12 +460,7 @@ popupContainer.addEventListener('click', (event) => {
             popupCamera.updateProjectionMatrix();
         }
     });
-
-    // Initialize the background scene immediately on page load
-    initializeBackgroundScene();
-    renderBackground();
-
-    document.querySelectorAll('section').forEach((section) => {
+    document.querySelectorAll('section').forEach((section, index) => {
         // Create two div elements for the lights
         const lightLeft = document.createElement('div');
         const lightRight = document.createElement('div');
@@ -403,27 +474,44 @@ popupContainer.addEventListener('click', (event) => {
         // Set the size of the lights
         const size = '600px'; // Fixed size for lights
     
-        // Randomly position lightLeft on the left edge
-        const topPositionLeft = Math.random() * 100; // Randomize top position for left light
+        // Fix horizontal positions (left and right edges)
         lightLeft.style.position = 'absolute';
         lightLeft.style.left = `-${parseInt(size) / 2}px`; // Off-screen on the left
-        lightLeft.style.top = `${topPositionLeft}%`;
-    
-        // Randomly assign a background position for lightLeft
-        const randomBackgroundLeftX = Math.random() * 100; // Horizontal position (0-100%)
-        const randomBackgroundLeftY = Math.random() * 100; // Vertical position (0-100%)
-        lightLeft.style.backgroundPosition = `${randomBackgroundLeftX}% ${randomBackgroundLeftY}%`;
-    
-        // Randomly position lightRight on the right edge
-        const topPositionRight = Math.random() * 100; // Randomize top position for right light
         lightRight.style.position = 'absolute';
         lightRight.style.right = `-${parseInt(size) / 2}px`; // Off-screen on the right
-        lightRight.style.top = `${topPositionRight}%`;
     
-        // Randomly assign a background position for lightRight
-        const randomBackgroundRightX = Math.random() * 100; // Horizontal position (0-100%)
-        const randomBackgroundRightY = Math.random() * 100; // Vertical position (0-100%)
-        lightRight.style.backgroundPosition = `${randomBackgroundRightX}% ${randomBackgroundRightY}%`;
+        // Set a fixed vertical position for both lights (no randomness)
+        lightLeft.style.top = '50%'; // Center vertically
+        lightRight.style.top = '50%'; // Center vertically
+    
+        // Set specific colors based on the section index
+        let lightColorLeft, lightColorRight;
+    
+        switch (index) {
+            case 0:
+                lightColorLeft = 'orange';
+                lightColorRight = 'orange';
+                break;
+            case 1:
+                lightColorLeft = 'violet';
+                lightColorRight = 'violet';
+                break;
+            case 2:
+                lightColorLeft = 'blue';
+                lightColorRight = 'blue';
+                break;
+            case 3:
+                lightColorLeft = 'white';
+                lightColorRight = 'white';
+                break;
+            default:
+                lightColorLeft = 'gray'; // Default color (if needed)
+                lightColorRight = 'gray'; // Default color (if needed)
+        }
+    
+        // Apply the color to the lights
+        lightLeft.style.backgroundColor = lightColorLeft;
+        lightRight.style.backgroundColor = lightColorRight;
     
         // Animation function for smooth wobble effect
         let time = Date.now() / 1000; // Using time for smooth animation pacing
@@ -449,6 +537,6 @@ popupContainer.addEventListener('click', (event) => {
         animateLight(lightLeft);
         animateLight(lightRight);
     });
-
-
+    
+    
 });

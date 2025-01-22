@@ -1,3 +1,14 @@
+@font-face {
+    font-family: 'Titlefont1';
+    src: url('../public/Adam Ladd  Skie ExtraBold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    
+
+    font-family: 'Titlefont';
+    src: url('../public/TT Ramillas Trial Light.ttf') format('opentype');
+  }
+
 * {
     margin: 0;
     padding: 0;
@@ -20,9 +31,8 @@ body {
     border-radius: 50%;
     width: 500px;  /* Large size for the lights */
     height: 500px; /* Same size for circular shape */
-    background-image: url('../public/images/gradient.jpg');
     pointer-events: none; /* Prevent interaction */
-    z-index: 1; /* Ensure it stays behind other elements */
+    z-index: -1; /* Ensure it stays behind other elements */
     transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Smooth transition for position and opacity */
     will-change: transform, opacity; /* Hint to the browser for smoother animations */
     filter: blur(200px);
@@ -377,6 +387,7 @@ section {
     width: 100%;
     position: relative;
     text-align: left;
+    height: 100vh;
 }
 
 /* Title text */
@@ -391,14 +402,19 @@ section {
 
 /* "WELCOME TO MY" - Thin Serif Font */
 .welcome-text {
-    font-family: 'Titlefont', serif;
+    font-family: 'Titlefont',serif;
     font-size: 7rem;
-    font-weight: 1;
+    font-style: normal;
+    font-weight: normal;
     text-transform: uppercase;
     display: inline-block;
     -webkit-background-clip: text;
     background-color: #fff;
     background-clip: text;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    
 }
 
 .welcome-text span {
@@ -440,13 +456,7 @@ section {
     margin-top: 20px;
 }
 
-@font-face {
-    font-family: 'Titlefont1';
-    src: url('../public/Adam Ladd  Skie ExtraBold.otf') format('opentype');
 
-    font-family: 'Titlefont';
-    src: url('../public/TT Ramillas Trial Variable Roman.ttf') format('opentype');
-  }
   
 /* Initial position for the button (hidden below the screen) */
 .btn.explore {

@@ -84,23 +84,14 @@ window.addEventListener("load", () => {
         titleSection.style.transition = "opacity 1s, transform 1s";
     };
 
-    const animateSectionsOnScroll = () => {
-        let scrollTop = window.scrollY || window.pageYOffset;
-
-        sections.forEach((section) => {
-            const rect = section.getBoundingClientRect();
-
-            if (section.id === "hero") return;
-
-            if (rect.top >= 0 && rect.top <= window.innerHeight / 1.3) {
-                section.style.opacity = 1;
-                section.style.transform = "translateY(0)";
-            } else if (rect.bottom < 0 || rect.top > window.innerHeight) {
-                section.style.opacity = 0;
-                section.style.transform = "translateY(50px)";
-            }
-        });
-    };
+    // Add default styles to sections
+    sections.forEach((section) => {
+        if (section.id !== "hero") {
+            section.style.opacity = 0;
+            section.style.transform = "translateY(50px)";
+            section.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+        }
+    });
 
     filterButtons.forEach(button => {
         button.addEventListener("click", (e) => {
@@ -122,12 +113,6 @@ window.addEventListener("load", () => {
 
     // Initial load animations
     animateTitleOnLoad();
-    animateSectionsOnScroll();
-
-    // Scroll event to animate sections
-    window.addEventListener("scroll", () => {
-        animateSectionsOnScroll();
-    });
 
     const contactForm = document.getElementById("contact-form");
     contactForm.addEventListener("submit", function (event) {
@@ -555,4 +540,40 @@ popupContainer.addEventListener('click', (event) => {
     });
     
     
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("section");
+
+    // Intersection Observer setup
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                // If the section is in the viewport
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = "translateY(0)";
+                } else {
+                    // If the section is out of the viewport
+                    entry.target.style.opacity = 0;
+                    entry.target.style.transform = "translateY(50px)";
+                }
+            });
+        },
+        {
+            threshold: 0.1, // Trigger when 10% of the section is visible
+        }
+    );
+
+    // Observe each section except the hero section
+    sections.forEach((section) => {
+        if (section.id !== "hero") {
+            // Set initial hidden state
+            section.style.opacity = 0;
+            section.style.transform = "translateY(50px)";
+            section.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+
+            // Add the section to the observer
+            observer.observe(section);
+        }
+    });
 });

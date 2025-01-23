@@ -578,4 +578,15 @@ section {
     color: #aaa;
     margin-top: 10px;
 }
+/* Initial hidden state */
+section.hidden {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
 
+/* Visible state with slide-up transition */
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

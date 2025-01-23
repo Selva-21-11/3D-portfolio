@@ -37,6 +37,7 @@ module.exports = {
           'css-loader',
         ],
       },
+
       {
         test: /\.(png|jpg|jpeg|gif|svg)$/i,
         type: 'asset/resource',
@@ -58,6 +59,14 @@ module.exports = {
           filename: 'models/[name][ext][query]', // Output models in the 'models' folder
         },
       },
+      // Handle .hdr files
+      {
+        test: /\.hdr$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'textures/[name][ext][query]', // Output HDRI files in the 'textures' folder
+        },
+      },
     ],
   },
 
@@ -76,6 +85,7 @@ module.exports = {
         { from: 'public/images', to: 'public/images' }, // Ensure these paths match what you need in the build
         { from: 'public/models', to: 'public/models' },
         { from: 'public/videos', to: 'public/videos' },
+        { from: 'public/textures', to: 'public/textures' }, // Add this for HDRI files
       ],
     }),
   ],

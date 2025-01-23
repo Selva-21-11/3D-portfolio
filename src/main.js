@@ -161,7 +161,8 @@ window.addEventListener("load", () => {
     let popupRenderer, popupScene, popupCamera, model;
     let isAnimating = false; // Initialize isAnimating
     let backgroundScene, backgroundCamera, backgroundRenderer;
-    let mouseX = 0, mouseY = 0; // Store mouse position (X and Y axes)
+    let mouseX = 0, mouseY = 0; // Store normalized mouse position
+    let targetX = 0, targetY = 0; // Target positions for camera movement
     
     const initializeBackgroundScene = () => {
         const heroSection = document.querySelector('.hero');
@@ -189,13 +190,12 @@ window.addEventListener("load", () => {
         backgroundRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
         heroSection.appendChild(backgroundRenderer.domElement);
     
-        // Add soft, even lighting using HemisphereLight
-        const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 5); // Top light (white), ground light (gray)
-        hemisphereLight.position.set(0, 20, 0); // Positioned above the scene
+        // Add soft lighting
+        const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 5);
+        hemisphereLight.position.set(0, 20, 0);
         backgroundScene.add(hemisphereLight);
     
-        // Add ambient light for uniform illumination
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4); // Lower intensity for soft light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
         backgroundScene.add(ambientLight);
     
         const spotLight = new THREE.SpotLight(0xffffff, 1, 100, Math.PI / 4, 0.1, 2);
@@ -203,7 +203,7 @@ window.addEventListener("load", () => {
         spotLight.castShadow = true;
         backgroundScene.add(spotLight);
     
-        // Add background 3D shapes
+        // Add background shapes
         window.backgroundShapes = add3DBackgroundShapes();
     
         // Event listener for mouse movement
@@ -216,93 +216,84 @@ window.addEventListener("load", () => {
     };
     
     const add3DBackgroundShapes = () => {
-        // Big circle material: shiny, reflective, plastic-like (MeshPhysicalMaterial)
+        // Big circle material
         const bigCircleMaterial = new THREE.MeshPhysicalMaterial({
-            color: 0x7A1CAC, // Purple
-            roughness: 0.4, // Low roughness for reflectivity
-            metalness: 0.5, // Moderate metallic effect
-            clearcoat: 0.8, // Clearcoat for extra shiny effect
-            clearcoatRoughness: 1, // Smoother clearcoat
-            reflectivity: 0.7, // Reflective surface
-            transmission: 0.0, // No transparency
-            ior: 1.45, // Index of Refraction, useful for glass-like materials
+            color: 0x7A1CAC,
+            roughness: 0.4,
+            metalness: 0.5,
+            clearcoat: 0.8,
+            clearcoatRoughness: 1,
+            reflectivity: 0.7,
         });
     
         const bigCircleGeometry = new THREE.SphereGeometry(7, 64, 64);
         const bigCircle = new THREE.Mesh(bigCircleGeometry, bigCircleMaterial);
         bigCircle.position.set(0, 0, -5);
         bigCircle.castShadow = true;
-        bigCircle.receiveShadow = false;
         backgroundScene.add(bigCircle);
     
-        // Small circle material: shiny, reflective, plastic-like (MeshPhysicalMaterial)
+        // Small circle material
         const smallCircleMaterial = new THREE.MeshPhysicalMaterial({
-            color: 0x2E073F, // Dark purple
-            roughness: 0.1, // Very smooth surface
-            metalness: 0.6, // Higher metallic effect for more reflectivity
-            clearcoat: 1.0, // High clearcoat for extra shine
-            clearcoatRoughness: 0.05, // Almost smooth clearcoat
-            reflectivity: 0.8, // Reflective surface
-            transmission: 0.0, // No transparency
-            ior: 1.45, // Index of Refraction, useful for glass-like materials
+            color: 0x2E073F,
+            roughness: 0.1,
+            metalness: 0.6,
+            clearcoat: 1.0,
+            clearcoatRoughness: 0.05,
+            reflectivity: 0.8,
         });
     
         const smallCircleGeometry = new THREE.SphereGeometry(3, 64, 64);
         const smallCircle = new THREE.Mesh(smallCircleGeometry, smallCircleMaterial);
-    
-        const distanceFromCenter = 4; // Big circle radius + small circle radius
-        smallCircle.position.set(distanceFromCenter, 0, -15);
+        smallCircle.position.set(4, 0, -10);
         smallCircle.castShadow = true;
-        smallCircle.receiveShadow = false;
         backgroundScene.add(smallCircle);
-    
-
     
         return { bigCircle, smallCircle };
     };
     
-    const rotationSpeed = 0.5;
-    
     const animateBackgroundShapes = () => {
         if (window.backgroundShapes) {
-            const angleX = mouseX * Math.PI * 2 * rotationSpeed;
-            const angleY = mouseY * Math.PI * 2 * rotationSpeed;
-    
-            const distanceFromCenter = 5; // Big circle radius + small circle radius
-            window.backgroundShapes.smallCircle.position.x = window.backgroundShapes.bigCircle.position.x + distanceFromCenter * Math.cos(angleX);
-            window.backgroundShapes.smallCircle.position.y = window.backgroundShapes.bigCircle.position.y + distanceFromCenter * Math.sin(angleY);
-    
-            window.backgroundShapes.smallCircle.position.z = window.backgroundShapes.bigCircle.position.z - 15;
+            const distanceFromCenter = 5;
+            window.backgroundShapes.smallCircle.position.x =
+                window.backgroundShapes.bigCircle.position.x + distanceFromCenter * Math.cos(mouseX * Math.PI * 2);
+            window.backgroundShapes.smallCircle.position.y =
+                window.backgroundShapes.bigCircle.position.y + distanceFromCenter * Math.sin(mouseY * Math.PI * 2);
         }
     };
     
-    // Parallax Effect: Camera movement based on mouse position, but with a fixed center
-    const applyParallaxEffect = () => {
+    // Advanced parallax effect
+    const applyAdvancedParallaxEffect = () => {
         if (!backgroundScene || !backgroundCamera) return;
     
-        const parallaxStrength = 2; // Control the depth of the parallax effect
-        const maxOffset = 2; // Limit how far the camera can move
-        const offsetX = mouseX * parallaxStrength;
-        const offsetY = mouseY * parallaxStrength;
-        const offsetZ = (mouseX + mouseY) * parallaxStrength / 3; // Adding Z-axis movement
+        // Easing for smooth transitions
+        const easingFactor = 0.05;
     
-        // Apply slight shifts to the camera based on mouse movement, but limit movement to a small range
-        backgroundCamera.position.x = Math.max(-maxOffset, Math.min(offsetX, maxOffset));
-        backgroundCamera.position.y = Math.max(-maxOffset, Math.min(offsetY, maxOffset));
-        backgroundCamera.position.z = 10 + offsetZ; // Base Z position + parallax Z offset
-        backgroundCamera.lookAt(0, 0, 0); // Keep the camera looking at the center of the scene
+        // Target positions based on mouse movement and depth
+        const targetOffsetX = mouseX * 2; // Amplify movement along X
+        const targetOffsetY = mouseY * 2; // Amplify movement along Y
+        const targetOffsetZ = -5 + mouseY * 2; // Depth movement (Z)
+    
+        // Smoothly transition the camera position
+        targetX += (targetOffsetX - targetX) * easingFactor;
+        targetY += (targetOffsetY - targetY) * easingFactor;
+    
+        // Move the camera position and target
+        backgroundCamera.position.x = targetX;
+        backgroundCamera.position.y = targetY;
+        backgroundCamera.position.z = 10 + targetOffsetZ;
+        backgroundCamera.lookAt(0, 0, 0);
+    
     };
     
-    // Updated render loop with parallax effect
+    // Render loop with advanced parallax
     const renderBackgroundWithParallax = () => {
-        if (!backgroundScene || !backgroundCamera || !backgroundRenderer) return;
         requestAnimationFrame(renderBackgroundWithParallax);
-    
-        animateBackgroundShapes(); // Keep existing animations
-        applyParallaxEffect(); // Add the parallax effect
+        animateBackgroundShapes();
+        applyAdvancedParallaxEffect();
         backgroundRenderer.render(backgroundScene, backgroundCamera);
     };
     
+    // Initialize and start the scene
     initializeBackgroundScene();
     renderBackgroundWithParallax();
     

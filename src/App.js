@@ -1,41 +1,13 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import './styles/App.css';
 import gsap from 'gsap';
-import { useSpring, animated } from '@react-spring/web';
-
+import ShinyText from './blocks/TextAnimations/ShinyText/ShinyText';
+import './blocks/TextAnimations/ShinyText/ShinyText.css'
 // Lazy-load TitleBG component
 const TitleBG = React.lazy(() => import('./components/TitleBG'));
 
-// Optimized Animated Text Component using react-spring
-const AnimatedText = ({ text, onAnimationComplete }) => {
-  const splitText = text.split("");
-
-  const springs = useSpring({
-    opacity: 1,
-    transform: `translateY(0)`,
-    from: { opacity: 0, transform: `translateY(20px)` },
-    delay: 100, // Single delay for all letters
-    config: { duration: 500 },
-    onRest: onAnimationComplete,
-  });
-
-  return (
-    <animated.h1 style={springs}>
-      {splitText.map((letter, index) => (
-        <span key={index}>{letter}</span>
-      ))}
-    </animated.h1>
-  );
-};
-
 const App = () => {
-  const [isTitleBGVisible, setTitleBGVisible] = useState(false);
-
-  const handleAnimationComplete = () => {
-    setTimeout(() => {
-      setTitleBGVisible(true); 
-    }, 300);  
-  };
+  const [isTitleBGVisible, setTitleBGVisible] = useState(true); // Set to true to load TitleBG immediately
 
   useEffect(() => {
     const sections = document.querySelectorAll('section');
@@ -45,22 +17,30 @@ const App = () => {
           if (entry.isIntersecting) {
             const sectionIndex = Array.from(sections).indexOf(entry.target);
             const lightConfig = getLightConfigForSection(sectionIndex);
-
-            // Ensure lightConfig is an array before using forEach
+  
+            // Only process if the lightConfig is available
             if (Array.isArray(lightConfig)) {
               lightConfig.forEach(({ color, count, positions }) => {
+                const fragment = document.createDocumentFragment(); // Batch DOM updates
+  
                 for (let i = 0; i < count; i++) {
                   const light = document.createElement('div');
                   light.classList.add('light-effect');
-                  light.style.background = `radial-gradient(circle, ${color} 25%, ${color} 90%)`;
+  
+                  // Applying linear gradient instead of radial gradient
+                  light.style.background = `linear-gradient(45deg, ${color} 25%, ${color} 75%)`;
                   light.style.boxShadow = `0 0 250px 150px ${color}`;
+  
                   const { positionX, positionY } = positions[i];
                   light.style.left = `${positionX}%`;
                   light.style.top = `${positionY}%`;
-
-                  entry.target.appendChild(light);
+  
+                  fragment.appendChild(light);
                   animateLightEffect(light);
                 }
+  
+                // Append all lights in one operation
+                entry.target.appendChild(fragment);
               });
             }
           }
@@ -68,23 +48,23 @@ const App = () => {
       },
       { threshold: 0.1 }
     );
-
+  
     sections.forEach((section) => observer.observe(section));
-
+  
     return () => observer.disconnect();
   }, []);
-
+  
   const getLightConfigForSection = (sectionIndex) => {
     switch (sectionIndex) {
-      case 0: 
+      case 0:
         return [
           {
-            color: 'rgba(0, 255, 255, 0.3)', // Cyan
+            color: 'linear-gradient(45deg, rgb(246, 255, 0), rgba(255, 0, 255, 0.87))', // Cyan
             count: 1,
             positions: [{ positionX: 110, positionY: 0 }],
           },
         ];
-      case 1: 
+      case 1:
         return [
           {
             color: 'rgba(255, 0, 255, 0.3)', // Magenta
@@ -92,7 +72,7 @@ const App = () => {
             positions: [{ positionX: -15, positionY: 50 }],
           },
         ];
-      case 2: 
+      case 2:
         return [
           {
             color: 'rgba(0, 255, 0, 0.3)', // Green
@@ -100,7 +80,7 @@ const App = () => {
             positions: [{ positionX: 100, positionY: 50 }],
           },
         ];
-      case 3: 
+      case 3:
         return [
           {
             color: 'rgba(255, 255, 0, 0.3)', // Yellow
@@ -112,7 +92,7 @@ const App = () => {
         return []; // Return an empty array if no matching section
     }
   };
-
+  
   const animateLightEffect = (lightElement) => {
     requestIdleCallback(() => {
       gsap.to(lightElement, {
@@ -127,19 +107,21 @@ const App = () => {
       });
     });
   };
+  
 
   return (
     <div className="container">
-      <section className="hero" id="hero">
-        {isTitleBGVisible && (
-          <Suspense fallback={<div>Loading background...</div>}>
-            <TitleBG />
-          </Suspense>
-        )}
+     <section className="hero" id="hero">
+        <Suspense fallback={<div>Loading background...</div>}>
+          <TitleBG />
+        </Suspense>
         <div className="hero-content">
-          <AnimatedText text="Welcome to My Portfolio" onAnimationComplete={handleAnimationComplete} />
-          <p>3D Artist | Animator | Technical Support Engineer</p>
-          <a href="#about" className="btn explore">Explore My Work</a>
+          <h1 className="first-line">WELCOME TO MY</h1>
+          <h2 className="second-line">PORTFOLIO</h2>
+          <p className="subheading">3D Artist | Animator</p>
+          <button className="btn explore">
+            <ShinyText text="Explore My Work" />
+          </button>
         </div>
       </section>
 
@@ -168,7 +150,6 @@ const App = () => {
     </div>
   );
 };
-
 
 // Throttle function for IntersectionObserver callback
 const throttle = (func, wait) => {

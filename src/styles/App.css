@@ -1,30 +1,142 @@
-/* Global styles */
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #000;
-    color: white;
-  }
-  
-  section {
-    padding: 60px 20px;
-  }
-  
-  .glass-effect {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    padding: 30px;
-  }
-  
-  h1, h2, h3 {
-    text-align: center;
-  }
-  
-  .hero {
-    text-align: center;
-  }
+/* Ensure body and html take full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: black; /* Black background for the entire page */
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  position: relative;
+}
+
+/* Light Effect Styles */
+.light-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%; /* Center the light effect */
+  width: 300px; /* Increased size for larger light emission */
+  height: 300px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.8;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 25%, rgba(0, 255, 255, 0) 90%); /* Wider emission */
+  filter: blur(50px); /* Larger blur for more spread */
+  box-shadow: 0 0 250px 150px rgba(0, 255, 255, 0.3); /* Enhanced glow with extended radius */
+  transform: translate(-50%, -50%); /* Center the light effect */
+  transition: transform 0.5s ease, opacity 0.5s ease; /* Smooth transitions for manual adjustments */
+  z-index: 10;
+}
+.container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hero section styles */
+
+
+canvas {
+  position: absolute; /* Ensure canvas stays behind the content */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Ensure it takes up full viewport height */
+  overflow: hidden; /* Hide any content that exceeds the bounds of the section */
+  z-index: 0; /* Make sure the hero section content stays on top */
+}
+
+.hero .hero-content {
+  position: absolute; /* Position content absolutely within the hero section */
+  top: 50%;
+  left: 10vw; /* Adjust left alignment */
+  transform: translateY(-50%); /* Keep content vertically centered */
+  z-index: 2; /* Ensure the text is above the 3D background */
+  color: white;
+  text-align: left; /* Align text to the left */
+}
+
+#hero h1 {
+  font-size: 4em; /* Increased text size */
+  margin-bottom: 10px;
+}
+
+#hero p {
+  font-size: 1.5em; /* Increased text size */
+  margin-bottom: 10px;
+}
+
+#hero .btn.explore {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+
+/* About section styles */
+#about {
+  color: #fff;
+}
+
+#about h2 {
+  font-size: 2em;
+  margin-bottom: 15px;
+}
+
+#about .btn.contact {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+/* Portfolio section styles */
+#portfolio {
+
+  color: #fff;
+}
+
+
+
+#portfolio h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+/* Contact section styles */
+#contact {
+
+  color: #fff;
+}
+
+
+#contact h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+#contact .btn.contact {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
   
   .btn {
     background: #00f;
@@ -40,5 +152,41 @@ body {
   
   .Scene3D {
     height: 100vh;
+  }
+  .preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    z-index: 9999;
+  }
+  
+  .loader {
+    text-align: center;
+  }
+  
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 8px solid rgba(255, 255, 255, 0.3);
+    border-top: 8px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .loader p {
+    color: #fff;
+    font-size: 18px;
   }
   

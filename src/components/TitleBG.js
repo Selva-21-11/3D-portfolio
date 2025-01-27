@@ -71,20 +71,25 @@ const TitleBG = () => {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
-    // Throttle mouse events to reduce load (improved throttle)
+    // Adjusted throttle for mouse events to reduce frequency
     const handleMouseMove = throttle((event) => {
       const mouseXPosition = (event.clientX / window.innerWidth) * 2 - 1;
       const mouseYPosition = (event.clientY / window.innerHeight) * 2 - 1;
-      const angleX = mouseXPosition * Math.PI;
-      const angleY = mouseYPosition * Math.PI;
+
+      // Reduced movement intensity for the parallax effect
+      const parallaxX = mouseXPosition * 0.1;  // Reduced intensity
+      const parallaxY = mouseYPosition * 0.1;  // Reduced intensity
+
+      // Move the camera or background more subtly based on mouse position
+      gsap.to(camera.position, { x: parallaxX, y: parallaxY, z: 5, duration: 0.6, ease: 'power3.out' });
+
+      // Optional: you can also move other elements for the parallax effect
       const radius = 1;
+      const targetX = radius * Math.cos(mouseXPosition * Math.PI);
+      const targetY = radius * Math.sin(mouseYPosition * Math.PI);
 
-      const targetX = radius * Math.cos(angleX);
-      const targetY = radius * Math.sin(angleY);
-      const targetZ = -1;
-
-      gsap.to(smallSphere.position, { x: targetX, y: targetY, z: targetZ, duration: 0.5, ease: 'power3.out' });
-    }, 50);  // Increased throttle to reduce frequency
+      gsap.to(smallSphere.position, { x: targetX, y: targetY, z: -1, duration: 0.5, ease: 'power3.out' });
+    }, 100);  // Increased throttle for less frequent updates
 
     window.addEventListener('mousemove', handleMouseMove);
 

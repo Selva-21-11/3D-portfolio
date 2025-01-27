@@ -110,6 +110,7 @@ canvas {
   transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions for background and text */
   position: relative;
   top: -45px;
+  left: 1%;
 }
 
 .btn.explore:hover {

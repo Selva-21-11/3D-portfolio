@@ -4,9 +4,10 @@ import gsap from 'gsap';
 import ShinyText from './blocks/TextAnimations/ShinyText/ShinyText';
 import SplitText from './blocks/TextAnimations/SplitText/SplitText';
 import SpotlightCard from './blocks/Components/SpotlightCard/SpotlightCard';
+import TiltedCard from './blocks/Components/TiltedCard/TiltedCard';
 import './blocks/TextAnimations/ShinyText/ShinyText.css';
 import './blocks/Components/SpotlightCard/SpotlightCard.css';
-import ThreeDScene from "./components/AboutBG"; // 3D scene component
+import './blocks/Components/TiltedCard/TiltedCard.css';
 
 // Lazy-load TitleBG component
 const TitleBG = React.lazy(() => import('./components/TitleBG'));
@@ -31,42 +32,8 @@ const App = () => {
       title: 'Skills',
       content: (
         <div>
-          <div>
-            <h3>3D Modeling</h3>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: '85%' }}></div>
-            </div>
-          </div>
-          <div>
-            <h3>Animation</h3>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: '90%' }}></div>
-            </div>
-          </div>
-          <div>
-            <h3>Texturing</h3>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: '80%' }}></div>
-            </div>
-          </div>
-          <div>
-            <h3>Lighting</h3>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: '75%' }}></div>
-            </div>
-          </div>
-          <div>
-            <h3>Rigging</h3>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: '70%' }}></div>
-            </div>
-          </div>
-          <div>
-            <h3>Rendering</h3>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: '85%' }}></div>
-            </div>
-          </div>
+
+          
         </div>
       ),
     },

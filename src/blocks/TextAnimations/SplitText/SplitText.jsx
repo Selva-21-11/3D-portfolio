@@ -3,7 +3,7 @@
 	Installed from https://reactbits.dev/default/
 	1-27-2025
 */
-
+import React from 'react';
 import { useSprings, animated } from "@react-spring/web";
 import { useEffect, useRef, useState } from "react";
 

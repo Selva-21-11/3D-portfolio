@@ -3,6 +3,7 @@
 	Installed from https://reactbits.dev/default/
 	1-27-2025
 */
+import React from 'react';
 
 import "./ShinyText.css";
 

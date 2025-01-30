@@ -6,6 +6,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { FilmPass } from 'three/examples/jsm/postprocessing/FilmPass';
 
+
 const TitleBG = () => {
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);

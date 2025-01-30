@@ -6,7 +6,7 @@ import './blocks/Components/SpotlightCard/SpotlightCard.css';
 import './blocks/Components/TiltedCard/TiltedCard.css';
 import './styles/App.css'
 import Skills from './components/Skills'; // Import Skills with 3D Bar Graph
-import './Skills.css'; // Custom styles for the skills section
+import './styles/Skills.css'; // Custom styles for the skills section
 // Lazy-load TitleBG component
 const TitleBG = React.lazy(() => import('./components/TitleBG'));
 

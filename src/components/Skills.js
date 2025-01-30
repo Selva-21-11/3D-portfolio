@@ -1,6 +1,6 @@
 import React from 'react';
 import Skills3DBarGraph from './Skills3DBar'; // Import the 3D bar graph component
-import './Skills.css'; // Custom styles for the skills section
+
 
 const Skills = () => {
   return (

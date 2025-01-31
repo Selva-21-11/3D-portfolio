@@ -1,19 +1,17 @@
-.skills {
-    background: #111;
-    padding: 50px 0;
-    text-align: center;
-  }
-  
-  .skills-title {
-    font-size: 2.5rem;
-    color: #fff;
-    margin-bottom: 30px;
-    font-family: 'CPTS', sans-serif;
-  }
-  
-  .skills-3d-graph {
-    width: 100%;
-    height: 400px; /* You can adjust this as needed */
-    margin-top: 30px;
-  }
-  
+.skills-section {
+  padding: 50px;
+  text-align: center;
+  height: 100vh;  /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* Center the content vertically */
+}
+
+.skills-container {
+  display: grid;  /* Use grid layout for better control */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));  /* Adjusts to create columns with auto-fit */
+  gap: 30px;  /* Space between cards */
+  justify-items: center;  /* Centers items horizontally within each grid cell */
+  margin-top: 20px;
+  width: 100%;  /* Ensures the container takes the full width */
+}

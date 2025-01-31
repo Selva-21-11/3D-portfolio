@@ -3,15 +3,15 @@ import ShinyText from './blocks/TextAnimations/ShinyText/ShinyText';
 import SplitText from './blocks/TextAnimations/SplitText/SplitText';
 import './blocks/TextAnimations/ShinyText/ShinyText.css';
 import './blocks/Components/SpotlightCard/SpotlightCard.css';
-import './blocks/Components/TiltedCard/TiltedCard.css';
-import './styles/App.css'
-import Skills from './components/Skills'; // Import Skills with 3D Bar Graph
-import './styles/Skills.css'; // Custom styles for the skills section
+import './styles/App.css';
+import './styles/Skills.css';
+
+
 // Lazy-load TitleBG component
 const TitleBG = React.lazy(() => import('./components/TitleBG'));
+const Skills = React.lazy(() => import('./components/Skills'));
 
 const App = () => {
-
 
   return (
     <div className="container">
@@ -34,9 +34,8 @@ const App = () => {
           </button>
         </div>
       </section>
-
-      <Skills/>
-
+            {/* Skills Section */}
+            <Skills />
     </div>
   );
 };

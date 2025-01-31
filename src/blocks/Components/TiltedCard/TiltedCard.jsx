@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import "./TiltedCard.css";
-
+import React from 'react';
 const springValues = {
   damping: 30,
   stiffness: 100,

@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import "./TiltedCard.css";
-import React from 'react';
+import React from "react";
+
 const springValues = {
   damping: 30,
   stiffness: 100,
@@ -37,6 +38,7 @@ export default function TiltedCard({
     damping: 30,
     mass: 1,
   });
+  const progressBarScale = useSpring(1, springValues); // New spring for scaling the progress bar
 
   const [lastY, setLastY] = useState(0);
 
@@ -64,6 +66,7 @@ export default function TiltedCard({
   function handleMouseEnter() {
     scale.set(scaleOnHover);
     opacity.set(1);
+    progressBarScale.set(1.2); // Increase scale on hover for the progress bar
   }
 
   function handleMouseLeave() {
@@ -72,6 +75,7 @@ export default function TiltedCard({
     rotateX.set(0);
     rotateY.set(0);
     rotateFigcaption.set(0);
+    progressBarScale.set(1); // Reset scale for the progress bar
   }
 
   return (
@@ -119,23 +123,27 @@ export default function TiltedCard({
         )}
       </motion.div>
 
-      {/* Progress Bar Container */}
+      {/* Motion Progress Bar Container with Tilt and Scale */}
       <motion.div
         className="progress-bar-container"
         style={{
           rotateX,
           rotateY,
+          scale: progressBarScale, // Apply scaling here
+          opacity,
           transformStyle: "preserve-3d",
+          height: "10px", // The height of the progress bar container
         }}
       >
-        <div className="progress-bar">
-          <div
-            className="progress-bar-fill"
-            style={{
-              width: `${progressBarValue}%`,
-            }}
-          ></div>
-        </div>
+        <motion.div
+          className="progress-bar-fill"
+          style={{
+            width: `${progressBarValue}%`, // Dynamically controlled by the progressBarValue prop
+            backgroundColor: "#4caf50", // Green color for progress
+            height: "100%", // Full height of the container
+            borderRadius: "5px",
+          }}
+        />
       </motion.div>
 
       {showTooltip && (

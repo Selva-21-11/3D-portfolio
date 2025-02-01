@@ -13,10 +13,10 @@ export default function TiltedCard({
   imageSrc,
   altText = "Tilted card image",
   captionText = "",
-  containerHeight = "300px",
-  containerWidth = "100%",
-  imageHeight = "300px",
-  imageWidth = "300px",
+  containerHeight = "180px",
+  containerWidth = "180px",
+  imageHeight = "180px",
+  imageWidth = "180px",
   scaleOnHover = 1.1,
   rotateAmplitude = 14,
   showMobileWarning = true,
@@ -132,7 +132,6 @@ export default function TiltedCard({
           scale: progressBarScale, // Apply scaling here
           opacity,
           transformStyle: "preserve-3d",
-          height: "10px", // The height of the progress bar container
         }}
       >
         <motion.div

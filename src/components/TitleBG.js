@@ -2,10 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
 import { throttle } from 'lodash';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { FilmPass } from 'three/examples/jsm/postprocessing/FilmPass';
-
 
 const TitleBG = () => {
   const sceneRef = useRef(null);
@@ -13,7 +9,6 @@ const TitleBG = () => {
   const cameraRef = useRef(null);
   const bigSphereRef = useRef(null);
   const smallSphereRef = useRef(null);
-  const composerRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +19,7 @@ const TitleBG = () => {
     );
     const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.outputEncoding = THREE.LinearSRGBColorSpace;
     renderer.physicallyCorrectLights = true;
     document.getElementById('hero').appendChild(renderer.domElement);
     rendererRef.current = renderer;
@@ -44,20 +39,75 @@ const TitleBG = () => {
       gsap.fromTo(smallSphereRef.current.scale, { x: 0, y: 0, z: 0 }, { x: 1, y: 1, z: 1, duration: 1, ease: 'power3.out' });
     };
 
-    // Load MatCap texture
+    // Load MatCap textures
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const matCapTexture = textureLoader.load('/assets/mattext.png'); // Replace with the path to your MatCap PNG file
+    const matCapTextureBig = textureLoader.load('/assets/mattext.png'); // Replace with your matcap texture
+    const matCapTextureSmall = textureLoader.load('/assets/mattext.png'); // Replace with your matcap texture
 
-    // Create materials using MatCap texture
-    const matCapMaterial = new THREE.MeshMatcapMaterial({ matcap: matCapTexture });
+    // Set texture wrapping
+    matCapTextureBig.wrapS = matCapTextureBig.wrapT = THREE.ClampToEdgeWrapping;
+    matCapTextureSmall.wrapS = matCapTextureSmall.wrapT = THREE.ClampToEdgeWrapping;
 
-    // Create sphere geometries with lower detail (to optimize)
-    const bigSphereGeometry = new THREE.SphereGeometry(1, 32, 32);  // Lower segments
-    const smallSphereGeometry = new THREE.SphereGeometry(0.3, 32, 32);  // Lower segments
+    const shaderMaterialBig = new THREE.ShaderMaterial({
+      uniforms: {
+        tMatCap: { type: 't', value: matCapTextureBig },
+      },
+      vertexShader: `
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+    
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vPosition = position;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D tMatCap;
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+    
+        void main() {
+          vec3 matCapColor = texture2D(tMatCap, vec2(vNormal.x * 0.5 + 0.5, vNormal.y * 0.5 + 0.5)).rgb;
+          gl_FragColor = vec4(matCapColor, 1.0);
+        }
+      `,
+    });
+    
+    // Same change for the small sphere material:
+    const shaderMaterialSmall = new THREE.ShaderMaterial({
+      uniforms: {
+        tMatCap: { type: 't', value: matCapTextureSmall },
+      },
+      vertexShader: `
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+    
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vPosition = position;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D tMatCap;
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+    
+        void main() {
+          vec3 matCapColor = texture2D(tMatCap, vec2(vNormal.x * 0.5 + 0.5, vNormal.y * 0.5 + 0.5)).rgb;
+          gl_FragColor = vec4(matCapColor, 1.0);
+        }
+      `,
+    });
 
-    // Create meshes with MatCap material
-    const bigSphere = new THREE.Mesh(bigSphereGeometry, matCapMaterial);
-    const smallSphere = new THREE.Mesh(smallSphereGeometry, matCapMaterial);
+    // Create sphere geometries
+    const bigSphereGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+    const smallSphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+
+    // Create meshes with ShaderMaterial
+    const bigSphere = new THREE.Mesh(bigSphereGeometry, shaderMaterialBig);
+    const smallSphere = new THREE.Mesh(smallSphereGeometry, shaderMaterialSmall);
 
     // Group the spheres for easier management
     const sphereGroup = new THREE.Group();
@@ -67,10 +117,6 @@ const TitleBG = () => {
 
     bigSphereRef.current = bigSphere;
     smallSphereRef.current = smallSphere;
-
-    // Basic lights (not necessary for MatCap material, but kept for completeness)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
 
     // Adjusted throttle for mouse events to reduce frequency
     const handleMouseMove = throttle((event) => {
@@ -84,26 +130,19 @@ const TitleBG = () => {
       // Move the camera or background more subtly based on mouse position
       gsap.to(camera.position, { x: parallaxX, y: parallaxY, z: 5, duration: 0.6, ease: 'power3.out' });
 
-      // Optional: you can also move other elements for the parallax effect
-      const radius = 1;
+      const radius = 1.5;
       const targetX = radius * Math.cos(mouseXPosition * Math.PI);
       const targetY = radius * Math.sin(mouseYPosition * Math.PI);
 
       gsap.to(smallSphere.position, { x: targetX, y: targetY, z: -1, duration: 0.5, ease: 'power3.out' });
-    }, 100);  // Increased throttle for less frequent updates
+    }, 100);
 
     window.addEventListener('mousemove', handleMouseMove);
-
-    // Post-processing setup (optimized FilmPass)
-    const composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-    composer.addPass(new FilmPass(0.2, 0.05, 648, false));  // Adjusted strength for less computation
-    composerRef.current = composer;
 
     // Animation loop
     const animate = () => {
       if (!isLoading) {
-        composer.render();
+        renderer.render(scene, camera);
       }
       requestAnimationFrame(animate);
     };
@@ -127,14 +166,12 @@ const TitleBG = () => {
       window.removeEventListener('mousemove', handleMouseMove);
 
       // Dispose of materials, geometries, and textures
-      matCapTexture.dispose();
+      matCapTextureBig.dispose();
+      matCapTextureSmall.dispose();
       bigSphereGeometry.dispose();
       smallSphereGeometry.dispose();
       bigSphere.material.dispose();
       smallSphere.material.dispose();
-
-      // Dispose of post-processing composer
-      composerRef.current && composerRef.current.dispose();
 
       // Clear scene
       scene.clear();

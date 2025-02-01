@@ -1,12 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import TiltedCard from '../blocks/Components/TiltedCard/TiltedCard'; // Import the TiltedCard component
 
+
 const SkillsSection = () => {
   const skills = [
     { imageSrc: '/assets/Blender.png', captionText: 'Blender', progressBarValue: 80 },
     { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
     { imageSrc: '/assets/adobe-photoshop.png', captionText: 'Photoshop', progressBarValue: 80 },
     { imageSrc: '/assets/adobe-photoshop.png', captionText: 'Photoshop', progressBarValue: 80 },
+    { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
+    { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
+    { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
+    { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
   ];
 
   const sectionRef = useRef(null); // Reference for the whole skills section
@@ -45,7 +50,7 @@ const SkillsSection = () => {
 
   return (
     <section className="skills-section" ref={sectionRef}>
-      <h2>My Skills</h2>
+
 
       {/* Glass effect container with camera perspective */}
       <div className="skills-container-wrapper">

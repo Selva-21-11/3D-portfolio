@@ -17,9 +17,6 @@
   width: 80%;  /* Adjust the width of the container (percentage or specific pixels) */
   height: 500px; /* Set a specific height for the container */
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
-  backdrop-filter: blur(10px); /* Apply blur effect */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow for better visibility */
   overflow: hidden;
   transform-style: preserve-3d; /* Enable 3D transformations */
 }
@@ -36,6 +33,6 @@
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  left: -80px;
+  left: -95px;
   top: 100px;
 }

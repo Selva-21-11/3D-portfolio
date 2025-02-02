@@ -5,14 +5,15 @@ import './blocks/TextAnimations/ShinyText/ShinyText.css';
 import './blocks/Components/SpotlightCard/SpotlightCard.css';
 import './styles/App.css';
 import './styles/Skills.css';
+import './styles/3Dmodels.css';
+import ModelsSection from './components/ModelsSection';
 
 
-// Lazy-load TitleBG component
+// Lazy-load TitleBG and Skills components
 const TitleBG = React.lazy(() => import('./components/TitleBG'));
 const Skills = React.lazy(() => import('./components/Skills'));
 
 const App = () => {
-
   return (
     <div className="container">
       <section className="hero" id="hero">
@@ -34,9 +35,30 @@ const App = () => {
           </button>
         </div>
       </section>
-            {/* Skills Section */}
-            <Skills />
+
+      {/* Section Divider */}
+      <div className="section-divider-hero">
+        <h2 className="section-line-hero">It's</h2>
+        <h2 className="section-line-hero">Versatile</h2>
+        <h3 className="section-subline-hero">Scroll down for skill section</h3>
+      </div>
+
+      {/* Skills Section */}
+      <Skills />
+
+      {/* Another Section Divider */}
+      <div className="section-divider-skill">
+        <h2 className="section-line-skill">My</h2>
+        <h2 className="section-line-skill">Works</h2>
+        <h3 className="section-subline-skill">Explore my projects below</h3>
+      </div>
+
+      <ModelsSection />
+      
     </div>
+
+    
+
   );
 };
 

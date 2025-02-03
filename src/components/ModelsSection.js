@@ -1,69 +1,87 @@
-import React, { Suspense, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import ModelViewer from './ModelViewer';
-
+import React, { Suspense, useState } from "react";
+import Slider from "react-slick";
+import { Canvas } from "@react-three/fiber";
+import ModelViewer from "./ModelViewer";
 
 const models = [
-  {
-    name: 'BMW Car',
-    thumbnail: '/assets/BMW_thumbnail.png',
-    modelName: 'bmw',
-    metadata: 'Modeled in Blender | 2024',
-  },
-  {
-    name: 'Sport Bike',
-    thumbnail: '/assets/Bike_thumbnail.png',
-    modelName: 'bike',
-    metadata: 'Modeled in Blender | 2023',
-  },
+    {
+        name: "BMW Car",
+        thumbnail: "/assets/BMW_thumbnail.png",
+        modelName: "bmw",
+        metadata: "Modeled in Blender | 2024",
+    },
+    {
+        name: "Sport Bike",
+        thumbnail: "/assets/Bike_thumbnail.png",
+        modelName: "bike",
+        metadata: "Modeled in Blender | 2023",
+    },
+    {
+        name: "Sport Bike",
+        thumbnail: "/assets/Bike_thumbnail.png",
+        modelName: "bike",
+        metadata: "Modeled in Blender | 2023",
+    },
 ];
 
 const ModelsSection = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedModel, setSelectedModel] = useState(null);
-  const [animationClass, setAnimationClass] = useState('');
+    const [selectedModel, setSelectedModel] = useState(null);
+    const [centeredModelIndex, setCenteredModelIndex] = useState(0); // Track centered model index
 
-  const switchModel = (direction) => {
-    setAnimationClass(direction > 0 ? 'slide-out-right' : 'slide-out-left');
+    const settings = {
+        centerMode: true,
+        centerPadding: "0px",
+        slidesToShow: 1,
+        infinite: true,
+        speed: 500,
+        arrows: true,
+        focusOnSelect: true,
+        beforeChange: (current, next) => {
+            setCenteredModelIndex(next); // Update centered model index on slide change
+        },
+    };
 
-    setTimeout(() => {
-      setCurrentIndex((prev) => (prev + direction + models.length) % models.length);
-      setAnimationClass(direction > 0 ? 'slide-in-left' : 'slide-in-right'); // Opposite direction for the new model
-    }, 300); // Match animation duration
-  };
+    const handleModelClick = (index) => {
+        if (index === centeredModelIndex) {
+            setSelectedModel(models[index]);
+        }
+    };
 
-  return (
-    <div className="models-section">
-      <h2 className="section-title">3D Models Showcase</h2>
+    return (
+        <div className="models-section">
+            <h2 className="section-title">3D Models Showcase</h2>
 
-      {/* Carousel */}
-      <div className="carousel-wrapper">
-        <button className="carousel-nav left" onClick={() => switchModel(-1)}>←</button>
+            <Slider {...settings}>
+                {models.map((model, index) => (
+                    <div
+                        key={index}
+                        className="model-card"
+                        onClick={() => handleModelClick(index)} // Only click if centered
+                        style={{
+                            pointerEvents: index === centeredModelIndex ? "auto" : "none", // Disable pointer events for non-centered models
+                        }}
+                    >
+                        <img src={model.thumbnail} alt={model.name} className="thumbnail" />
+                        <div className="model-info">
+                            <h3>{model.name}</h3>
+                            <p>{model.metadata}</p>
+                        </div>
+                    </div>
+                ))}
+            </Slider>
 
-        <div className={`model-card ${animationClass}`} onClick={() => setSelectedModel(models[currentIndex])}>
-          <img src={models[currentIndex].thumbnail} alt={models[currentIndex].name} className="thumbnail" />
-          <div className="model-info">
-            <h3>{models[currentIndex].name}</h3>
-            <p>{models[currentIndex].metadata}</p>
-          </div>
+            {selectedModel && (
+                <div className="model-popup">
+                    <Suspense fallback={<div>Loading 3D Model...</div>}>
+                        <Canvas camera={{ position: [0, 1, 3] }}>
+                            <ModelViewer modelName={selectedModel.modelName} />
+                        </Canvas>
+                    </Suspense>
+                    <button className="close-btn" onClick={() => setSelectedModel(null)}>✖</button>
+                </div>
+            )}
         </div>
-
-        <button className="carousel-nav right" onClick={() => switchModel(1)}>→</button>
-      </div>
-
-      {/* Popup Model Viewer */}
-      {selectedModel && (
-        <div className="model-popup">
-          <Suspense fallback={<div>Loading 3D Model...</div>}>
-            <Canvas camera={{ position: [0, 1, 3] }}>
-              <ModelViewer modelName={selectedModel.modelName} />
-            </Canvas>
-          </Suspense>
-          <button className="close-btn" onClick={() => setSelectedModel(null)}>✖</button>
-        </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default ModelsSection;

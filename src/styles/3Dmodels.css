@@ -1,4 +1,5 @@
 /* Full-Screen Section */
+/* Ensure the section properly contains the carousel */
 .models-section {
     height: 100vh;
     display: flex;
@@ -6,160 +7,171 @@
     align-items: center;
     position: relative;
     padding: 20px;
-  }
-  
-  .section-title {
-    font-size: 3rem;
-    color: #fff;
-    margin-bottom: 20px;
-    position: relative;
-    top: 10%;
-  }
-  
-  /* Carousel */
-  .carousel-wrapper {
-    display: flex;
-    align-items: center;
-    width: 80%;
-    max-width: 800px;
-    position: relative;
-    justify-content: center;
-    top: 20%;
-  }
-  
-  .model-card {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-    transition: transform 0.3s;
-    cursor: pointer;
-    width: 250px;
-    position: relative;
-    color: #fff;
-  }
-  
-  .model-card:hover {
-    transform: scale(1.1);
-  }
-  
-  .thumbnail {
-    width: 100%;
-    border-radius: 8px;
-    object-fit: cover;
-  }
-  
-  .carousel-nav {
-    font-size: 2rem;
-    color: #fff;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-  .carousel-nav.left {
-    left: -50px;
-  }
-  
-  .carousel-nav.right {
-    right: -50px;
-  }
-  
-  .carousel-nav:hover {
-    color: #00bcd4;
-  }
-  
-  /* Model Popup */
-  .model-popup {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-  }
-  
-  .close-btn {
-    position: absolute;
-    top: 40px;
-    right: 20px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-  }
-  
-  .close-btn:hover {
-    color: red;
-  }
-  .model-card {
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-  }
-  
- /* Slide out opposite */
-.model-card.slide-out-left {
-  animation: slideOutToLeft 0.3s forwards;
+    overflow: hidden; /* Prevents overflow */
 }
-.model-card.slide-out-right {
-  animation: slideOutToRight 0.3s forwards;
+.section-title {
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 20px;
+  position: relative;
+  top: 10%;
 }
 
-/* Slide in opposite */
-.model-card.slide-in-left {
-  animation: slideInFromLeft 0.3s forwards;
-}
-.model-card.slide-in-right {
-  animation: slideInFromRight 0.3s forwards;
-}
-
-@keyframes slideOutToLeft {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
+/* Slick Carousel Customization */
+.slick-slider {
+  width: 50%;
+  max-width: 400px;
+  position: relative;
+  top: 20%;
 }
 
-@keyframes slideOutToRight {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
+
+.slick-track {
+  display: flex;
+  align-items: center;
 }
 
-@keyframes slideInFromLeft {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+/* Ensure Only One Model is Centered */
+.slick-slide {
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  transform: scale(0.7); /* Smaller side models */
+  opacity: 0.5;
+  filter: blur(2px);
 }
 
-@keyframes slideInFromRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+.slick-center {
+  transform: scale(1); /* Full scale for the active model */
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* Ensure Proper Alignment */
+.slick-list {
+  padding: 40px 0; /* Adds spacing for better visibility */
+  overflow: visible;
+}
+
+/* Model Card */
+.model-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s, opacity 0.3s;
+  cursor: pointer;
+  width: 250px;
+  position: relative;
+  color: #fff;
+}
+
+/* Image Styling */
+.thumbnail {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Navigation Arrows */
+.slick-next {
+  font-size: 0; /* Remove any text size */
+  border-radius: 50%; /* Makes it circular */
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent; /* No background fill */
+  cursor: pointer;
+  position: absolute;
+  bottom: 40%;
+  left: 120%;  /* Positions the right arrow */
+  transform: translateY(-50%);
+  z-index: 10;
+  text-align: center; /* Ensures no text is accidentally added */
+  border: 3px solid transparent; /* Start with transparent border */
+  position: relative;
+}
+
+
+.slick-prev {
+  font-size: 0; /* Remove any text size */
+  border-radius: 50%; /* Makes it circular */
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent; /* No background fill */
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 30%;
+  transform: translateY(-50%);
+  z-index: 10;
+  text-align: center; /* Ensures no text is accidentally added */
+  border: 3px solid transparent; /* Start with transparent border */
+  position: relative;
+}
+
+
+
+/* Custom arrow symbols */
+.slick-prev::after {
+  content: '\2190';  /* Left arrow symbol (←) */
+  font-size: 2rem;
+  color: #fff;
+}
+
+.slick-next::after {
+  content: '\2192';  /* Right arrow symbol (→) */
+  font-size: 2rem;
+  color: #fff;
+}
+
+/* Border animation for "drawing" effect */
+.slick-prev::before, .slick-next::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%; /* Makes it circular */
+  border: 3px solid #fff; /* White border to simulate the circle */
+  transition: all 1s ease; /* Smooth transition */
+  transform: scale(0); /* Start scaled down */
+}
+
+.slick-prev:hover::before, .slick-next:hover::before {
+  transform: scale(1); /* Scale up the border when hovered */
+}
+
+
+/* Model Popup */
+.model-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.close-btn {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: red;
 }

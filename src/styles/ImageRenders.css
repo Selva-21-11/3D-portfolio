@@ -1,0 +1,18 @@
+/* src/styles/ImageRenders.css */
+.image-renders-section {
+    padding: 50px 0;
+    text-align: center;
+    background-color: #0d0d0d; /* Dark theme */
+    color: #fff;
+  }
+  
+  /* ImageRenders.css */
+.image-renders-heading {
+    text-align: center;
+    color: #ffffff;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    position: relative;
+    top:15%
+  }
+  

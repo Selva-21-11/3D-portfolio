@@ -3,10 +3,13 @@ import ShinyText from './blocks/TextAnimations/ShinyText/ShinyText';
 import SplitText from './blocks/TextAnimations/SplitText/SplitText';
 import './blocks/TextAnimations/ShinyText/ShinyText.css';
 import './blocks/Components/SpotlightCard/SpotlightCard.css';
+import './blocks/Components/CircularGallery/CircularGallery.css';
 import './styles/App.css';
 import './styles/Skills.css';
 import './styles/3Dmodels.css';
+import './styles/ImageRenders.css';
 import ModelsSection from './components/ModelsSection';
+import ImageRenders from './components/ImageRenders';
 
 
 // Lazy-load TitleBG and Skills components
@@ -54,6 +57,8 @@ const App = () => {
       </div>
 
       <ModelsSection />
+
+      <ImageRenders />
       
     </div>
 

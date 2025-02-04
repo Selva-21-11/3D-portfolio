@@ -8,8 +8,10 @@ import './styles/App.css';
 import './styles/Skills.css';
 import './styles/3Dmodels.css';
 import './styles/ImageRenders.css';
+import './styles/VideoRender.css';
 import ModelsSection from './components/ModelsSection';
 import ImageRenders from './components/ImageRenders';
+import VideoRender from './components/VideoRender';
 
 
 // Lazy-load TitleBG and Skills components
@@ -59,7 +61,9 @@ const App = () => {
       <ModelsSection />
 
       <ImageRenders />
-      
+
+      <VideoRender/>
+
     </div>
 
     

@@ -10,17 +10,19 @@ import './styles/3Dmodels.css';
 import './styles/ImageRenders.css';
 import './styles/VideoRender.css';
 import './styles/ContactSection.css';
+import './styles/Advertisement.css';
 import ModelsSection from './components/ModelsSection';
 import ImageRenders from './components/ImageRenders';
 import VideoRender from './components/VideoRender';
 import ContactSection from './components/ContactSection';
-
+import Advertisement from "./components/Advertisement"; 
 
 // Lazy-load TitleBG and Skills components
 const TitleBG = React.lazy(() => import('./components/TitleBG'));
 const Skills = React.lazy(() => import('./components/Skills'));
 
 const App = () => {
+  
   return (
     <div className="container">
       <section className="hero" id="hero">
@@ -73,6 +75,8 @@ const App = () => {
 </div>
 
 <ContactSection />
+
+<Advertisement />
 
 
     </div>

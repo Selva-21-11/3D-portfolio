@@ -17,7 +17,7 @@ const ImageRenders = () => (
 
     <CircularGallery
       items={items}
-      bend={0.5}
+      bend={0}
       textColor="#ffffff"
       borderRadius={0.05}
       itemSize={2000}  // Adjust this value to change the card size

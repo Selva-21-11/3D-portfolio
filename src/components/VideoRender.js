@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Slider from "react-slick";
 import ReactPlayer from "react-player";
+import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp, FaExpand } from "react-icons/fa"; 
 
 const videos = [
     {
         name: "Animation Reel",
-        thumbnail: "/assets/animation_thumbnail.png",
-        videoSrc: "/assets/animation.mp4",
+        thumbnail: "/assets/Imagerender1.png",
+        videoSrc: "/assets/Car_chase.mp4",
         metadata: "Rendered in Blender | 2024",
     },
     {
@@ -26,6 +27,10 @@ const videos = [
 const VideoRendersSection = () => {
     const [selectedVideo, setSelectedVideo] = useState(null);
     const [centeredVideoIndex, setCenteredVideoIndex] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(true);
+    const [isMuted, setIsMuted] = useState(false);
+    const playerRef = useRef(null);
+    const sectionRef = useRef(null); // Reference for the Video Renders section
 
     const settings = {
         centerMode: true,
@@ -45,11 +50,28 @@ const VideoRendersSection = () => {
     };
 
     const handleVideoEnd = () => {
-        setSelectedVideo(null); // Auto-close popup when video ends
+        setSelectedVideo(null);
+    };
+
+    const togglePlay = () => {
+        setIsPlaying(!isPlaying);
+    };
+
+    const toggleMute = () => {
+        setIsMuted(!isMuted);
+    };
+
+    const handleFullscreen = () => {
+        if (playerRef.current) {
+            const playerElement = playerRef.current.getInternalPlayer();
+            if (playerElement.requestFullscreen) {
+                playerElement.requestFullscreen();
+            }
+        }
     };
 
     return (
-        <div className="video-section">
+        <div ref={sectionRef} className="video-section">
             <h2 className="section-title">Video Renders</h2>
 
             <Slider {...settings}>
@@ -72,16 +94,29 @@ const VideoRendersSection = () => {
             </Slider>
 
             {selectedVideo && (
-                <div className="video-popup">
-                    <ReactPlayer
-                        url={selectedVideo.videoSrc}
-                        playing={true}
-                        controls={true}
-                        width="80%"
-                        height="auto"
-                        onEnded={handleVideoEnd}
-                    />
-                    <button className="close-btn" onClick={() => setSelectedVideo(null)}>✖</button>
+                <div className="popup-wrapper">
+                    <div className="video-popup">
+                        <div className="video-container">
+                            <ReactPlayer
+                                ref={playerRef}
+                                url={selectedVideo.videoSrc}
+                                playing={isPlaying}
+                                muted={isMuted}
+                                controls={false}
+                                width="100%"
+                                height="100%"
+                                onEnded={handleVideoEnd}
+                            />
+
+                            {/* Floating Controls */}
+                            <div className="floating-controls">
+                                <button onClick={togglePlay}>{isPlaying ? <FaPause /> : <FaPlay />}</button>
+                                <button onClick={toggleMute}>{isMuted ? <FaVolumeMute /> : <FaVolumeUp />}</button>
+                                <button onClick={handleFullscreen}><FaExpand /></button>
+                            </div>
+                        </div>
+                        <button className="close-btn" onClick={() => setSelectedVideo(null)}>✖</button>
+                    </div>
                 </div>
             )}
         </div>

@@ -9,9 +9,11 @@ import './styles/Skills.css';
 import './styles/3Dmodels.css';
 import './styles/ImageRenders.css';
 import './styles/VideoRender.css';
+import './styles/ContactSection.css';
 import ModelsSection from './components/ModelsSection';
 import ImageRenders from './components/ImageRenders';
 import VideoRender from './components/VideoRender';
+import ContactSection from './components/ContactSection';
 
 
 // Lazy-load TitleBG and Skills components
@@ -63,6 +65,15 @@ const App = () => {
       <ImageRenders />
 
       <VideoRender/>
+
+      <div className="section-divider-contact">
+  <h2 className="section-line-contact">Get In</h2>
+  <h2 className="section-line-contact">Touch</h2>
+  <h3 className="section-subline-contact">Reach out to me below</h3>
+</div>
+
+<ContactSection />
+
 
     </div>
 

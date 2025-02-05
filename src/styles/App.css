@@ -182,4 +182,28 @@ canvas {
     color: #bbbbbb;
     margin-top: 10px; /* Small gap between main text and instruction */
   }
+  .section-divider-contact {
+    height: 50vh; /* Half of the viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: flex-start; /* Align content to the left */
+    padding-left: 5vw; /* Space from the left edge */
+    background: transparent;
+  }
   
+  .section-line-contact {
+    font-size: 5rem; /* Large text */
+    font-weight: bold;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin: 0; /* Remove extra margin */
+    line-height: 1.1; /* Reduce space between lines */
+  }
+  
+  .section-subline-contact   {
+    font-size: 1.8rem; /* Slightly smaller */
+    font-weight: 400;
+    color: #bbbbbb;
+    margin-top: 10px; /* Small gap between main text and instruction */
+  }

@@ -17,6 +17,7 @@ import VideoRender from './components/VideoRender';
 import ContactSection from './components/ContactSection';
 import Advertisement from "./components/Advertisement"; 
 
+
 // Lazy-load TitleBG and Skills components
 const TitleBG = React.lazy(() => import('./components/TitleBG'));
 const Skills = React.lazy(() => import('./components/Skills'));

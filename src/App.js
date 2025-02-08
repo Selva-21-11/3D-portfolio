@@ -16,7 +16,7 @@ import ImageRenders from './components/ImageRenders';
 import VideoRender from './components/VideoRender';
 import ContactSection from './components/ContactSection';
 import Advertisement from "./components/Advertisement"; 
-
+import BackgroundLight from './components/BackgroundLight';
 
 // Lazy-load TitleBG and Skills components
 const TitleBG = React.lazy(() => import('./components/TitleBG'));
@@ -27,6 +27,15 @@ const App = () => {
   return (
     <div className="container">
       <section className="hero" id="hero">
+        <BackgroundLight
+          initialX={-1.4} // Light starts from the right
+          color={{ r: 0.1, g: 0.8, b: 0.3 }} // Greenish light
+          glowRadius={0.4} // Larger radius for soft glow
+          intensity={0.7} // Higher intensity
+          wiggleAmount={80} // Larger wiggle for more noticeable movement
+          opacity={0.2} // Fade-in starting opacity
+          lightDirection={-0.2} // Starts from right
+        />
         <Suspense fallback={<div>Loading background...</div>}>
           <TitleBG />
         </Suspense>
@@ -54,7 +63,9 @@ const App = () => {
       </div>
 
       {/* Skills Section */}
-      <Skills />
+      <Suspense fallback={<div>Loading skills...</div>}>
+          <Skills />
+      </Suspense>
 
       {/* Another Section Divider */}
       <div className="section-divider-skill">
@@ -70,14 +81,14 @@ const App = () => {
       <VideoRender/>
 
       <div className="section-divider-contact">
-  <h2 className="section-line-contact">Get In</h2>
-  <h2 className="section-line-contact">Touch</h2>
-  <h3 className="section-subline-contact">Reach out to me below</h3>
-</div>
+        <h2 className="section-line-contact">Get In</h2>
+        <h2 className="section-line-contact">Touch</h2>
+        <h3 className="section-subline-contact">Reach out to me below</h3>
+      </div>
 
-<ContactSection />
+      <ContactSection />
 
-<Advertisement />
+      <Advertisement />
 
 
     </div>

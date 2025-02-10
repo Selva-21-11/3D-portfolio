@@ -7,11 +7,11 @@ html, body {
 }
 
 section {
-  display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   height: 100vh;
+  width: 100vw;
   position: relative;
 }
 .container {
@@ -186,9 +186,11 @@ canvas {
 
   /*Light Background*/
   .shader-background {
-    pointer-events: none;
-    mix-blend-mode: screen;  /* Allows natural blending */
-    z-index: 1;  /* Ensures visibility over 3D scene */
-    
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1; /* Keep it behind content */
+    pointer-events: none; /* Prevent interaction issues */
   }
-  

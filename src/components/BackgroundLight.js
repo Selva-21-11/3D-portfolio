@@ -127,6 +127,20 @@ const BackgroundLight = ({
       opacity: opacity, // Fade-in effect starting opacity
     };
 
+    // GSAP Timeline for smoother animation and transitions between sections
+    const tl = gsap.timeline({ repeat: -1, yoyo: true });
+    tl.to(lightProps, {
+      x: window.innerWidth * lightDirection, // Controls the starting position: left (0.1) or right (1.1)
+      duration: 4.5,
+      ease: "power2.out",
+    });
+
+    tl.to(lightProps, {
+      opacity: 1, // Gradually reveal the light
+      duration: fadeDuration,
+      ease: "power2.out",
+    });
+
     // Render Loop
     const render = () => {
       gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
@@ -143,73 +157,22 @@ const BackgroundLight = ({
       render();
     }, 500);
 
-    // GSAP Animation - Light Starts From Defined Position and Wiggles
-    gsap.to(lightProps, {
-      x: window.innerWidth * lightDirection, // Controls the starting position: left (0.1) or right (1.1)
-      duration: 4.5,
-      ease: "power2.out",
-      onComplete: () => {
-        // Realistic Wiggle Animation (Non-uniform wiggle)
-        const wiggleRange = lightProps.x + wiggleAmount; // Keep the wiggle relative to the starting position
-        gsap.to(lightProps, {
-          x: wiggleRange, // Wiggle within the range
-          duration: wiggleSpeed,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          stagger: 0.5, // Introduces some delay between each wiggle
-        });
-
-        // Vertical wiggle effect
-        gsap.to(lightProps, {
-          y: `+=${verticalWiggleAmount}`, // Larger vertical shift for depth
-          duration: 4.0,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          stagger: 0.3, // Add stagger for more natural behavior
-        });
-
-        // Opacity Wiggle (Breathing effect)
-        gsap.to(lightProps, {
-          opacity: 0.8, // Full opacity
-          duration: 4.5,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-        });
-      },
-    });
-
-    // Pulsing Glow Intensity for a Breathing Effect
-    gsap.to(lightProps, {
-      radius: window.innerWidth * glowRadius * 1.1, // Soft expansion
-      duration: 4.5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-    });
-
-    gsap.to(lightProps, {
-      intensity: intensity + 0.3, // Smooth dynamic brightness
-      duration: 4.0,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-    });
-
-    // Fade-In Effect for Light
-    gsap.to(lightProps, {
-      opacity: 1, // Gradually reveal the light
-      duration: fadeDuration,
-      ease: "power2.out",
-    });
-
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       gl.deleteProgram(program);
     };
-  }, [initialX, color, glowRadius, intensity, opacity, wiggleAmount, verticalWiggleAmount, fadeDuration, wiggleSpeed, lightDirection]);
+  }, [
+    initialX,
+    color,
+    glowRadius,
+    intensity,
+    opacity,
+    wiggleAmount,
+    verticalWiggleAmount,
+    fadeDuration,
+    wiggleSpeed,
+    lightDirection,
+  ]);
 
   return <canvas ref={canvasRef} className="shader-background"></canvas>;
 };

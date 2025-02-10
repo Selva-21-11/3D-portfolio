@@ -1,44 +1,146 @@
-import React, { Suspense } from 'react';
-import ShinyText from './blocks/TextAnimations/ShinyText/ShinyText';
-import SplitText from './blocks/TextAnimations/SplitText/SplitText';
-import './blocks/TextAnimations/ShinyText/ShinyText.css';
-import './blocks/Components/SpotlightCard/SpotlightCard.css';
-import './blocks/Components/CircularGallery/CircularGallery.css';
-import './styles/App.css';
-import './styles/Skills.css';
-import './styles/3Dmodels.css';
-import './styles/ImageRenders.css';
-import './styles/VideoRender.css';
-import './styles/ContactSection.css';
-import './styles/Advertisement.css';
-import ModelsSection from './components/ModelsSection';
-import ImageRenders from './components/ImageRenders';
-import VideoRender from './components/VideoRender';
-import ContactSection from './components/ContactSection';
-import Advertisement from "./components/Advertisement"; 
-import BackgroundLight from './components/BackgroundLight';
+import React, { Suspense, useState, useEffect } from "react";
+import gsap from "gsap";
+import SplitText from "./blocks/TextAnimations/SplitText/SplitText";
+import ShinyText from "./blocks/TextAnimations/ShinyText/ShinyText";
+import "./styles/App.css";
+import "./styles/Skills.css";
+import "./styles/3Dmodels.css";
+import "./styles/ImageRenders.css";
+import "./styles/VideoRender.css";
+import "./styles/ContactSection.css";
+import ModelsSection from "./components/ModelsSection";
+import ImageRenders from "./components/ImageRenders";
+import VideoRender from "./components/VideoRender";
+import ContactSection from "./components/ContactSection";
+import BackgroundLight from "./components/BackgroundLight"; // Import the BackgroundLight component
+import { ScrollTrigger } from "gsap/ScrollTrigger"; // Correct import of ScrollTrigger
 
-// Lazy-load TitleBG and Skills components
-const TitleBG = React.lazy(() => import('./components/TitleBG'));
-const Skills = React.lazy(() => import('./components/Skills'));
 
+// Lazy-load components
+const TitleBG = React.lazy(() => import("./components/TitleBG"));
+const Skills = React.lazy(() => import("./components/Skills"));
+gsap.registerPlugin(ScrollTrigger);
 const App = () => {
+  const [activeSection, setActiveSection] = useState("hero");
+
+  // Light settings for each section
+  const lightSettings = {
+    hero: {
+      initialX: -0.7,
+      color: { r: 1.0, g: 0.8, b: 0.4 },
+      glowRadius: 0.2,
+      intensity: 1.0,
+      opacity: 0.7,
+      wiggleAmount: 70,
+      verticalWiggleAmount: 50,
+      fadeDuration: 5,
+      wiggleSpeed: 10,
+      lightDirection: -0.2,
+    },
+    skills: {
+      initialX: 1.2,
+      color: { r: 0.4, g: 0.8, b: 1.0 },
+      glowRadius: 0.2,
+      intensity: 1.0,
+      opacity: 0.7,
+      wiggleAmount: 60,
+      verticalWiggleAmount: 50,
+      fadeDuration: 4,
+      wiggleSpeed: 10,
+      lightDirection: 1.1,
+    },
+    models: {
+      initialX: -0.7,
+      color: { r: 0.8, g: 1.0, b: 0.4 },
+      glowRadius: 0.2,
+      intensity: 1.0,
+      opacity: 0.7,
+      wiggleAmount: 80,
+      verticalWiggleAmount: 50,
+      fadeDuration: 4,
+      wiggleSpeed: 10,
+      lightDirection: -0.2,
+    },
+    imageRenders: {
+      initialX: 1.1,
+      color: { r: 0.7, g: 0.9, b: 1.0 },
+      glowRadius: 0.2,
+      intensity: 1.0,
+      opacity: 0.7,
+      wiggleAmount: 65,
+      verticalWiggleAmount: 50,
+      fadeDuration: 4,
+      wiggleSpeed: 10,
+      lightDirection: 1.1,
+    },
+    videoRenders: {
+      initialX: -0.7,
+      color: { r: 1.0, g: 0.7, b: 0.7 },
+      glowRadius: 0.2,
+      intensity: 1.0,
+      opacity: 0.7,
+      wiggleAmount: 75,
+      verticalWiggleAmount: 50,
+      fadeDuration: 4,
+      wiggleSpeed: 10,
+      lightDirection: -0.2,
+    },
+    contact: {
+      initialX: 1.2,
+      color: { r: 0.9, g: 0.8, b: 0.9 },
+      glowRadius: 0.2,
+      intensity: 1.0,
+      opacity: 0.7,
+      wiggleAmount: 70,
+      verticalWiggleAmount: 58,
+      fadeDuration: 4,
+      wiggleSpeed: 10,
+      lightDirection: 1.1,
+    },
+  };
+
+  useEffect(() => {
+    const sections = document.querySelectorAll("section");
+
+    // Trigger the light change when the section is fully in view
+    sections.forEach((section) => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top top", // Trigger when the section top reaches the top of the viewport
+        end: "bottom top", // Trigger when the section bottom leaves the top of the viewport
+        scrub: 1,
+        onEnter: () => setActiveSection(section.id),
+        onLeaveBack: () => setActiveSection(section.id), // Reset light when section leaves
+        markers: true, // Optional: Set to `true` for debugging
+      });
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
+  const currentLight = lightSettings[activeSection] || lightSettings["hero"]; // Default to "hero" if no section is active
+
   
   return (
     <div className="container">
+      {/* Background Light - Dynamically changes per section */}
+      <BackgroundLight
+        initialX={currentLight.initialX}
+        color={currentLight.color}
+        glowRadius={currentLight.glowRadius}
+        intensity={currentLight.intensity}
+        opacity={currentLight.opacity}
+        wiggleAmount={currentLight.wiggleAmount}
+        verticalWiggleAmount={currentLight.verticalWiggleAmount}
+        fadeDuration={currentLight.fadeDuration}
+        wiggleSpeed={currentLight.wiggleSpeed}
+        lightDirection={currentLight.lightDirection}
+      />
+
+      {/* Hero Section */}
       <section className="hero" id="hero">
-        <BackgroundLight
-          initialX={-1.4} // Light starts from the right
-          color={{ r: 0.1, g: 0.8, b: 0.3 }} // Greenish light
-          glowRadius={0.4} // Larger radius for soft glow
-          intensity={0.7} // Higher intensity
-          wiggleAmount={80} // Larger wiggle for more noticeable movement
-          opacity={0.2} // Fade-in starting opacity
-          lightDirection={-0.2} // Starts from right
-        />
-        <Suspense fallback={<div>Loading background...</div>}>
-          <TitleBG />
-        </Suspense>
         <div className="hero-content">
           <h1 className="first-line">
             <SplitText text="WELCOME TO MY" animation="fadeIn" delay={50} />
@@ -63,9 +165,11 @@ const App = () => {
       </div>
 
       {/* Skills Section */}
-      <Suspense fallback={<div>Loading skills...</div>}>
+      <section id="skills">
+        <Suspense fallback={<div>Loading skills...</div>}>
           <Skills />
-      </Suspense>
+        </Suspense>
+      </section>
 
       {/* Another Section Divider */}
       <div className="section-divider-skill">
@@ -74,27 +178,33 @@ const App = () => {
         <h3 className="section-subline-skill">Explore my projects below</h3>
       </div>
 
-      <ModelsSection />
+      {/* Models Section */}
+      <section id="models">
+        <ModelsSection />
+      </section>
 
-      <ImageRenders />
+      {/* Image Renders Section */}
+      <section id="image-renders">
+        <ImageRenders />
+      </section>
 
-      <VideoRender/>
+      {/* Video Renders Section */}
+      <section id="video-renders">
+        <VideoRender />
+      </section>
 
+      {/* Contact Section Divider */}
       <div className="section-divider-contact">
         <h2 className="section-line-contact">Get In</h2>
         <h2 className="section-line-contact">Touch</h2>
         <h3 className="section-subline-contact">Reach out to me below</h3>
       </div>
 
-      <ContactSection />
-
-      <Advertisement />
-
-
+      {/* Contact Section */}
+      <section id="contact">
+        <ContactSection />
+      </section>
     </div>
-
-    
-
   );
 };
 

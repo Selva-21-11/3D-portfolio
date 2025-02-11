@@ -159,7 +159,7 @@ const App = () => {
       {/* Contact Section */}
       <section id="contact">
       <BackgroundLight 
-        initialX={-5.0} // Light starts from a bit off-screen on the left
+        initialX={-5.0} // Light starts from a bit off-screen on the le
         color={{ r: 0.1, g: 0.5, b: 1.0 }} // Blue light
         glowRadiusX={0.4} 
         glowRadiusY={0.3}

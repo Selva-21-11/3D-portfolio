@@ -2,16 +2,17 @@ import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 
 const BackgroundLight = ({
-  initialX = 1.4, // Default starting position off-screen
-  color = { r: 1.0, g: 0.8, b: 0.4 }, // Default light color
-  glowRadius = 0.35, // Default glow radius
-  intensity = 2.0, // Default intensity
-  opacity = 0, // Default opacity (for fade-in)
-  wiggleAmount = 70, // Larger wiggle range
-  verticalWiggleAmount = 30, // Larger vertical wiggle range
-  fadeDuration = 3, // Fade-in duration
-  wiggleSpeed = 5, // Faster wiggle for noticeable effect
-  lightDirection = 1.1, // Controls the starting position: left (0.1) or right (1.1)
+  initialX = 1.4,
+  color = { r: 1.0, g: 0.8, b: 0.4 },
+  glowRadiusX = 0.35, // Horizontal glow radius
+  glowRadiusY = 0.2, // Vertical glow radius (smaller for elliptical shape)
+  intensity = 2.0,
+  opacity = 0,
+  wiggleAmount = 70,
+  verticalWiggleAmount = 30,
+  fadeDuration = 3,
+  wiggleSpeed = 5,
+  lightDirection = 1.1,
 }) => {
   const canvasRef = useRef(null);
 
@@ -41,31 +42,32 @@ const BackgroundLight = ({
       }
     `;
 
-    // Fragment Shader - Realistic Light with Smooth Diffusion
+    // Fragment Shader - Elliptical Light with Soft Diffusion
     const fragmentShaderSource = `
       precision mediump float;
       uniform vec2 u_resolution;
       uniform vec2 u_lightPos;
-      uniform float u_glowRadius;
+      uniform float u_glowRadiusX;
+      uniform float u_glowRadiusY;
       uniform float u_intensity;
       uniform float u_opacity;
       
       void main() {
         vec2 uv = gl_FragCoord.xy / u_resolution;
-        float dist = length(gl_FragCoord.xy - u_lightPos);
+        vec2 lightDir = (gl_FragCoord.xy - u_lightPos) / vec2(u_glowRadiusX, u_glowRadiusY); // Normalize ellipse shape
+        float dist = length(lightDir); 
 
         // Soft Glow Effect
-        float glow = smoothstep(0.9, 0.2, dist / u_glowRadius);
-        glow *= exp(-dist / u_glowRadius) * u_intensity;
+        float glow = smoothstep(0.9, 0.2, dist);
+        glow *= exp(-dist) * u_intensity;
 
-        // Better Spread with No Overexposed Core
-        float spread = exp(-pow(dist / (u_glowRadius * 1.5), 2.0));
+        // Elliptical Glow Spread
+        float spread = exp(-pow(dist, 2.0));
         float finalGlow = mix(spread, glow, 0.7); 
 
-        // Smooth Blending for a Natural Look
+        // Apply Color and Opacity
         vec3 color = vec3(${color.r}, ${color.g}, ${color.b}) * finalGlow;
-
-        gl_FragColor = vec4(color, finalGlow * u_opacity);  // Apply opacity to the glow
+        gl_FragColor = vec4(color, finalGlow * u_opacity);
       }
     `;
 
@@ -114,29 +116,31 @@ const BackgroundLight = ({
     // Get Uniform Locations
     const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
     const lightPosLocation = gl.getUniformLocation(program, "u_lightPos");
-    const glowRadiusLocation = gl.getUniformLocation(program, "u_glowRadius");
+    const glowRadiusXLocation = gl.getUniformLocation(program, "u_glowRadiusX");
+    const glowRadiusYLocation = gl.getUniformLocation(program, "u_glowRadiusY");
     const intensityLocation = gl.getUniformLocation(program, "u_intensity");
     const opacityLocation = gl.getUniformLocation(program, "u_opacity");
 
     // Light properties
     const lightProps = {
-      x: window.innerWidth * initialX, // Starts off-screen based on passed prop
-      y: window.innerHeight * 0.5,
-      radius: window.innerWidth * glowRadius, // Default glow radius
-      intensity: intensity, // Dynamic light intensity
-      opacity: opacity, // Fade-in effect starting opacity
+      x: window.innerWidth * initialX,
+      y: window.innerHeight *0.55,
+      radiusX: window.innerWidth * glowRadiusX,
+      radiusY: window.innerHeight * glowRadiusY,
+      intensity: intensity,
+      opacity: opacity,
     };
 
-    // GSAP Timeline for smoother animation and transitions between sections
+    // GSAP Animation
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(lightProps, {
-      x: window.innerWidth * lightDirection, // Controls the starting position: left (0.1) or right (1.1)
+      x: window.innerWidth * lightDirection,
       duration: 4.5,
       ease: "power2.out",
     });
 
     tl.to(lightProps, {
-      opacity: 1, // Gradually reveal the light
+      opacity: 1,
       duration: fadeDuration,
       ease: "power2.out",
     });
@@ -145,7 +149,8 @@ const BackgroundLight = ({
     const render = () => {
       gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
       gl.uniform2f(lightPosLocation, lightProps.x, lightProps.y);
-      gl.uniform1f(glowRadiusLocation, lightProps.radius);
+      gl.uniform1f(glowRadiusXLocation, lightProps.radiusX);
+      gl.uniform1f(glowRadiusYLocation, lightProps.radiusY);
       gl.uniform1f(intensityLocation, lightProps.intensity);
       gl.uniform1f(opacityLocation, lightProps.opacity);
 
@@ -164,7 +169,8 @@ const BackgroundLight = ({
   }, [
     initialX,
     color,
-    glowRadius,
+    glowRadiusX,
+    glowRadiusY,
     intensity,
     opacity,
     wiggleAmount,

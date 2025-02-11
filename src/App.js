@@ -19,129 +19,33 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"; // Correct import of ScrollT
 // Lazy-load components
 const TitleBG = React.lazy(() => import("./components/TitleBG"));
 const Skills = React.lazy(() => import("./components/Skills"));
-gsap.registerPlugin(ScrollTrigger);
+
+
 const App = () => {
-  const [activeSection, setActiveSection] = useState("hero");
-
-  // Light settings for each section
-  const lightSettings = {
-    hero: {
-      initialX: -0.7,
-      color: { r: 1.0, g: 0.8, b: 0.4 },
-      glowRadius: 0.2,
-      intensity: 1.0,
-      opacity: 0.7,
-      wiggleAmount: 70,
-      verticalWiggleAmount: 50,
-      fadeDuration: 5,
-      wiggleSpeed: 10,
-      lightDirection: -0.2,
-    },
-    skills: {
-      initialX: 1.2,
-      color: { r: 0.4, g: 0.8, b: 1.0 },
-      glowRadius: 0.2,
-      intensity: 1.0,
-      opacity: 0.7,
-      wiggleAmount: 60,
-      verticalWiggleAmount: 50,
-      fadeDuration: 4,
-      wiggleSpeed: 10,
-      lightDirection: 1.1,
-    },
-    models: {
-      initialX: -0.7,
-      color: { r: 0.8, g: 1.0, b: 0.4 },
-      glowRadius: 0.2,
-      intensity: 1.0,
-      opacity: 0.7,
-      wiggleAmount: 80,
-      verticalWiggleAmount: 50,
-      fadeDuration: 4,
-      wiggleSpeed: 10,
-      lightDirection: -0.2,
-    },
-    imageRenders: {
-      initialX: 1.1,
-      color: { r: 0.7, g: 0.9, b: 1.0 },
-      glowRadius: 0.2,
-      intensity: 1.0,
-      opacity: 0.7,
-      wiggleAmount: 65,
-      verticalWiggleAmount: 50,
-      fadeDuration: 4,
-      wiggleSpeed: 10,
-      lightDirection: 1.1,
-    },
-    videoRenders: {
-      initialX: -0.7,
-      color: { r: 1.0, g: 0.7, b: 0.7 },
-      glowRadius: 0.2,
-      intensity: 1.0,
-      opacity: 0.7,
-      wiggleAmount: 75,
-      verticalWiggleAmount: 50,
-      fadeDuration: 4,
-      wiggleSpeed: 10,
-      lightDirection: -0.2,
-    },
-    contact: {
-      initialX: 1.2,
-      color: { r: 0.9, g: 0.8, b: 0.9 },
-      glowRadius: 0.2,
-      intensity: 1.0,
-      opacity: 0.7,
-      wiggleAmount: 70,
-      verticalWiggleAmount: 58,
-      fadeDuration: 4,
-      wiggleSpeed: 10,
-      lightDirection: 1.1,
-    },
-  };
-
-  useEffect(() => {
-    const sections = document.querySelectorAll("section");
-
-    // Trigger the light change when the section is fully in view
-    sections.forEach((section) => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top top", // Trigger when the section top reaches the top of the viewport
-        end: "bottom top", // Trigger when the section bottom leaves the top of the viewport
-        scrub: 1,
-        onEnter: () => setActiveSection(section.id),
-        onLeaveBack: () => setActiveSection(section.id), // Reset light when section leaves
-        markers: true, // Optional: Set to `true` for debugging
-      });
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []);
-
-  const currentLight = lightSettings[activeSection] || lightSettings["hero"]; // Default to "hero" if no section is active
 
   
   return (
     <div className="container">
-      {/* Background Light - Dynamically changes per section */}
-      <BackgroundLight
-        initialX={currentLight.initialX}
-        color={currentLight.color}
-        glowRadius={currentLight.glowRadius}
-        intensity={currentLight.intensity}
-        opacity={currentLight.opacity}
-        wiggleAmount={currentLight.wiggleAmount}
-        verticalWiggleAmount={currentLight.verticalWiggleAmount}
-        fadeDuration={currentLight.fadeDuration}
-        wiggleSpeed={currentLight.wiggleSpeed}
-        lightDirection={currentLight.lightDirection}
-      />
-
       {/* Hero Section */}
       <section className="hero" id="hero">
+      <BackgroundLight 
+        initialX={6.0} // Light starts from a bit off-screen on the left
+        color={{ r: 1.0, g: 0.5, b: 0.1 }} // Orange light
+        glowRadiusX={0.9} 
+        glowRadiusY={0.36}
+        intensity={0.5} // Brighter light
+        opacity={0.5} // Light starts with 70% opacity
+        fadeDuration={2.0} // Fades in over 2 seconds
+        lightDirection={1.2} // Light moves towards the right from a starting point
+        wiggleAmount={100} // Horizontal wiggle range
+        verticalWiggleAmount={100} // Vertical wiggle range
+        wiggleSpeed={8} // Faster wiggle speed for more noticeable effect
+      />
+        <Suspense fallback={<div>Loading skills...</div>}>
+          <TitleBG />
+        </Suspense>
         <div className="hero-content">
+          
           <h1 className="first-line">
             <SplitText text="WELCOME TO MY" animation="fadeIn" delay={50} />
           </h1>
@@ -166,6 +70,19 @@ const App = () => {
 
       {/* Skills Section */}
       <section id="skills">
+      <BackgroundLight 
+        initialX={-5.0} // Light starts from a bit off-screen on the left
+        color={{ r: 0.1, g: 0.5, b: 1.0 }} // Blue light
+        glowRadiusX={0.4} 
+        glowRadiusY={0.3}
+        intensity={0.4} // Brighter light
+        opacity={0.5} // Light starts with 70% opacity
+        fadeDuration={2.0} // Fades in over 2 seconds
+        lightDirection={-0} // Light moves towards the right from a starting point
+        wiggleAmount={100} // Horizontal wiggle range
+        verticalWiggleAmount={100} // Vertical wiggle range
+        wiggleSpeed={8} // Faster wiggle speed for more noticeable effect
+      />
         <Suspense fallback={<div>Loading skills...</div>}>
           <Skills />
         </Suspense>
@@ -180,16 +97,55 @@ const App = () => {
 
       {/* Models Section */}
       <section id="models">
+      <BackgroundLight 
+        initialX={6.0} // Light starts from a bit off-screen on the left
+        color={{ r: 1.0, g: 0.5, b: 0.1 }} // Orange light
+        glowRadiusX={0.9} 
+        glowRadiusY={0.36}
+        intensity={0.5} // Brighter light
+        opacity={0.5} // Light starts with 70% opacity
+        fadeDuration={2.0} // Fades in over 2 seconds
+        lightDirection={1.2} // Light moves towards the right from a starting point
+        wiggleAmount={100} // Horizontal wiggle range
+        verticalWiggleAmount={100} // Vertical wiggle range
+        wiggleSpeed={8} // Faster wiggle speed for more noticeable effect
+      />
         <ModelsSection />
       </section>
 
       {/* Image Renders Section */}
       <section id="image-renders">
+      <BackgroundLight 
+        initialX={-5.0} // Light starts from a bit off-screen on the left
+        color={{ r: 0.1, g: 0.5, b: 1.0 }} // Blue light
+        glowRadiusX={0.4} 
+        glowRadiusY={0.3}
+        intensity={0.4} // Brighter light
+        opacity={0.5} // Light starts with 70% opacity
+        fadeDuration={2.0} // Fades in over 2 seconds
+        lightDirection={-0} // Light moves towards the right from a starting point
+        wiggleAmount={100} // Horizontal wiggle range
+        verticalWiggleAmount={100} // Vertical wiggle range
+        wiggleSpeed={8} // Faster wiggle speed for more noticeable effect
+      />
         <ImageRenders />
       </section>
 
       {/* Video Renders Section */}
       <section id="video-renders">
+      <BackgroundLight 
+        initialX={6.0} // Light starts from a bit off-screen on the left
+        color={{ r: 1.0, g: 0.5, b: 0.1 }} // Orange light
+        glowRadiusX={0.9} 
+        glowRadiusY={0.36}
+        intensity={0.5} // Brighter light
+        opacity={0.5} // Light starts with 70% opacity
+        fadeDuration={2.0} // Fades in over 2 seconds
+        lightDirection={1.2} // Light moves towards the right from a starting point
+        wiggleAmount={100} // Horizontal wiggle range
+        verticalWiggleAmount={100} // Vertical wiggle range
+        wiggleSpeed={8} // Faster wiggle speed for more noticeable effect
+      />
         <VideoRender />
       </section>
 
@@ -202,6 +158,19 @@ const App = () => {
 
       {/* Contact Section */}
       <section id="contact">
+      <BackgroundLight 
+        initialX={-5.0} // Light starts from a bit off-screen on the left
+        color={{ r: 0.1, g: 0.5, b: 1.0 }} // Blue light
+        glowRadiusX={0.4} 
+        glowRadiusY={0.3}
+        intensity={0.4} // Brighter light
+        opacity={0.5} // Light starts with 70% opacity
+        fadeDuration={2.0} // Fades in over 2 seconds
+        lightDirection={-0} // Light moves towards the right from a starting point
+        wiggleAmount={100} // Horizontal wiggle range
+        verticalWiggleAmount={100} // Vertical wiggle range
+        wiggleSpeed={8} // Faster wiggle speed for more noticeable effect
+      />
         <ContactSection />
       </section>
     </div>

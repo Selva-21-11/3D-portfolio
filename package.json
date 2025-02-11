@@ -1,4 +1,5 @@
 {
+    "homepage": "https://selva-21-11.github.io/3D-portfolio",
     "name": "my-3d-portfolio",
     "version": "1.0.0",
     "description": "A 3D portfolio using React and Three.js",

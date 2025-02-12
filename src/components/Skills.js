@@ -8,7 +8,7 @@ const SkillsSection = () => {
     { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
     { imageSrc: '/assets/adobe-photoshop.png', captionText: 'Photoshop', progressBarValue: 80 },
     { imageSrc: '/assets/adobe-photoshop.png', captionText: 'Photoshop', progressBarValue: 80 },
-    { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
+    { imageSrc: '/assets/adobe-premier.png', captionText: 'Premiere Pro', progressBarValue: 60 },
     { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
     { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
     { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },

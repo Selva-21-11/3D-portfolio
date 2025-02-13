@@ -7,6 +7,7 @@ module.exports = {
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'bundle.js',
+      publicPath: "/3D-portfolio/", // 👈 Added this to fix GitHub Pages asset loading
     },
     module: {
       rules: [

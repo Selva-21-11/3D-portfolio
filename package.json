@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "A 3D portfolio using React and Three.js",
     "main": "src/index.js",
+    "homepage": "https://Selva-21-11.github.io/3D-portfolio"
     "scripts": {
         "start": "webpack serve --mode development",
         "build": "webpack --mode production",

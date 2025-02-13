@@ -7,7 +7,7 @@ module.exports = {
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'bundle.js',
-      publicPath: "/3D-portfolio/", // 👈 Added this to fix GitHub Pages asset loading
+      publicPath: "/3D-portfolio/", // 👈 Ensures all assets load from /3D-portfolio/
     },
     module: {
       rules: [
@@ -27,15 +27,11 @@ module.exports = {
         },
         {
           test: /\.(png|jpe?g|gif)$/i,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: 'assets/[name].[ext]',
-                publicPath: '/assets', // Serve assets from this path
-              },
-            },
-          ],
+          type: "asset/resource", // 👈 Uses Webpack 5 built-in asset handling
+          generator: {
+            filename: "assets/[name][ext]", // 👈 Ensures assets are placed in dist/assets/
+            publicPath: "/3D-portfolio/assets/", // 👈 Corrects the path for GitHub Pages
+          },
         },
       ],
     },
@@ -57,4 +53,4 @@ module.exports = {
       open: true,
     },
     devtool: 'source-map',
-  };
+};

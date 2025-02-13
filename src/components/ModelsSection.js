@@ -6,19 +6,19 @@ import ModelViewer from "./ModelViewer";
 const models = [
     {
         name: "BMW Car",
-        thumbnail: "/assets/BMW_thumbnail.png",
+        thumbnail: "./assets/BMW_thumbnail.png",
         modelName: "bmw",
         metadata: "Modeled in Blender | 2024",
     },
     {
         name: "Sport Bike",
-        thumbnail: "/assets/Bike_thumbnail.png",
+        thumbnail: "./assets/Bike_thumbnail.png",
         modelName: "bike",
         metadata: "Modeled in Blender | 2023",
     },
     {
         name: "Sport Bike",
-        thumbnail: "/assets/Bike_thumbnail.png",
+        thumbnail: "./assets/Bike_thumbnail.png",
         modelName: "bike",
         metadata: "Modeled in Blender | 2023",
     },

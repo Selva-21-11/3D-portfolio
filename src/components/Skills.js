@@ -5,13 +5,13 @@ import TiltedCard from '../blocks/Components/TiltedCard/TiltedCard'; // Import t
 const SkillsSection = () => {
   const skills = [
     { imageSrc: './assets/Blender.png', captionText: 'Blender', progressBarValue: 80 },
-    { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
-    { imageSrc: '/assets/adobe-photoshop.png', captionText: 'Photoshop', progressBarValue: 80 },
-    { imageSrc: '/assets/adobe-photoshop.png', captionText: 'Photoshop', progressBarValue: 80 },
-    { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
-    { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
-    { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
-    { imageSrc: '/assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
+    { imageSrc: './assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
+    { imageSrc: './assets/adobe-photoshop.png', captionText: 'Photoshop', progressBarValue: 80 },
+    { imageSrc: './assets/adobe-photoshop.png', captionText: 'Photoshop', progressBarValue: 80 },
+    { imageSrc: './assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
+    { imageSrc: './assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
+    { imageSrc: './assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
+    { imageSrc: './assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60 },
   ];
 
   const sectionRef = useRef(null); // Reference for the whole skills section

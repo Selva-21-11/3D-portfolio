@@ -4,7 +4,7 @@ import { useThree } from '@react-three/fiber';
 
 const BMWScene = () => {
   // Load the GLB model (BMW.glb)
-  const { scene, cameras, lights, environment } = useGLTF('/assets/BMW.glb');
+  const { scene, cameras, lights, environment } = useGLTF('./assets/BMW.glb');
   const { set, camera, gl } = useThree();
 
   useEffect(() => {

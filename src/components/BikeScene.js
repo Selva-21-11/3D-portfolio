@@ -3,7 +3,7 @@ import { useGLTF, OrbitControls } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
 
 const BikeScene = () => {
-  const { scene, cameras, lights, environment } = useGLTF('/assets/Bike.glb');
+  const { scene, cameras, lights, environment } = useGLTF('./assets/Bike.glb');
   const { set, camera, gl } = useThree();
 
   useEffect(() => {

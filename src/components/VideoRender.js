@@ -6,8 +6,8 @@ import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp, FaExpand } from "react-icons
 const videos = [
     {
         name: "Animation Reel",
-        thumbnail: "/assets/Imagerender1.png",
-        videoSrc: "/assets/Car_chase.mp4",
+        thumbnail: "./assets/Imagerender1.png",
+        videoSrc: "./assets/Car_chase.mp4",
         metadata: "Rendered in Blender | 2024",
     },
     {

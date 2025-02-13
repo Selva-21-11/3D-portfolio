@@ -41,8 +41,8 @@ const TitleBG = () => {
 
     // Load MatCap textures
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const matCapTextureBig = textureLoader.load('/assets/mattext.png'); // Replace with your matcap texture
-    const matCapTextureSmall = textureLoader.load('/assets/mattext.png'); // Replace with your matcap texture
+    const matCapTextureBig = textureLoader.load('./assets/mattext.png'); // Replace with your matcap texture
+    const matCapTextureSmall = textureLoader.load('./assets/mattext.png'); // Replace with your matcap texture
 
     // Set texture wrapping
     matCapTextureBig.wrapS = matCapTextureBig.wrapT = THREE.ClampToEdgeWrapping;

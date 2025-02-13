@@ -1,12 +1,12 @@
-name: Deploy React App 
+name: Deploy React App to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Change if using a different branch
+      - main  # Deploy when pushing to 'main' branch
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -27,8 +27,12 @@ jobs:
       - name: Build Project
         run: npm run build  # Ensure Webpack outputs to 'dist'
 
-      - name: Deploy to GitHub Pages
+      - name: Create .nojekyll file to disable Jekyll
+        run: touch dist/.nojekyll  # Prevents GitHub Pages from ignoring files
+
+      - name: Deploy to deploy Branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages  # Deployment branch
-          folder: dist  # Folder where Webpack outputs files
+          branch: gh-pages  # Use the 'deploy' branch for deployment
+          folder: dist  # The folder containing built files
+          clean: true  # Removes old files before deploying

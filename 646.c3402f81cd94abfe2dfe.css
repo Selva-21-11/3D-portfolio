@@ -1,0 +1,136 @@
+/*
+	jsrepo 1.29.1
+	Installed from https://reactbits.dev/default/
+	1-28-2025
+*/
+
+.tilted-card-figure {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+}
+
+.tilted-card-text{
+  background-color: rgb(105, 105, 105);
+  padding: 7px;
+  border-radius: 10px;
+  position: relative;
+  left: 10px;
+
+}
+
+.tilted-card-mobile-alert {
+  position: absolute;
+  top: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .tilted-card-mobile-alert {
+    display: block;
+  }
+  .tilted-card-caption {
+    display: none;
+  }
+}
+
+.tilted-card-inner {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.tilted-card-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  border-radius: 15px;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.tilted-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  will-change: transform;
+  transform: translateZ(30px);
+}
+
+.tilted-card-caption {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 4px 10px;
+  font-size: 10px;
+  color: #2d2d2d;
+  opacity: 0;
+  z-index: 3;
+}
+.tilted-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  pointer-events: none;
+}
+
+.progress-bar-container {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  height: 10px; /* Give it a proper height */
+  background-color: #ccc; /* Light grey background */
+  border-radius: 3px;
+  transform-origin: center center;
+  overflow: hidden;
+  opacity: 1;
+  z-index: 2;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 100%;
+  background-color: #e0e0e0; /* Lighter background for debugging */
+  z-index: 2;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #4caf50; /* Green color for progress */
+  border-radius: 3px;
+  z-index: 2;
+}
+
+.progress-bar-container {
+  width: 100%; /* Full width of the card */
+  height: 10px; /* Progress bar height */
+  background-color: #ddd; /* Light gray background for the progress bar */
+  border-radius: 5px;
+  margin-top: 10px; /* Space between image and progress bar */
+  transform-style: preserve-3d; /* Ensure 3D transform is preserved */
+}
+
+
+
+/*# sourceMappingURL=646.c3402f81cd94abfe2dfe.css.map*/

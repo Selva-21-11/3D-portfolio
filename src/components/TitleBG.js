@@ -118,24 +118,31 @@ const TitleBG = () => {
     bigSphereRef.current = bigSphere;
     smallSphereRef.current = smallSphere;
 
-    // Adjusted throttle for mouse events to reduce frequency
     const handleMouseMove = throttle((event) => {
-      const mouseXPosition = (event.clientX / window.innerWidth) * 2 - 1;
-      const mouseYPosition = (event.clientY / window.innerHeight) * 2 - 1;
-
-      // Reduced movement intensity for the parallax effect
-      const parallaxX = mouseXPosition * 0.1;  // Reduced intensity
-      const parallaxY = mouseYPosition * 0.1;  // Reduced intensity
-
-      // Move the camera or background more subtly based on mouse position
-      gsap.to(camera.position, { x: parallaxX, y: parallaxY, z: 5, duration: 0.6, ease: 'power3.out' });
-
-      const radius = 1.5;
-      const targetX = radius * Math.cos(mouseXPosition * Math.PI);
-      const targetY = radius * Math.sin(mouseYPosition * Math.PI);
-
+      // Get mouse position relative to the center of the window
+      const mouseXPosition = (event.clientX / window.innerWidth) * 2 - 1;  // Normalized -1 to 1
+      const mouseYPosition = (event.clientY / window.innerHeight) * 2 - 1;  // Normalized -1 to 1
+    
+      // Set a radius for the circular movement
+      const radius = 1.6;
+    
+      // Calculate the angle for the small sphere's position
+      // Use the mouse position to compute a circular path angle (not just position)
+      const angle = Math.atan2(mouseYPosition, mouseXPosition);  // Get the angle between mouse and center
+      
+      // Now map this angle to a circular path
+      const targetX = radius * Math.cos(angle);  // Calculate X position along the circular path
+      const targetY = radius * Math.sin(angle);  // Calculate Y position along the circular path
+    
+      // Update small sphere's position based on the calculated target
       gsap.to(smallSphere.position, { x: targetX, y: targetY, z: -1, duration: 0.5, ease: 'power3.out' });
-    }, 100);
+    
+      // Optional: Move the camera to give the feeling of interactivity
+      const parallaxX = mouseXPosition * 0.1;
+      const parallaxY = mouseYPosition * 0.1;
+      gsap.to(camera.position, { x: parallaxX, y: parallaxY, z: 5, duration: 0.6, ease: 'power3.out' });
+    }, 60);  // Reduced throttle delay for better responsiveness
+    
 
     window.addEventListener('mousemove', handleMouseMove);
 

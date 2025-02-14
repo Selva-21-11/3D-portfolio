@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import SplitText from "./blocks/TextAnimations/SplitText/SplitText";
 import { Link } from "react-scroll";
+import { Element } from "react-scroll";
 import "./styles/App.css";
 import "./styles/Skills.css";
 import "./styles/3Dmodels.css";
@@ -8,6 +9,7 @@ import "./styles/ImageRenders.css";
 import "./styles/VideoRender.css";
 import "./styles/ContactSection.css";
 import SlideUpText from './components/Textreveal';
+import { scroller } from "react-scroll";
 
 // Lazy-load components
 const TitleBG = React.lazy(() => import("./components/TitleBG"));
@@ -25,6 +27,14 @@ const MemoizedVideoRender = React.memo(VideoRender);
 const MemoizedContactSection = React.memo(ContactSection);
 
 const App = () => {
+  const scrollToSection = () => {
+    scroller.scrollTo("skills", {
+      duration: 500,
+      smooth: true,
+      offset: 0, // Adjust if needed
+    });
+  };
+  
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="container">
@@ -34,9 +44,9 @@ const App = () => {
             <BackgroundLight
               initialX={6.0} 
               color={{ r: 1.0, g: 0.5, b: 0.1 }} 
-              glowRadiusX={0.9}
-              glowRadiusY={0.36}
-              intensity={0.5} 
+              glowRadiusX={0.5}
+              glowRadiusY={0.3}
+              intensity={0} 
               opacity={0.5} 
               fadeDuration={2.0}
               lightDirection={1.2} 
@@ -55,28 +65,21 @@ const App = () => {
             <h2 className="second-line">
               <SplitText text="THIRD DIMENSION!" animation="fadeIn" delay={50} />
             </h2>
-            <Link to="skills" smooth={true} duration={500} offset={-70}>
-              <SlideUpText text="Scroll down to explore" bottom="150px" left="30px" />
-            </Link>
+              <SlideUpText text="Scroll down to discover" bottom="0px" left="30px" fontSize="1.5rem" />
           </div>
         </section>
 
-        {/* Section Divider */}
-        <div className="section-divider-hero">
-          <h2 className="section-line-hero">It's</h2>
-          <h2 className="section-line-hero">Versatile</h2>
-          <h3 className="section-subline-hero">Scroll down for skill section</h3>
-        </div>
+        
 
         {/* Skills Section */}
         <section id="skills">
           <Suspense fallback={<div>Loading light...</div>}>
             <BackgroundLight
-              initialX={-5.0} 
+              initialX={-10} 
               color={{ r: 0.1, g: 0.5, b: 1.0 }} 
-              glowRadiusX={0.4}
-              glowRadiusY={0.3}
-              intensity={0.4}
+              glowRadiusX={0.3}
+              glowRadiusY={0.2}
+              intensity={0}
               opacity={0.5}
               fadeDuration={2.0}
               lightDirection={-0}
@@ -89,7 +92,6 @@ const App = () => {
             <Skills />
           </Suspense>
         </section>
-
         {/* Another Section Divider */}
         <div className="section-divider-skill">
           <h2 className="section-line-skill">My</h2>
@@ -103,9 +105,9 @@ const App = () => {
             <BackgroundLight
               initialX={6.0}
               color={{ r: 1.0, g: 0.5, b: 0.1 }}
-              glowRadiusX={0.9}
-              glowRadiusY={0.36}
-              intensity={0.5}
+              glowRadiusX={0.5}
+              glowRadiusY={0.3}
+              intensity={0}
               opacity={0.5}
               fadeDuration={2.0}
               lightDirection={1.2}
@@ -123,9 +125,9 @@ const App = () => {
             <BackgroundLight
               initialX={-5.0}
               color={{ r: 0.1, g: 0.5, b: 1.0 }}
-              glowRadiusX={0.4}
-              glowRadiusY={0.3}
-              intensity={0.4}
+              glowRadiusX={0.3}
+              glowRadiusY={0.2}
+              intensity={0}
               opacity={0.5}
               fadeDuration={2.0}
               lightDirection={-0}
@@ -143,9 +145,9 @@ const App = () => {
             <BackgroundLight
               initialX={6.0}
               color={{ r: 1.0, g: 0.5, b: 0.1 }}
-              glowRadiusX={0.9}
-              glowRadiusY={0.36}
-              intensity={0.5}
+              glowRadiusX={0.5}
+              glowRadiusY={0.3}
+              intensity={0}
               opacity={0.5}
               fadeDuration={2.0}
               lightDirection={1.2}
@@ -172,7 +174,7 @@ const App = () => {
               color={{ r: 0.1, g: 0.5, b: 1.0 }}
               glowRadiusX={0.4}
               glowRadiusY={0.3}
-              intensity={0.4}
+              intensity={0}
               opacity={0.5}
               fadeDuration={2.0}
               lightDirection={-0}

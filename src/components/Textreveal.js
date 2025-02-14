@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import React from "react";
-const SlideUpText = ({ text, bottom = '0px', left = '0px' }) => {
+
+const SlideUpText = ({ text, bottom = "0px", left = "0px", fontSize = "2rem" }) => {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -9,10 +10,13 @@ const SlideUpText = ({ text, bottom = '0px', left = '0px' }) => {
       style={{
         overflow: "hidden",
         display: "inline-block",
-        position: "relative", // Container must have relative positioning
-        bottom: bottom,              // Move the container
-        left: left,            // Move the container
+        position: "relative",
+        bottom: bottom,
+        left: left,
         cursor: "pointer",
+        fontSize: fontSize, // Controls text size
+        height: `1.2em`, // Adjusts height based on text size
+        width: "auto", // Ensures container adapts to text
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -23,10 +27,9 @@ const SlideUpText = ({ text, bottom = '0px', left = '0px' }) => {
         animate={hovered ? { y: "-100%" } : { y: "0%" }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         style={{
-          position: "relative", // Keep it stacked on top
-          top: 0,
-          left: 0,
+          position: "relative",
           display: "inline-block",
+          whiteSpace: "nowrap", // Prevents line breaks
         }}
       >
         {text}
@@ -34,14 +37,15 @@ const SlideUpText = ({ text, bottom = '0px', left = '0px' }) => {
 
       {/* New text that slides in from bottom */}
       <motion.div
-        initial={{ y: "100%" }} // Start hidden below the container
+        initial={{ y: "100%" }}
         animate={hovered ? { y: "0%" } : { y: "100%" }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         style={{
-          position: "absolute", // Positioned directly below the first text
+          position: "absolute",
           top: 0,
           left: 0,
           display: "inline-block",
+          whiteSpace: "nowrap",
         }}
       >
         {text}

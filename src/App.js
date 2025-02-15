@@ -1,18 +1,17 @@
 import React, { Suspense } from "react";
 import SplitText from "./blocks/TextAnimations/SplitText/SplitText";
-import { Link } from "react-scroll";
-import { Element } from "react-scroll";
 import "./styles/App.css";
 import "./styles/Skills.css";
 import "./styles/3Dmodels.css";
 import "./styles/ImageRenders.css";
 import "./styles/VideoRender.css";
 import "./styles/ContactSection.css";
+import "./styles/AboutMe.css";
 import SlideUpText from './components/Textreveal';
-import { scroller } from "react-scroll";
 
 // Lazy-load components
 const TitleBG = React.lazy(() => import("./components/TitleBG"));
+const AboutMe = React.lazy(() => import("./components/AboutMe"));
 const Skills = React.lazy(() => import("./components/Skills"));
 const BackgroundLight = React.lazy(() => import("./components/BackgroundLight"));
 const ModelsSection = React.lazy(() => import("./components/ModelsSection"));
@@ -27,13 +26,6 @@ const MemoizedVideoRender = React.memo(VideoRender);
 const MemoizedContactSection = React.memo(ContactSection);
 
 const App = () => {
-  const scrollToSection = () => {
-    scroller.scrollTo("skills", {
-      duration: 500,
-      smooth: true,
-      offset: 0, // Adjust if needed
-    });
-  };
   
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -69,7 +61,11 @@ const App = () => {
           </div>
         </section>
 
-        
+        <section id="about-me">
+            <Suspense fallback={<div>Loading About Me...</div>}>
+                <AboutMe />
+            </Suspense>
+        </section>
 
         {/* Skills Section */}
         <section id="skills">

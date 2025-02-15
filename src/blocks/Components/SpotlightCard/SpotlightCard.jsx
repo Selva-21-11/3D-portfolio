@@ -6,6 +6,7 @@
 
 import { useRef } from "react";
 import "./SpotlightCard.css";
+import React from "react";
 
 const SpotlightCard = ({
   children,

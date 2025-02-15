@@ -1,7 +1,8 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useEffect, useRef } from "react";
 import Slider from "react-slick";
 import { Canvas } from "@react-three/fiber";
 import ModelViewer from "./ModelViewer";
+import gsap from "gsap";
 
 const models = [
     {
@@ -26,7 +27,8 @@ const models = [
 
 const ModelsSection = () => {
     const [selectedModel, setSelectedModel] = useState(null);
-    const [centeredModelIndex, setCenteredModelIndex] = useState(0); // Track centered model index
+    const [centeredModelIndex, setCenteredModelIndex] = useState(0);
+    const popupRef = useRef(null);
 
     const settings = {
         centerMode: true,
@@ -36,15 +38,33 @@ const ModelsSection = () => {
         speed: 500,
         arrows: true,
         focusOnSelect: true,
-        beforeChange: (current, next) => {
-            setCenteredModelIndex(next); // Update centered model index on slide change
-        },
+        beforeChange: (current, next) => setCenteredModelIndex(next),
     };
 
     const handleModelClick = (index) => {
         if (index === centeredModelIndex) {
             setSelectedModel(models[index]);
         }
+    };
+
+    useEffect(() => {
+        if (selectedModel && popupRef.current) {
+            gsap.fromTo(
+                popupRef.current,
+                { opacity: 0, scale: 0.8 },
+                { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }
+            );
+        }
+    }, [selectedModel]);
+
+    const handleClose = () => {
+        gsap.to(popupRef.current, {
+            opacity: 0,
+            scale: 0.8,
+            duration: 0.4,
+            ease: "power2.in",
+            onComplete: () => setSelectedModel(null),
+        });
     };
 
     return (
@@ -56,9 +76,9 @@ const ModelsSection = () => {
                     <div
                         key={index}
                         className="model-card"
-                        onClick={() => handleModelClick(index)} // Only click if centered
+                        onClick={() => handleModelClick(index)}
                         style={{
-                            pointerEvents: index === centeredModelIndex ? "auto" : "none", // Disable pointer events for non-centered models
+                            pointerEvents: index === centeredModelIndex ? "auto" : "none",
                         }}
                     >
                         <img src={model.thumbnail} alt={model.name} className="thumbnail" />
@@ -71,14 +91,19 @@ const ModelsSection = () => {
             </Slider>
 
             {selectedModel && (
-                <div className="model-popup">
-                    <Suspense fallback={<div>Loading 3D Model...</div>}>
-                        <Canvas camera={{ position: [0, 1, 3] }}>
-                            <ModelViewer modelName={selectedModel.modelName} />
-                        </Canvas>
-                    </Suspense>
-                    <button className="close-btn" onClick={() => setSelectedModel(null)}>✖</button>
-                </div>
+                <>
+                    <div className="popup-overlay" onClick={handleClose}></div>
+                    <div className="model-popup" ref={popupRef}>
+                        <button className="close-btn" onClick={handleClose}>✖</button>
+                        <div className="canvas-box">
+                            <Suspense fallback={<div>Loading 3D Model...</div>}>
+                                <Canvas camera={{ position: [0, 1, 5] }}>
+                                    <ModelViewer modelName={selectedModel.modelName} />
+                                </Canvas>
+                            </Suspense>
+                        </div>
+                    </div>
+                </>
             )}
         </div>
     );

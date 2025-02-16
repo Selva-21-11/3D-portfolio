@@ -16,7 +16,7 @@
     width: 100%;
     right: 15%;
     position: relative;
-    top: 50px;
+    top: 150px;
   }
   
   /* Spotlight Card Styling */
@@ -42,9 +42,10 @@
   
   .about-me-text {
     font-size: 2rem;
-    line-height: 1.6;
+    line-height: 1.2;
     font-family: "Lato", serif;
-    font-weight: 900;
+    font-weight: 700;
+    text-align: justify;
     font-style: normal;
   }
   
@@ -61,7 +62,7 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 35%; /* Moves it above the card */
+  top: 30%; /* Moves it above the card */
   left: 105%;
   transform: translateX(-50%);
   border: 3px solid white;

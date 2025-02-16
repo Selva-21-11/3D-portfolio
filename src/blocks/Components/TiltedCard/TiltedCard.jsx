@@ -138,7 +138,7 @@ export default function TiltedCard({
           className="progress-bar-fill"
           style={{
             width: `${progressBarValue}%`, // Dynamically controlled by the progressBarValue prop
-            backgroundColor: "#4caf50", // Green color for progress
+            backgroundColor: "#0084ff", // Green color for progress
             height: "100%", // Full height of the container
             borderRadius: "5px",
           }}

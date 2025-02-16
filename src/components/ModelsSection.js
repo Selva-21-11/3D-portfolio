@@ -29,6 +29,7 @@ const ModelsSection = () => {
     const [selectedModel, setSelectedModel] = useState(null);
     const [centeredModelIndex, setCenteredModelIndex] = useState(0);
     const popupRef = useRef(null);
+    const canvasContainerRef = useRef(null);
 
     const settings = {
         centerMode: true,
@@ -38,7 +39,7 @@ const ModelsSection = () => {
         speed: 500,
         arrows: true,
         focusOnSelect: true,
-        beforeChange: (current, next) => setCenteredModelIndex(next),
+        beforeChange: (_, next) => setCenteredModelIndex(next),
     };
 
     const handleModelClick = (index) => {
@@ -70,16 +71,14 @@ const ModelsSection = () => {
     return (
         <div className="models-section">
             <h2 className="section-title">3D Models Showcase</h2>
-
+            
             <Slider {...settings}>
                 {models.map((model, index) => (
                     <div
                         key={index}
                         className="model-card"
                         onClick={() => handleModelClick(index)}
-                        style={{
-                            pointerEvents: index === centeredModelIndex ? "auto" : "none",
-                        }}
+                        style={{ pointerEvents: index === centeredModelIndex ? "auto" : "none" }}
                     >
                         <img src={model.thumbnail} alt={model.name} className="thumbnail" />
                         <div className="model-info">
@@ -90,21 +89,26 @@ const ModelsSection = () => {
                 ))}
             </Slider>
 
-            {selectedModel && (
-                <>
-                    <div className="popup-overlay" onClick={handleClose}></div>
-                    <div className="model-popup" ref={popupRef}>
-                        <button className="close-btn" onClick={handleClose}>✖</button>
-                        <div className="canvas-box">
-                            <Suspense fallback={<div>Loading 3D Model...</div>}>
-                                <Canvas camera={{ position: [0, 1, 5] }}>
-                                    <ModelViewer modelName={selectedModel.modelName} />
-                                </Canvas>
-                            </Suspense>
-                        </div>
-                    </div>
-                </>
-            )}
+            {/* Modal */}
+            <div
+                className="popup-overlay"
+                style={{ display: selectedModel ? "block" : "none" }}
+                onClick={handleClose}
+            ></div>
+            <div
+                className="model-popup"
+                ref={popupRef}
+                style={{ display: selectedModel ? "flex" : "none" }}
+            >
+                <button className="close-btn" onClick={handleClose}>✖</button>
+                <div className="canvas-box" ref={canvasContainerRef}>
+                    <Suspense fallback={<div>Loading 3D Model...</div>}>
+                        <Canvas camera={{ position: [0, 1, 5] }}>
+                            {selectedModel && <ModelViewer modelName={selectedModel.modelName} />}
+                        </Canvas>
+                    </Suspense>
+                </div>
+            </div>
         </div>
     );
 };

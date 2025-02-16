@@ -7,7 +7,7 @@ import "./styles/ImageRenders.css";
 import "./styles/VideoRender.css";
 import "./styles/ContactSection.css";
 import "./styles/AboutMe.css";
-import SlideUpText from './components/Textreveal';
+import SlideUpText from './components/Slideuptext';
 
 // Lazy-load components
 const TitleBG = React.lazy(() => import("./components/TitleBG"));

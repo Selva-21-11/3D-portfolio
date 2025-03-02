@@ -1,8 +1,7 @@
-import React, { Suspense, useState, useEffect, useRef } from "react";
-import Slider from "react-slick";
+import React, { useState } from "react";
+import ModelViewer from "./ModelViewer"; // Assuming you already have this
 import { Canvas } from "@react-three/fiber";
-import ModelViewer from "./ModelViewer";
-import gsap from "gsap";
+import { Suspense } from "react";
 
 const models = [
     {
@@ -18,97 +17,59 @@ const models = [
         metadata: "Modeled in Blender | 2023",
     },
     {
-        name: "Sport Bike",
-        thumbnail: "./assets/Bike_thumbnail.png",
-        modelName: "bike",
+        name: "Spaceship",
+        thumbnail: "./assets/spaceship_thumbnail.png",
+        modelName: "spaceship",
         metadata: "Modeled in Blender | 2023",
-    },
+    }
 ];
 
 const ModelsSection = () => {
     const [selectedModel, setSelectedModel] = useState(null);
-    const [centeredModelIndex, setCenteredModelIndex] = useState(0);
-    const popupRef = useRef(null);
-    const canvasContainerRef = useRef(null);
 
-    const settings = {
-        centerMode: true,
-        centerPadding: "0px",
-        slidesToShow: 1,
-        infinite: true,
-        speed: 500,
-        arrows: true,
-        focusOnSelect: true,
-        beforeChange: (_, next) => setCenteredModelIndex(next),
+    const handleModelClick = (model) => {
+        setSelectedModel(model);
     };
-
-    const handleModelClick = (index) => {
-        if (index === centeredModelIndex) {
-            setSelectedModel(models[index]);
-        }
-    };
-
-    useEffect(() => {
-        if (selectedModel && popupRef.current) {
-            gsap.fromTo(
-                popupRef.current,
-                { opacity: 0, scale: 0.8 },
-                { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }
-            );
-        }
-    }, [selectedModel]);
 
     const handleClose = () => {
-        gsap.to(popupRef.current, {
-            opacity: 0,
-            scale: 0.8,
-            duration: 0.4,
-            ease: "power2.in",
-            onComplete: () => setSelectedModel(null),
-        });
+        setSelectedModel(null);
     };
 
     return (
         <div className="models-section">
             <h2 className="section-title">3D Models Showcase</h2>
-            
-            <Slider {...settings}>
+            <div className="models-grid">
                 {models.map((model, index) => (
-                    <div
-                        key={index}
+                    <div 
+                        key={index} 
                         className="model-card"
-                        onClick={() => handleModelClick(index)}
-                        style={{ pointerEvents: index === centeredModelIndex ? "auto" : "none" }}
+                        onClick={() => handleModelClick(model)}
                     >
                         <img src={model.thumbnail} alt={model.name} className="thumbnail" />
-                        <div className="model-info">
+                        <div className="overlay">
                             <h3>{model.name}</h3>
                             <p>{model.metadata}</p>
                         </div>
                     </div>
                 ))}
-            </Slider>
-
-            {/* Modal */}
-            <div
-                className="popup-overlay"
-                style={{ display: selectedModel ? "block" : "none" }}
-                onClick={handleClose}
-            ></div>
-            <div
-                className="model-popup"
-                ref={popupRef}
-                style={{ display: selectedModel ? "flex" : "none" }}
-            >
-                <button className="close-btn" onClick={handleClose}>✖</button>
-                <div className="canvas-box" ref={canvasContainerRef}>
-                    <Suspense fallback={<div>Loading 3D Model...</div>}>
-                        <Canvas camera={{ position: [0, 1, 5] }}>
-                            {selectedModel && <ModelViewer modelName={selectedModel.modelName} />}
-                        </Canvas>
-                    </Suspense>
-                </div>
             </div>
+
+            {/* Popup with no animation */}
+            {selectedModel && (
+                <>
+                    <div className="popup-overlay" onClick={handleClose}></div>
+                    <div className="model-popup">
+                        <button className="close-btn" onClick={handleClose}>✖</button>
+                        <div className="canvas-box">
+                            <Suspense fallback={<div>Loading 3D Model...</div>}>
+                                <Canvas camera={{ position: [0, 1, 5] }}>
+                                    <ModelViewer modelName={selectedModel.modelName} />
+                                </Canvas>
+                            </Suspense>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

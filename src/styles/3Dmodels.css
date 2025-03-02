@@ -1,153 +1,114 @@
-
-/* Ensure the section properly contains the carousel */
 .models-section {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    padding: 20px;
-    overflow: hidden; /* Prevents overflow */
+  padding: 50px 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
 }
+
 .section-title {
   font-size: 3rem;
+  margin-bottom: 30px;
   color: #fff;
-  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Grid Layout */
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;  /* Centered container max width */
+  margin: 0 auto;
+  justify-content: center;  /* Ensures it's centered */
+  align-items: start;  /* Ensures cards align from the top */
   position: relative;
-  top: 10%;
+  top: 150px;
 }
 
-/* Slick Carousel Customization */
-.slick-slider {
-  width: 50%;
-  max-width: 400px;
-  position: relative;
-  top: 20%;
-}
-
-
-.slick-track {
-  display: flex;
-  align-items: center;
-}
-
-/* Ensure Only One Model is Centered */
-.slick-slide {
-  transition: transform 0.5s ease, opacity 0.5s ease;
-  transform: scale(0.7); /* Smaller side models */
-  opacity: 0.5;
-  filter: blur(2px);
-}
-
-.slick-center {
-  transform: scale(1); /* Full scale for the active model */
-  opacity: 1;
-  filter: blur(0);
-}
-
-/* Ensure Proper Alignment */
-.slick-list {
-  padding: 40px 0; /* Adds spacing for better visibility */
-  overflow: visible;
-}
-
-/* Model Card */
 .model-card {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 15px;
-  border-radius: 10px;
-  text-align: center;
-  transition: transform 0.3s, opacity 0.3s;
+  width: 350px;  /* Set your desired width */
+  height: 300px; /* Set your desired height */
+  overflow: hidden;  /* Prevents overflow */
+  border-radius: 12px;  /* Optional for rounded corners */
   cursor: pointer;
-  width: 250px;
   position: relative;
-  color: #fff;
+  background: #111; /* Optional background */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
-/* Image Styling */
+.model-card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+}
+
 .thumbnail {
   width: 100%;
-  border-radius: 8px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: cover;  /* Ensures the image fills the space properly */
+  transition: filter 0.3s ease;
 }
 
-/* Navigation Arrows */
-.slick-next {
-  font-size: 0; /* Remove any text size */
-  border-radius: 50%; /* Makes it circular */
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: transparent; /* No background fill */
-  cursor: pointer;
+.model-card:hover .thumbnail {
+  filter: brightness(0.5);
+}
+
+/* Overlay Info on Hover */
+.overlay {
   position: absolute;
-  bottom: 40%;
-  left: 120%;  /* Positions the right arrow */
-  transform: translateY(-50%);
-  z-index: 10;
-  text-align: center; /* Ensures no text is accidentally added */
-  border: 3px solid transparent; /* Start with transparent border */
-  position: relative;
-}
-
-
-.slick-prev {
-  font-size: 0; /* Remove any text size */
-  border-radius: 50%; /* Makes it circular */
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: transparent; /* No background fill */
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  right: 30%;
-  transform: translateY(-50%);
-  z-index: 10;
-  text-align: center; /* Ensures no text is accidentally added */
-  border: 3px solid transparent; /* Start with transparent border */
-  position: relative;
-}
-
-
-
-/* Custom arrow symbols */
-.slick-prev::after {
-  content: '\2190';  /* Left arrow symbol (←) */
-  font-size: 2rem;
-  color: #fff;
-}
-
-.slick-next::after {
-  content: '\2192';  /* Right arrow symbol (→) */
-  font-size: 2rem;
-  color: #fff;
-}
-
-/* Border animation for "drawing" effect */
-.slick-prev::before, .slick-next::before {
-  content: '';
-  position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  border-radius: 50%; /* Makes it circular */
-  border: 3px solid #fff; /* White border to simulate the circle */
-  transition: all 1s ease; /* Smooth transition */
-  transform: scale(0); /* Start scaled down */
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+.model-card:hover .overlay {
+  transform: translateY(0);
 }
 
-.slick-prev:hover::before, .slick-next:hover::before {
-  transform: scale(1); /* Scale up the border when hovered */
+.model-card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
 }
 
+.overlay h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
 
-/* Fullscreen overlay */
+.overlay p {
+  margin: 5px 0 0;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+/* Mobile grid adjustments */
+@media (max-width: 768px) {
+  .models-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));  /* Smaller columns for mobile */
+  }
+
+  .overlay h3 {
+      font-size: 0.9rem;
+  }
+
+  .overlay p {
+      font-size: 0.7rem;
+  }
+}
+
+/* Popup Overlay */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -158,7 +119,7 @@
   z-index: 999;
 }
 
-/* Centered popup */
+/* Model Popup */
 .model-popup {
   position: fixed;
   top: 50%;
@@ -174,29 +135,28 @@
   justify-content: center;
   padding: 20px;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
-  z-index: 1001;
+  z-index: 1000;
 }
 
-/* Box around the 3D Scene */
+/* 3D Canvas Box */
 .canvas-box {
-  width: 90vw;
-  height: 90vh;
-  background: rgb(255, 255, 255);
-  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  background: #f5f5f5;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
 }
 
-/* 3D Model inside the box */
+/* Canvas Full Size */
 canvas {
-  border-radius: 8px;
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 
-/* Close button */
+/* Close Button */
 .close-btn {
   position: absolute;
   top: 15px;
@@ -208,3 +168,12 @@ canvas {
   color: black;
 }
 
+.close-btn:hover {
+  color: red;
+}
+@media (max-width: 768px) {
+  .model-card {
+      width: 150px;  /* Smaller for mobile */
+      height: 150px;
+  }
+}

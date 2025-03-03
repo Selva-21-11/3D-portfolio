@@ -20,8 +20,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
-  width: 100%;
-  max-width: 1200px;  /* Centered container max width */
+  max-width:100%;
   margin: 0 auto;
   justify-content: center;  /* Ensures it's centered */
   align-items: start;  /* Ensures cards align from the top */
@@ -30,8 +29,8 @@
 }
 
 .model-card {
-  width: 350px;  /* Set your desired width */
-  height: 300px; /* Set your desired height */
+  width: 200px;  /* Set your desired width */
+  height: 200px; /* Set your desired height */
   overflow: hidden;  /* Prevents overflow */
   border-radius: 12px;  /* Optional for rounded corners */
   cursor: pointer;

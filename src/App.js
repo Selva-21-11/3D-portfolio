@@ -3,10 +3,9 @@ import SplitText from "./blocks/TextAnimations/SplitText/SplitText";
 import "./styles/App.css";
 import "./styles/Skills.css";
 import "./styles/3Dmodels.css";
-import "./styles/ImageRenders.css";
-import "./styles/VideoRender.css";
 import "./styles/ContactSection.css";
 import "./styles/AboutMe.css";
+import './styles/PortfolioSection.css';
 import SlideUpText from './components/Slideuptext';
 
 // Lazy-load components
@@ -15,14 +14,11 @@ const AboutMe = React.lazy(() => import("./components/AboutMe"));
 const Skills = React.lazy(() => import("./components/Skills"));
 const BackgroundLight = React.lazy(() => import("./components/BackgroundLight"));
 const ModelsSection = React.lazy(() => import("./components/ModelsSection"));
-const ImageRenders = React.lazy(() => import("./components/ImageRenders"));
-const VideoRender = React.lazy(() => import("./components/VideoRender"));
 const ContactSection = React.lazy(() => import("./components/ContactSection"));
+const PortfolioSection = React.lazy(() => import("./components/PortfolioSection"));
 
 // Use React.memo for components that don't need to re-render
 const MemoizedModelsSection = React.memo(ModelsSection);
-const MemoizedImageRenders = React.memo(ImageRenders);
-const MemoizedVideoRender = React.memo(VideoRender);
 const MemoizedContactSection = React.memo(ContactSection);
 
 const App = () => {
@@ -114,46 +110,12 @@ const App = () => {
           </Suspense>
           <MemoizedModelsSection />
         </section>
-
-        {/* Image Renders Section */}
-        <section id="image-renders">
-          <Suspense fallback={<div>Loading light...</div>}>
-            <BackgroundLight
-              initialX={-5.0}
-              color={{ r: 0.1, g: 0.5, b: 1.0 }}
-              glowRadiusX={0.3}
-              glowRadiusY={0.2}
-              intensity={0}
-              opacity={0.5}
-              fadeDuration={2.0}
-              lightDirection={-0}
-              wiggleAmount={100}
-              verticalWiggleAmount={100}
-              wiggleSpeed={8}
-            />
-          </Suspense>
-          <MemoizedImageRenders />
+        <section id="portfolio">
+        <Suspense fallback={<div>Loading portfolio...</div>}>
+              <PortfolioSection />
+        </Suspense>
         </section>
 
-        {/* Video Renders Section */}
-        <section id="video-renders">
-          <Suspense fallback={<div>Loading light...</div>}>
-            <BackgroundLight
-              initialX={6.0}
-              color={{ r: 1.0, g: 0.5, b: 0.1 }}
-              glowRadiusX={0.5}
-              glowRadiusY={0.3}
-              intensity={0}
-              opacity={0.5}
-              fadeDuration={2.0}
-              lightDirection={1.2}
-              wiggleAmount={100}
-              verticalWiggleAmount={100}
-              wiggleSpeed={8}
-            />
-          </Suspense>
-          <MemoizedVideoRender />
-        </section>
 
         {/* Contact Section Divider */}
         <div className="section-divider-contact">

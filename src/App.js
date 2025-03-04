@@ -7,6 +7,9 @@ import "./styles/ContactSection.css";
 import "./styles/AboutMe.css";
 import './styles/PortfolioSection.css';
 import SlideUpText from './components/Slideuptext';
+import Header from './components/Header';
+import './styles/Header.css';
+
 
 // Lazy-load components
 const TitleBG = React.lazy(() => import("./components/TitleBG"));
@@ -26,8 +29,9 @@ const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="container">
+      <Header />  {/* Add this line here */}
         {/* Hero Section */}
-        <section className="hero" id="hero">
+        <section className="hero" id="hero" >
           <Suspense fallback={<div>Loading light...</div>}>
             <BackgroundLight
               initialX={6.0} 
@@ -57,14 +61,14 @@ const App = () => {
           </div>
         </section>
 
-        <section id="about-me">
+        <section id="about-me" data-title="About Me">
             <Suspense fallback={<div>Loading About Me...</div>}>
                 <AboutMe />
             </Suspense>
         </section>
 
         {/* Skills Section */}
-        <section id="skills">
+        <section id="skills" data-title="Skills">
           <Suspense fallback={<div>Loading light...</div>}>
             <BackgroundLight
               initialX={-10} 
@@ -84,15 +88,9 @@ const App = () => {
             <Skills />
           </Suspense>
         </section>
-        {/* Another Section Divider */}
-        <div className="section-divider-skill">
-          <h2 className="section-line-skill">My</h2>
-          <h2 className="section-line-skill">Works</h2>
-          <h3 className="section-subline-skill">Explore my projects below</h3>
-        </div>
 
         {/* Models Section */}
-        <section id="models">
+        <section id="models" data-title="3D Models">
           <Suspense fallback={<div>Loading light...</div>}>
             <BackgroundLight
               initialX={6.0}
@@ -110,22 +108,14 @@ const App = () => {
           </Suspense>
           <MemoizedModelsSection />
         </section>
-        <section id="portfolio">
+        <section id="portfolio" data-title="Portfolio">
         <Suspense fallback={<div>Loading portfolio...</div>}>
               <PortfolioSection />
         </Suspense>
         </section>
 
-
-        {/* Contact Section Divider */}
-        <div className="section-divider-contact">
-          <h2 className="section-line-contact">Get In</h2>
-          <h2 className="section-line-contact">Touch</h2>
-          <h3 className="section-subline-contact">Reach out to me below</h3>
-        </div>
-
         {/* Contact Section */}
-        <section id="contact">
+        <section id="contact" data-title="Contact Me">
           <Suspense fallback={<div>Loading light...</div>}>
             <BackgroundLight
               initialX={-5.0}

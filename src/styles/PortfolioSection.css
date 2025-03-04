@@ -53,6 +53,8 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    position: relative;
+    top: 50px;
 }
 
 .portfolio-grid {
@@ -131,7 +133,7 @@
     position: absolute;
     top: 15px;
     right: 15px;
-    background: #ff8a00;
+    background: #ffffff;
     color: #121212;
     border: none;
     padding: 8px;

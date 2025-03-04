@@ -7,22 +7,22 @@ const PortfolioSection = () => {
     const [selectedItem, setSelectedItem] = useState(null);
 
     const items = [
-        { id: 1, type: 'image', src: 'https://via.placeholder.com/300' },
+        { id: 1, type: 'image', src: './assets/BMW_thumbnail.png' },
         { 
             id: 2, 
             type: 'video', 
-            src: 'https://www.w3schools.com/html/mov_bbb.mp4', 
-            thumbnail: 'https://via.placeholder.com/300x200?text=Video+1'
+            src: './assets/Car_chase.mp4', 
+            thumbnail: './assets/Car chase.png'
         },
-        { id: 3, type: 'image', src: 'https://via.placeholder.com/300' },
+        { id: 3, type: 'image', src: './assets/Imagerender1.png' },
         { 
             id: 4, 
             type: 'video', 
-            src: 'https://www.w3schools.com/html/mov_bbb.mp4', 
-            thumbnail: 'https://via.placeholder.com/300x200?text=Video+2'
+            src: './assets/Perfume 1.mov', 
+            thumbnail: './assets/Perfume_thubnail.png'
         },
-        { id: 5, type: 'poster', src: 'https://via.placeholder.com/300x400?text=Poster+1' },
-        { id: 6, type: 'poster', src: 'https://via.placeholder.com/300x400?text=Poster+2' },
+        { id: 5, type: 'poster', src: './assets/Movie Poster.jpg' },
+        { id: 6, type: 'poster', src: './assets/WFH final.jpg' },
     ];
 
     useEffect(() => {

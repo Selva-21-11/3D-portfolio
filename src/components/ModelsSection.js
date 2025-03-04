@@ -16,12 +16,6 @@ const models = [
         modelName: "bike",
         metadata: "Modeled in Blender | 2023",
     },
-    {
-        name: "Spaceship",
-        thumbnail: "./assets/spaceship_thumbnail.png",
-        modelName: "spaceship",
-        metadata: "Modeled in Blender | 2023",
-    }
 ];
 
 const ModelsSection = () => {

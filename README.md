@@ -7,14 +7,15 @@ This is a **3D Portfolio Website** built using **React** and **Three.js** to sho
 
 ## Features
 
-✅ Showcase 3D models (GLB format) with interactive controls  
-✅ Display video renders (MP4) and image renders (PNG, JPG)  
-✅ Filter by content type (3D, Video, Images)  
-✅ Scrollable horizontal gallery with dot indicators (no scrollbar)  
-✅ Clickable thumbnails open customized modal popups for each asset  
-✅ Separate scenes for each 3D model to allow unique lighting, environment, and camera settings  
-✅ Dynamic section highlighting in the header  
-✅ GSAP-powered animations for smooth transitions and modal openings  
+ 
+● Showcase 3D models (GLB format) with interactive controls  
+● Display video renders (MP4) and image renders (PNG, JPG)  
+● Filter by content type (3D, Video, Images)  
+● Scrollable horizontal gallery with dot indicators (no scrollbar)  
+● Clickable thumbnails open customized modal popups for each asset  
+● Separate scenes for each 3D model to allow unique lighting, environment, and camera settings  
+● Dynamic section highlighting in the header  
+● GSAP-powered animations for smooth transitions and modal openings  
 
 ---
 
@@ -29,7 +30,7 @@ This is a **3D Portfolio Website** built using **React** and **Three.js** to sho
 
 ---
 
-## Folder Structure (Sample)
+## Folder Structure
 
 ```
 src/

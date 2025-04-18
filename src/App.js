@@ -6,9 +6,7 @@ import "./styles/ContactSection.css";
 import "./styles/AboutMe.css";
 import SlideUpText from './components/Slideuptext';
 import './styles/Header.css';
-
-
-
+import './styles/PortfolioSection.css';
 
 // Lazy-load components
 const TitleBG = React.lazy(() => import("./components/TitleBG"));
@@ -16,6 +14,7 @@ const AboutMe = React.lazy(() => import("./components/AboutMe"));
 const Skills = React.lazy(() => import("./components/Skills"));
 const BackgroundLight = React.lazy(() => import("./components/BackgroundLight"));
 const ContactSection = React.lazy(() => import("./components/ContactSection"));
+const PortfolioSection = React.lazy(() => import("./components/PortfolioSection"));
 
 // Use React.memo for components that don't need to re-render
 const MemoizedContactSection = React.memo(ContactSection);
@@ -84,9 +83,12 @@ const App = () => {
           </Suspense>
         </section>
 
+        <section id="portfolio" data-title="Portfolio">
         <Suspense fallback={<div>Loading portfolio...</div>}>
             <PortfolioSection />
         </Suspense>
+        </section>
+
 
 
         {/* Contact Section */}

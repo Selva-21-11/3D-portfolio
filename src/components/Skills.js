@@ -7,13 +7,10 @@ const SkillsSection = () => {
     { imageSrc: './assets/Blender.png', captionText: 'Blender', progressBarValue: 80, leveltext:'Expertise' },
     { imageSrc: './assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
     { imageSrc: './assets/adobe-photoshop.png', captionText: 'Photoshop', progressBarValue: 80, leveltext:'Expertise' },
-    { imageSrc: './assets/adobe-after-effects.png', captionText: 'Photoshop', progressBarValue: 80, leveltext:'Expertise' },
-    { imageSrc: './assets/adobe-premier.png', captionText: 'Premier pro', progressBarValue: 60, leveltext:'Expertise' },
     { imageSrc: './assets/Html.png', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
     { imageSrc: './assets/CSS.png', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
     { imageSrc: './assets/Javascript.png', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
     { imageSrc: './assets/Verge3d.png', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
-    { imageSrc: '.', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
   ];
 
   const sectionRef = useRef(null); // Reference for the whole skills section

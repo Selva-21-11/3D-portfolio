@@ -23,7 +23,7 @@
 }
 .skills-container {
   display: grid;
-  grid-template-columns: repeat(5, 150px); /* Creates exactly 3 columns */
+  grid-template-columns: repeat(4, 150px); /* Creates exactly 3 columns */
   grid-template-rows: repeat(3, 180px);  /* Creates exactly 3 rows */
   gap: 80px; /* Space between cards */
   justify-items: center; /* Centers items within the grid cells */
@@ -34,6 +34,6 @@
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  left: -95px;
+  left: 15px;
   top: 100px;
 }

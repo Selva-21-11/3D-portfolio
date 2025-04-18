@@ -1,36 +1,49 @@
 import React from "react";
-import SpotlightCard from "../blocks/Components/SpotlightCard/SpotlightCard"; // Adjust path if needed
-import SlideDownText from "./slidedown";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 const AboutMe = () => {
+  const [ref, inView] = useInView({
+    triggerOnce: true, // animate only once
+    threshold: 0.3,     // 30% of the section must be visible
+  });
+
   return (
-    <div className="about-me-container">
-      <div className="about-me-content">
+    <div className="about-me-fullscreen" ref={ref}>
+      {/* Left Text */}
+      <motion.div
+        className="about-me-text"
+        initial={{ opacity: 0, x: -100 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      >
+        <h1 className="intro-text">Hi, I’m Selva</h1>
+        <p className="description-text">
+          I’m a 3D artist dedicated to crafting clean, immersive digital experiences.
+          Whether it's detailed modeling or AR/VR storytelling, I blend design and
+          technology to create visuals that are both beautiful and meaningful.
+          My approach is minimal, but the impact is intentional.
+        </p>
+      </motion.div>
 
-                {/* Circular 3D Object for Photo */}
-        <div className="profile-circle">
-          <img src="./assets/About_pic.jpg" alt="Profile" className="profile-image" />
-        </div>    
+      {/* Divider Line */}
+      <motion.div
+        className="divider-line"
+        initial={{ scaleY: 0 }}
+        animate={inView ? { scaleY: 1 } : {}}
+        transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
+        style={{ originY: 0 }}
+      />
 
-        <SpotlightCard className="about-me-card" spotlightColor="rgba(0, 69, 166, 0.25)">
-          <div className="about-me-card-content">
-          <p className="about-me-text">
-  <SlideDownText text="I’m a 3D artist passionate about transforming ideas into" top="0px" left="0px" />
-  <br />
-  <SlideDownText text="immersive visual experiences. From intricate modeling" top="0px" left="0px" />
-  <br />
-  <SlideDownText text="and lifelike animation to cutting-edge AR/VR,  I blend " top="0px" left="0px" />
-  <br />
-  <SlideDownText text="creativity with technology to bring concepts to life. " top="0px" left="0px" />
-  <br />
-  <SlideDownText text="Always learning, always evolving, I strive to push the " top="0px" left="0px" />
-  <br />
-  <SlideDownText text=" boundaries of digital art and interactive design." top="0px" left="0px" />
-</p>
-
-          </div>
-        </SpotlightCard>
-      </div>
+      {/* Right Image */}
+      <motion.div
+        className="about-me-image"
+        initial={{ opacity: 0, x: 100 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+      >
+        <img src="./assets/About_pic.jpg" alt="Selva Profile" className="profile-image" />
+      </motion.div>
     </div>
   );
 };

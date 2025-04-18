@@ -84,6 +84,11 @@ const App = () => {
           </Suspense>
         </section>
 
+        <Suspense fallback={<div>Loading portfolio...</div>}>
+            <PortfolioSection />
+        </Suspense>
+
+
         {/* Contact Section */}
         <section id="contact" data-title="Contact Me">
           <Suspense fallback={<div>Loading light...</div>}>

@@ -1,57 +1,47 @@
-import React, { useRef, useEffect } from 'react';
-import TiltedCard from '../blocks/Components/TiltedCard/TiltedCard'; // Import the TiltedCard component
-
+import React, { useRef, useState, useEffect } from "react";
+import TiltedCard from "../blocks/Components/TiltedCard/TiltedCard"; // Import TiltedCard component
 
 const SkillsSection = () => {
   const skills = [
-    { imageSrc: './assets/Blender.png', captionText: 'Blender', progressBarValue: 80, leveltext:'Expertise' },
-    { imageSrc: './assets/unreal-engine.png', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
-    { imageSrc: './assets/adobe-photoshop.png', captionText: 'Photoshop', progressBarValue: 80, leveltext:'Expertise' },
-    { imageSrc: './assets/Html.png', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
-    { imageSrc: './assets/CSS.png', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
-    { imageSrc: './assets/Javascript.png', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
-    { imageSrc: './assets/Verge3d.png', captionText: 'Unreal Engine', progressBarValue: 60, leveltext:'Expertise' },
+    { imageSrc: "./assets/Blender.png", captionText: "Blender", progressBarValue: 80, leveltext: "Expertise" },
+    { imageSrc: "./assets/unreal-engine.png", captionText: "Unreal Engine", progressBarValue: 60, leveltext: "Expertise" },
+    { imageSrc: "./assets/adobe-photoshop.png", captionText: "Photoshop", progressBarValue: 80, leveltext: "Expertise" },
+    { imageSrc: "./assets/Html.png", captionText: "HTML", progressBarValue: 60, leveltext: "Expertise" },
+    { imageSrc: "./assets/CSS.png", captionText: "CSS", progressBarValue: 60, leveltext: "Expertise" },
+    { imageSrc: "./assets/Javascript.png", captionText: "JavaScript", progressBarValue: 60, leveltext: "Expertise" },
+    { imageSrc: "./assets/Verge3d.png", captionText: "Verge3D", progressBarValue: 60, leveltext: "Expertise" },
   ];
 
-  const sectionRef = useRef(null); // Reference for the whole skills section
-
-  // Handle mouse movement for parallax effect
-  const handleMouseMove = (e) => {
-    const { clientX: mouseX, clientY: mouseY } = e;
-    const { offsetWidth: width, offsetHeight: height } = sectionRef.current;
-
-    const centerX = width / 2;
-    const centerY = height / 2;
-
-    // Calculate the relative mouse position
-    const deltaX = (mouseX - centerX) / centerX;
-    const deltaY = (mouseY - centerY) / centerY;
-
-    // Apply even more subtle 3D effect on the entire skills section
-    sectionRef.current.style.transform = `perspective(1200px) rotateX(${deltaY * 2}deg) rotateY(${deltaX * 2}deg)`;
-  };
+  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const section = sectionRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        console.log("IntersectionObserver Triggered: ", entry.isIntersecting); // Debug log
+        if (entry.isIntersecting) {
+          setIsVisible(true); // Set visible state to true
+        }
+      },
+      { threshold: 0.2 } // Trigger animation when 50% of the section is visible
+    );
 
-    // Add event listener for mousemove
-    const onMouseMove = (e) => {
-      requestAnimationFrame(() => handleMouseMove(e)); // Smooth, real-time changes
-    };
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current); // Start observing the section
+    }
 
-    section.addEventListener('mousemove', onMouseMove);
-
-    // Cleanup the event listener when the component is unmounted
     return () => {
-      section.removeEventListener('mousemove', onMouseMove);
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current); // Clean up observer
+      }
     };
   }, []);
 
   return (
-    <section className="skills-section" ref={sectionRef}>
-
-
-      {/* Glass effect container with camera perspective */}
+    <section
+      className={`skills-section ${isVisible ? "animate" : ""}`}
+      ref={sectionRef}
+    >
       <div className="skills-container-wrapper">
         <div className="skills-container">
           {skills.map((skill, index) => (

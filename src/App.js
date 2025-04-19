@@ -7,6 +7,9 @@ import "./styles/AboutMe.css";
 import SlideUpText from './components/Slideuptext';
 import './styles/Header.css';
 import './styles/PortfolioSection.css';
+import "./styles/Header.css";
+import Header from "./components/Header";
+
 
 // Lazy-load components
 const TitleBG = React.lazy(() => import("./components/TitleBG"));
@@ -24,6 +27,7 @@ const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="container">
+      <Header />
         {/* Hero Section */}
         <section className="hero" id="hero" >
           <Suspense fallback={<div>Loading light...</div>}>

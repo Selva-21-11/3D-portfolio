@@ -5,10 +5,12 @@ const portfolioItems = [
   { id: 1, type: 'image', src: './assets/Imagerender1.png' },
   { id: 5, type: 'image', src: './assets/Imagerender2.png' },
   { id: 6, type: 'image', src: './assets/Imagerender2.png' },
-  { id: 2, type: 'video', src: './assets/portfolio/video1.mp4' },
-  { id: 3, type: 'poster', src: './assets/portfolio/poster1.jpg' },
-  { id: 4, type: '3d', iframe: 'https://your-3d-model-viewer.com/embed/model1' },
+  { id: 7, type: 'image', src: './assets/Imagerender2.png' },
+  //{ id: 2, type: 'video', src: './assets/portfolio/video1.mp4', thumbnail: './assets/Carchase.png' },
+  //{ id: 3, type: 'poster', src: './assets/SportsPoster.jpg' },
+  { id: 4, type: '3d', iframe: 'https://v3d.net/18q9', thumbnail: './assets/BMW-Config.png' },
 ];
+
 
 const containerVariants = {
   animate: {
@@ -19,9 +21,9 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  initial: { opacity: 0, y: 20, scale: 0.95 },
+  initial: { opacity: 0, y: 0, scale: 0.95 },
   animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: 20, scale: 0.95 },
+  exit: { opacity: 0, y: 0, scale: 0.95 },
 };
 
 const modalBackdropVariants = {
@@ -79,18 +81,27 @@ const PortfolioSection = () => {
             <motion.div
               key={item.id}
               className="portfolio-card"
-              onClick={() => setSelectedItem(item)}
+              onClick={() => {
+                if (item.type === '3d') {
+                  window.open(item.iframe, '_blank');
+                } else {
+                  setSelectedItem(item);
+                }
+              }}              
               layout
               variants={itemVariants}
               transition={{ duration: 0.4, ease: 'easeInOut' }}
             >
-              {item.type === 'image' || item.type === 'poster' ? (
-                <img src={item.src} alt="" />
-              ) : item.type === 'video' ? (
-                <video src={item.src} muted autoPlay loop />
-              ) : (
-                <div className="model-placeholder">3D</div>
-              )}
+{item.type === 'image' || item.type === 'poster' ? (
+  <img src={item.src} alt="" />
+) : item.type === 'video' || item.type === '3d' ? (
+  <div className="thumbnail-wrapper">
+    <img src={item.thumbnail} alt={`${item.type} thumbnail`} />
+    {item.type === '3d' && <div className="model-tag">3D</div>}
+    {item.type === 'video' && <div className="play-icon">▶</div>}
+  </div>
+) : null}
+
             </motion.div>
           ))}
         </AnimatePresence>

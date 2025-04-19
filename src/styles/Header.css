@@ -1,70 +1,71 @@
-.floating-header-wrapper {
+.site-header {
     position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    pointer-events: none;
-}
-
-.floating-header {
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 80px;
+    z-index: 10;
+    display: flex;
+    justify-content: flex-start; /* Align elements to the left */
+    align-items: center;
+    padding: 0 2rem;
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(10px);
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .logo-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 380px;
-    height: 60px;
-    padding: 0 15px;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 30px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    pointer-events: all;
-    transition: all 0.3s ease;
-}
-
-.header-logo {
-    font-size: 1.5rem;
-    color: white;
-}
-
-.header-title-wrapper {
-    flex-grow: 1;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
-}
-
-.floating-header-title {
-    font-size: 1rem;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }
+  
+  .logo-text-container {
+    margin-left: 10px;
+    position: relative; /* To allow proper positioning */
+  }
+  
+  .logo-text {
+    font-size: 2rem;
     font-weight: bold;
     color: white;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    white-space: nowrap;
-}
-
-/* Buttons (LinkedIn, Resume) */
-.header-nav-icons {
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 1.5rem;
+    margin-left: auto; /* Align icons to the right */
+  }
+  
+  .icon-link {
+    color: white;
+    font-size: 1.8rem;
+    transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .icon-link:hover {
+    color: #00bfff;
+  }
+  .logo-with-text {
     display: flex;
     align-items: center;
-    gap: 8px;
-}
-
-.header-btn {
-    background: rgba(255, 255, 255, 0.3);
-    color: white;
-    font-size: 0.8rem;
-    padding: 5px 12px;
-    border-radius: 20px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background 0.3s ease, transform 0.2s ease;
     cursor: pointer;
-}
-
-.header-btn:hover {
-    background: rgba(255, 255, 255, 0.6);
-    transform: translateY(-2px);
-}
+  }
+  
+  .logo-text-container {
+    margin-left: 10px;
+    position: relative;
+  }
+    
+  

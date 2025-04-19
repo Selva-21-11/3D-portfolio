@@ -30,6 +30,7 @@ canvas {
 .container {
   position: relative;
   overflow: hidden;
+  margin-top: 80px;
 }
 .hero {
   position: relative;

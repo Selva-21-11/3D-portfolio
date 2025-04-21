@@ -1,8 +1,6 @@
 .about-me-fullscreen {
-  background-color: transparent; /* ✅ Let background-glow show through */
-  backdrop-filter: blur(0.5px);  /* optional for subtle separation */
   z-index: 1;
-  color: #fff;
+  color: #fff; /* Text color */
   display: flex;
   height: 100vh;
   width: 100%;
@@ -22,20 +20,20 @@
   font-size: 3rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  color: #fff;
+  color: #ffffff; /* Soft Cyan for heading */
 }
 
 .description-text {
   font-size: 1.2rem;
   line-height: 1.8;
-  color: #ccc;
+  color: #929292; /* Slate Gray for body text */
   font-family: 'Inter', sans-serif;
 }
 
 .divider-line {
   width: 1px;
   height: 60%;
-  background-color: #333;
+  background-color: #a3c6ff; /* Charcoal Blue for divider */
 }
 
 .about-me-image {
@@ -43,7 +41,6 @@
   max-width: 400px;
   display: flex;
   justify-content: center;
-  
 }
 
 .profile-image {
@@ -53,13 +50,52 @@
   object-fit: cover;
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
 }
+
+/* Divider line hover effect */
 .divider-line {
   width: 1px;
   height: 60%;
-  background-color: #333;
+  background-color: #2A3341;
   transition: background-color 0.3s ease;
 }
 
 .divider-line:hover {
-  background-color: #555;
+  background-color: #4988CF; /* Electric Blue on hover */
 }
+
+.profile-wrapper:hover {
+  transform: scale(1.05) rotateX(6deg) rotateY(-6deg);
+}
+
+.profile-wrapper {
+  border-radius: 50%;
+  padding: 10px;
+  position: relative;
+  display: inline-block;
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+  isolation: isolate;
+
+  background: linear-gradient(145deg, #4988CF, #8BBBC9);
+  animation: glowPulse 4s ease-in-out infinite;
+
+  box-shadow:
+    0 0 16px rgba(137, 180, 201, 0.6), /* soft outer neon */
+    inset 0 0 12px rgba(137, 180, 201, 0.2); /* subtle internal glow */
+}
+
+.profile-image {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  position: relative;
+  z-index: 1;
+  box-shadow: none; /* remove outer glow */
+}
+
+
+
+

@@ -86,7 +86,7 @@
   color: white;
   border: none;
   background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631);
-  min-width: 100px; /* Minimum width for button */
+  min-width: 80px; /* Minimum width for button */
 }
 
 .hero-btn::before {
@@ -144,11 +144,7 @@
     justify-content: center;
     gap: 1.5rem;
   }
-  .hero-btn {
-    padding: 12px 24px; /* Keep the padding consistent for medium screens */
-    font-size: 1rem; /* Keep font size consistent for larger screens */
-    width: auto; /* Avoid full-width button for laptops */
-  }
+  
 }
 
 @media (max-width: 768px) {
@@ -175,7 +171,6 @@
   .hero-btn {
     width: 100%; /* Full width on mobile */
     min-width: unset; /* Remove min-width for better sizing */
-    font-size: 1rem; /* Consistent font size on mobile */
   }
 }
 

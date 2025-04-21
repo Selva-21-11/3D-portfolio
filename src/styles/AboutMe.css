@@ -1,5 +1,7 @@
 .about-me-fullscreen {
-  background-color: #000;
+  background-color: transparent; /* ✅ Let background-glow show through */
+  backdrop-filter: blur(0.5px);  /* optional for subtle separation */
+  z-index: 1;
   color: #fff;
   display: flex;
   height: 100vh;

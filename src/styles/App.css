@@ -1,5 +1,5 @@
 /* Ensure body and html take full height */
-html, body {
+html {
   height: 100%;
   width: 100%;
   padding: 0;
@@ -10,6 +10,16 @@ html, body {
   overflow-y: auto; /* Enable vertical scrolling */
   
 }
+/* Animated Gradient Background for Body */
+/*body {
+  background: linear-gradient(135deg, #121212, #1E1E1E, #1E1E1E, #121212);
+  background-size: 300% 300%;
+  animation: gradientBG 20s ease infinite;
+  color: #F5F5F5;
+}*/
+
+
+
 section {
   justify-content: center;
   align-items: center;
@@ -17,8 +27,12 @@ section {
   height: 100vh;
   width: 100vw;
   position: relative;
-  overflow: visible; /* Allow scrolling */
+  overflow: visible;
+  /* NEW: add below */
+  background-color: transparent; /* 💡 Important! */
+  z-index: 1; /* Make sure it's above background-glow */
 }
+
 canvas {
   position: absolute; /* Ensure canvas stays behind the content - Title backgorund */
   top: 0;
@@ -31,6 +45,7 @@ canvas {
   position: relative;
   overflow: hidden;
   margin-top: 80px;
+  z-index: 1;
 }
 
   

@@ -1,6 +1,8 @@
 /* Modern + Minimalistic */
 .portfolio-modern-section {
-  background: #000;
+  background-color: transparent; /* ✅ Let glow pass through */
+  backdrop-filter: blur(0.5px);  /* optional */
+  z-index: 1;
   padding: 6rem 2rem;
   min-height: 100vh;
   color: white;

@@ -15,7 +15,6 @@ const TitleBG = React.lazy(() => import("./components/TitleBG"));
 const Hero = React.lazy(() => import("./components/Hero"));
 const AboutMe = React.lazy(() => import("./components/AboutMe"));
 const Skills = React.lazy(() => import("./components/Skills"));
-const BackgroundLight = React.lazy(() => import("./components/BackgroundLight"));
 const ContactSection = React.lazy(() => import("./components/ContactSection"));
 const PortfolioSection = React.lazy(() => import("./components/PortfolioSection"));
 
@@ -27,24 +26,10 @@ const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="container">
+      <div className="background-glow"></div> {/* ✨ Add glow effect here */}
       <Header />
         {/* Hero Section */}
         <section className="hero" id="hero">
-  <Suspense fallback={<div>Loading light...</div>}>
-    <BackgroundLight
-      initialX={6.0}
-      color={{ r: 1.0, g: 0.5, b: 0.1 }}
-      glowRadiusX={0.5}
-      glowRadiusY={0.3}
-      intensity={0}
-      opacity={0.5}
-      fadeDuration={2.0}
-      lightDirection={1.2}
-      wiggleAmount={100}
-      verticalWiggleAmount={100}
-      wiggleSpeed={8}
-    />
-  </Suspense>
   <Suspense fallback={<div>Loading title...</div>}>
     <TitleBG />
   </Suspense>
@@ -62,21 +47,6 @@ const App = () => {
 
         {/* Skills Section */}
         <section id="skills" data-title="Skills">
-          <Suspense fallback={<div>Loading light...</div>}>
-            <BackgroundLight
-              initialX={-10} 
-              color={{ r: 0.1, g: 0.5, b: 1.0 }} 
-              glowRadiusX={0.3}
-              glowRadiusY={0.2}
-              intensity={0}
-              opacity={0.5}
-              fadeDuration={2.0}
-              lightDirection={-0}
-              wiggleAmount={100}
-              verticalWiggleAmount={100}
-              wiggleSpeed={8}
-            />
-          </Suspense>
           <Suspense fallback={<div>Loading skills...</div>}>
             <Skills />
           </Suspense>
@@ -92,21 +62,6 @@ const App = () => {
 
         {/* Contact Section */}
         <section id="contact" data-title="Contact Me">
-          <Suspense fallback={<div>Loading light...</div>}>
-            <BackgroundLight
-              initialX={-5.0}
-              color={{ r: 0.1, g: 0.5, b: 1.0 }}
-              glowRadiusX={0.4}
-              glowRadiusY={0.3}
-              intensity={0}
-              opacity={0.5}
-              fadeDuration={2.0}
-              lightDirection={-0}
-              wiggleAmount={100}
-              verticalWiggleAmount={100}
-              wiggleSpeed={8}
-            />
-          </Suspense>
           <MemoizedContactSection />
         </section>
       </div>

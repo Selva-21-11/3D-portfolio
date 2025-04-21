@@ -9,7 +9,7 @@
   justify-content: center;
   z-index: 2;
   width: 90vw;
-  color: #F5F5F5;
+  color: #ffffff;
 }
 
 .first-line,
@@ -19,7 +19,7 @@
   font-family: "Lato", serif;
   font-weight: 900;
   font-style: normal;
-  color: #F5F5F5;
+  color: #cbf3ff;
 }
 
 .subheading,
@@ -29,7 +29,7 @@
   margin-bottom: 0;
   font-family: "Lato", serif;
   font-weight: 400;
-  color: #B0B0B0;
+  color: #5e7594;
   max-width: 700px;
 }
 
@@ -51,7 +51,7 @@
 
 .highlight-text {
   font-weight: 600;
-  background: linear-gradient(90deg, #4FD1C5, #2C7A7F, #4FD1C5, #4d6c8b);
+  background: linear-gradient(90deg, #4988CF, #8BBBC9);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -79,7 +79,7 @@
   cursor: pointer;
   color: white;
   border: none;
-  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631);
+  background: linear-gradient(135deg, #1B1E30, #2A3341);
 }
 
 .hero-btn::before {
@@ -89,7 +89,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631);
+  background: radial-gradient(circle at center, #4988CF, #1B1E30);
   filter: blur(20px);
   opacity: 0.6;
   z-index: -1;
@@ -103,21 +103,21 @@
 }
 
 .hero-btn:hover {
-  box-shadow: 0 0 25px rgba(79, 209, 197, 0.6);
+  box-shadow: 0 0 25px rgba(73, 136, 207, 0.6);
   transform: scale(1.05);
 }
 
 .hero-btn.secondary {
-  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631);
+  background: linear-gradient(145deg, #8BBBC9, #6F7D91);
   color: white;
   border: none;
   box-shadow: none;
 }
 
 .hero-btn.secondary:hover {
-  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631);
+  background: linear-gradient(145deg, #8BBBC9, #6F7D91);
   color: white;
-  box-shadow: 0 0 25px rgba(79, 209, 197, 0.6);
+  box-shadow: 0 0 25px rgba(73, 136, 207, 0.6);
 }
 
 /* 🌍 Optional media query for ultra-small devices */

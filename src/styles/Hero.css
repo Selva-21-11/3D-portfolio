@@ -1,195 +1,197 @@
 .upgraded-hero-content {
-  position: absolute;
-  top: 50%;
-  left: 5vw;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  z-index: 2;
-  width: 90vw;
-  color: #F5F5F5;
+  position: absolute; /* Positioning the content absolutely within the container */
+  top: 50%; /* Vertically centers the content */
+  left: 5vw; /* Horizontal positioning from the left, based on viewport width */
+  transform: translateY(-50%); /* Adjusts to perfectly center the content */
+  display: flex; /* Uses flexbox for easy content arrangement */
+  flex-direction: column; /* Stacks the child elements vertically */
+  align-items: flex-start; /* Aligns items to the start (left-aligned) */
+  justify-content: center; /* Centers the content vertically */
+  z-index: 2; /* Makes sure the content is above other elements */
+  width: 90vw; /* Width of the content is 90% of the viewport width */
+  color: #F5F5F5; /* Primary Text color - soft white */
 }
 
 .first-line,
 .second-line {
-  font-size: clamp(3rem, 10vw, 7em);
-  margin: 0;
-  font-family: "Lato", serif;
-  font-weight: 900;
-  font-style: normal;
-  color: #F5F5F5;
+  font-size: clamp(3rem, 10vw, 7em); /* Responsive font size, adjusts based on viewport width */
+  margin: 0; /* Removes default margin */
+  font-family: "Lato", serif; /* Font style for the lines */
+  font-weight: 900; /* Bold weight for prominent text */
+  font-style: normal; /* Ensures no italic styling */
+  color: #F5F5F5; /* Primary Text color - soft white */
 }
 
 .subheading {
-  font-size: 1.25rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0;
-  font-family: "Lato", serif;
-  font-weight: 400;
-  color: #B0B0B0;
-  max-width: 700px;
+  font-size: 1.25rem; /* Smaller font size for subheading */
+  margin-top: 1.5rem; /* Adds space above */
+  margin-bottom: 0; /* Removes bottom margin */
+  font-family: "Lato", serif; /* Font style for the subheading */
+  font-weight: 400; /* Normal weight for subheading */
+  color: #B0B0B0; /* Secondary Text color - light gray */
+  max-width: 700px; /* Limits the maximum width to make it more readable */
 }
 
 .fade-in {
-  opacity: 0;
-  animation: fadeInUp 1s ease forwards;
+  opacity: 0; /* Initial state with no visibility */
+  animation: fadeInUp 1s ease forwards; /* Fade-in animation with upward movement */
 }
 
 @keyframes fadeInUp {
   0% {
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 0; /* Starts invisible */
+    transform: translateY(30px); /* Starts below the final position */
   }
   100% {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1; /* Fully visible */
+    transform: translateY(0); /* Ends in the normal position */
   }
 }
 
 .hero-subtext {
-  font-size: 1.5rem;
-  color: #B0B0B0;
-  margin: 20px 0;
-  font-family: "Lato", serif;
-  font-weight: 300;
+  font-size: 1.5rem; /* Larger size for the subtext */
+  color: #B0B0B0; /* Secondary Text color - light gray */
+  margin: 20px 0; /* Adds vertical spacing */
+  font-family: "Lato", serif; /* Font style for the subtext */
+  font-weight: 300; /* Light weight for subtle text */
 }
 
 .highlight-text {
-  font-weight: 600;
-  background: linear-gradient(90deg, #4FD1C5, #2C7A7F, #4FD1C5, #4d6c8b);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  font-weight: 600; /* Bold weight for highlighted text */
+  background: linear-gradient(90deg, #4FD1C5, #2C7A7F, #4FD1C5, #4d6c8b); /* Gradient colors for a smoother look */
+  background-clip: text; /* Clips the gradient to the text */
+  -webkit-background-clip: text; /* For WebKit browsers (Chrome, Safari) */
+  color: transparent; /* Text becomes transparent to show gradient */
+  -webkit-text-fill-color: transparent; /* For WebKit browsers */
 }
 
 .cta-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+  display: flex; /* Uses flexbox to align buttons horizontally */
+  gap: 1rem; /* Space between the buttons */
+  margin-top: 2rem; /* Adds vertical spacing between content and buttons */
 }
 
 .hero-btn {
-  padding: 12px 24px;
-  border-radius: 30px;
-  font-size: 1rem;
-  text-decoration: none;
-  font-weight: 600;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  color: white;
-  border: none;
-  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631);
-  min-width: 80px; /* Minimum width for button */
+  padding: 12px 24px; /* Adjusts padding for the button */
+  border-radius: 30px; /* Rounded corners */
+  font-size: 1rem; /* Button text size */
+  text-decoration: none; /* Removes any underline */
+  font-weight: 600; /* Bold weight for button text */
+  position: relative; /* Allows for absolute positioning of pseudo-elements */
+  overflow: hidden; /* Ensures content is confined within the button */
+  z-index: 1; /* Keeps the button above other elements */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  cursor: pointer; /* Pointer cursor on hover */
+  color: white; /* Button text color */
+  border: none; /* No border */
+  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631); /* Gradient background */
+
 }
 
 .hero-btn::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631);
-  filter: blur(20px);
-  opacity: 0.6;
-  z-index: -1;
-  transition: all 0.5s ease;
+  content: ''; /* Adds a pseudo-element for glow effect */
+  position: absolute; /* Positioned absolutely inside the button */
+  top: -50%; /* Position from top */
+  left: -50%; /* Position from left */
+  width: 200%; /* Makes the glow bigger than the button */
+  height: 200%; /* Makes the glow bigger than the button */
+  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631); /* Same gradient for glow */
+  filter: blur(20px); /* Blurs the glow */
+  opacity: 0.6; /* Sets opacity for the glow */
+  z-index: -1; /* Behind the button content */
+  transition: all 0.5s ease; /* Smooth transition for glow effect */
 }
 
 .hero-btn:hover::before {
-  top: -40%;
-  left: -40%;
-  opacity: 1;
+  top: -40%; /* Moves the glow closer to the button on hover */
+  left: -40%; /* Moves the glow closer to the button on hover */
+  opacity: 1; /* Makes the glow fully visible on hover */
 }
 
 .hero-btn:hover {
-  box-shadow: 0 0 25px rgba(79, 209, 197, 0.6);
-  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(79, 209, 197, 0.6); /* Stronger glow on hover */
+  transform: scale(1.05); /* Slightly increases the button size on hover */
 }
 
 .hero-btn.secondary {
-  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631);
-  color: white;
-  border: none;
-  box-shadow: none;
+  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631); /* Same gradient as primary */
+  color: white; /* Text color for secondary button */
+  border: none; /* No border */
+  box-shadow: none; /* No shadow */
 }
 
 .hero-btn.secondary:hover {
-  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631);
-  color: white;
-  box-shadow: 0 0 25px rgba(79, 209, 197, 0.6);
+  background: linear-gradient(135deg, #4FD1C5, #2C7A7F, #1A2631); /* Same gradient on hover */
+  color: white; /* Text color remains white */
+  box-shadow: 0 0 25px rgba(79, 209, 197, 0.6); /* Glow effect on hover */
 }
-
-/* Responsive Styles */
-
-@media (max-width: 1200px) {
-  .upgraded-hero-content {
-    left: 10vw; /* Slightly adjust left position for large screens */
-    width: 80vw;
-  }
-
+@media (max-width: 1024px) {
   .first-line,
   .second-line {
-    font-size: clamp(2.5rem, 8vw, 5em);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+  }
+
+  .hero-subtext,
+  .subheading {
+    font-size: 1.2rem;
+    max-width: 90vw;
   }
 
   .cta-buttons {
-    justify-content: center;
-    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
-  
+
+  .hero-btn {
+    flex: 1 1 200px;
+    max-width: 100%;
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
 }
 
 @media (max-width: 768px) {
   .upgraded-hero-content {
     left: 5vw;
     width: 90vw;
+    padding-right: 5vw;
   }
 
   .first-line,
   .second-line {
-    font-size: clamp(2rem, 8vw, 4.5em);
+    font-size: clamp(2rem, 10vw, 3.5rem);
   }
 
+  .hero-subtext,
   .subheading {
     font-size: 1rem;
   }
 
   .cta-buttons {
-    flex-direction: column; /* Stack buttons vertically */
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
   }
 
   .hero-btn {
-    width: 100%; /* Full width on mobile */
-    min-width: unset; /* Remove min-width for better sizing */
+    width: 100%;
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 480px) {
   .first-line,
   .second-line {
-    font-size: clamp(1.5rem, 6vw, 3.5em);
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
   }
 
-  .hero-subtext {
-    font-size: 1.25rem;
-  }
-
-  .cta-buttons {
-    gap: 0.5rem;
+  .hero-subtext,
+  .subheading {
+    font-size: 0.95rem;
   }
 
   .hero-btn {
-    padding: 10px 20px;
+    padding: 10px 16px;
     font-size: 0.9rem;
   }
 }

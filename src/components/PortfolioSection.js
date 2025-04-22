@@ -6,7 +6,30 @@ const portfolioItems = [
   { id: 5, type: 'image', src: './assets/Imagerender2.webp' },
   { id: 6, type: 'image', src: './assets/Imagerender2.webp' },
   { id: 7, type: 'image', src: './assets/Imagerender2.webp' },
-  { id: 2, type: 'video', src: './assets/portfolio/video1.mp4', thumbnail: './assets/Carchase.png' },
+  {
+    id: 2,
+    type: 'video',
+    iframe: 'https://www.youtube.com/embed/tZc1T28Oe20?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
+    thumbnail: 'https://img.youtube.com/vi/tZc1T28Oe20/hqdefault.jpg', // YouTube thumbnail URL
+  },
+  {
+    id: 8,
+    type: 'video',
+    iframe: 'https://www.youtube.com/embed/895sufvfnA0?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
+    thumbnail: 'https://img.youtube.com/vi/895sufvfnA0/hqdefault.jpg', // YouTube thumbnail URL
+  },
+  {
+    id: 9,
+    type: 'video',
+    iframe: 'https://www.youtube.com/embed/8fPSmTUGj1Q?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
+    thumbnail: 'https://img.youtube.com/vi/8fPSmTUGj1Q/hqdefault.jpg', // YouTube thumbnail URL
+  },
+  {
+    id: 10,
+    type: 'video',
+    iframe: 'https://www.youtube.com/embed/EVWK63G3Lf8?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
+    thumbnail: 'https://img.youtube.com/vi/EVWK63G3Lf8/hqdefault.jpg', // YouTube thumbnail URL
+  },
   //{ id: 3, type: 'poster', src: './assets/SportsPoster.jpg' },
   { id: 4, type: '3d', iframe: 'https://v3d.net/18q9', thumbnail: './assets/BMW-Config.webp' },
 ];
@@ -111,7 +134,7 @@ const PortfolioSection = () => {
                 } else {
                   setSelectedItem(item);
                 }
-              }}              
+              }}               
               variants={itemVariants}
               transition={{ duration: 0.4, ease: 'easeInOut' }} // Subtle ease-in-out transition
             >
@@ -150,10 +173,14 @@ const PortfolioSection = () => {
               exit="exit"
               transition={{ duration: 0.3, ease: 'easeOut' }}
             >
-              {selectedItem.type === '3d' ? (
-                <iframe src={selectedItem.iframe} frameBorder="0" allowFullScreen title="3D Model" />
-              ) : selectedItem.type === 'video' ? (
-                <video src={selectedItem.src} controls autoPlay />
+              {selectedItem.type === '3d' || selectedItem.type === 'video' ? (
+                <iframe
+                  src={selectedItem.iframe}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                  title={selectedItem.type === '3d' ? '3D Model' : 'Video Player'}
+                />
               ) : (
                 <img src={selectedItem.src} alt="full" />
               )}

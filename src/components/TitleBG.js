@@ -17,8 +17,13 @@ const TitleBG = () => {
     const camera = new THREE.OrthographicCamera(
       -2 * aspect, 2 * aspect, 2, -2, 0.1, 1000
     );
-    const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      preserveDrawingBuffer: true,
+      alpha: true,  // Set alpha to true for transparency
+    });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0); // Set the background to transparent (alpha = 0)
     renderer.outputEncoding = THREE.LinearSRGBColorSpace;
     renderer.physicallyCorrectLights = true;
     document.getElementById('hero').appendChild(renderer.domElement);

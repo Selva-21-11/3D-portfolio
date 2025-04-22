@@ -20,10 +20,10 @@ const TitleBG = () => {
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
       preserveDrawingBuffer: true,
-      alpha: true,  // Set alpha to true for transparency
+      alpha: true,
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0); // Set the background to transparent (alpha = 0)
+    renderer.setClearColor(0x000000, 0);
     renderer.outputEncoding = THREE.LinearSRGBColorSpace;
     renderer.physicallyCorrectLights = true;
     document.getElementById('hero').appendChild(renderer.domElement);
@@ -32,27 +32,17 @@ const TitleBG = () => {
     sceneRef.current = scene;
     camera.position.z = 5;
 
-    // Set up the loading manager
+    // Load manager
     const loadingManager = new THREE.LoadingManager();
-    loadingManager.onStart = () => console.log("Loading started...");
-    loadingManager.onLoad = () => {
-      console.log("Loading complete!");
-      setIsLoading(false);
 
-      // Trigger popup animation after loading
-      gsap.fromTo(bigSphereRef.current.scale, { x: 0, y: 0, z: 0 }, { x: 1, y: 1, z: 1, duration: 1, ease: 'power3.out' });
-      gsap.fromTo(smallSphereRef.current.scale, { x: 0, y: 0, z: 0 }, { x: 1, y: 1, z: 1, duration: 1, ease: 'power3.out' });
-    };
-
-    // Load MatCap textures
+    // Load textures
     const textureLoader = new THREE.TextureLoader(loadingManager);
-    const matCapTextureBig = textureLoader.load('./assets/mattext.webp'); // Replace with your matcap texture
-    const matCapTextureSmall = textureLoader.load('./assets/mattext.webp'); // Replace with your matcap texture
-
-    // Set texture wrapping
+    const matCapTextureBig = textureLoader.load('./assets/mattext.webp');
+    const matCapTextureSmall = textureLoader.load('./assets/mattext.webp');
     matCapTextureBig.wrapS = matCapTextureBig.wrapT = THREE.ClampToEdgeWrapping;
     matCapTextureSmall.wrapS = matCapTextureSmall.wrapT = THREE.ClampToEdgeWrapping;
 
+    // Shader Materials
     const shaderMaterialBig = new THREE.ShaderMaterial({
       uniforms: {
         tMatCap: { type: 't', value: matCapTextureBig },
@@ -60,7 +50,7 @@ const TitleBG = () => {
       vertexShader: `
         varying vec3 vNormal;
         varying vec3 vPosition;
-    
+
         void main() {
           vNormal = normalize(normalMatrix * normal);
           vPosition = position;
@@ -71,50 +61,28 @@ const TitleBG = () => {
         uniform sampler2D tMatCap;
         varying vec3 vNormal;
         varying vec3 vPosition;
-    
+
         void main() {
           vec3 matCapColor = texture2D(tMatCap, vec2(vNormal.x * 0.5 + 0.5, vNormal.y * 0.5 + 0.5)).rgb;
           gl_FragColor = vec4(matCapColor, 1.0);
         }
       `,
     });
-    
-    // Same change for the small sphere material:
+
     const shaderMaterialSmall = new THREE.ShaderMaterial({
       uniforms: {
         tMatCap: { type: 't', value: matCapTextureSmall },
       },
-      vertexShader: `
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-    
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          vPosition = position;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform sampler2D tMatCap;
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-    
-        void main() {
-          vec3 matCapColor = texture2D(tMatCap, vec2(vNormal.x * 0.5 + 0.5, vNormal.y * 0.5 + 0.5)).rgb;
-          gl_FragColor = vec4(matCapColor, 1.0);
-        }
-      `,
+      vertexShader: shaderMaterialBig.vertexShader,
+      fragmentShader: shaderMaterialBig.fragmentShader,
     });
 
-    // Create sphere geometries
+    // Sphere geometry
     const bigSphereGeometry = new THREE.SphereGeometry(1.5, 32, 32);
     const smallSphereGeometry = new THREE.SphereGeometry(0.5, 32, 32);
 
-    // Create meshes with ShaderMaterial
     const bigSphere = new THREE.Mesh(bigSphereGeometry, shaderMaterialBig);
     const smallSphere = new THREE.Mesh(smallSphereGeometry, shaderMaterialSmall);
-
-    // Group the spheres for easier management
     const sphereGroup = new THREE.Group();
     sphereGroup.add(bigSphere);
     sphereGroup.add(smallSphere);
@@ -124,43 +92,18 @@ const TitleBG = () => {
     smallSphereRef.current = smallSphere;
 
     const handleMouseMove = throttle((event) => {
-      // Get mouse position relative to the center of the window
-      const mouseXPosition = (event.clientX / window.innerWidth) * 2 - 1;  // Normalized -1 to 1
-      const mouseYPosition = (event.clientY / window.innerHeight) * 2 - 1;  // Normalized -1 to 1
-    
-      // Set a radius for the circular movement
+      const mouseXPosition = (event.clientX / window.innerWidth) * 2 - 1;
+      const mouseYPosition = (event.clientY / window.innerHeight) * 2 - 1;
       const radius = 1.6;
-    
-      // Calculate the angle for the small sphere's position
-      // Use the mouse position to compute a circular path angle (not just position)
-      const angle = Math.atan2(mouseYPosition, mouseXPosition);  // Get the angle between mouse and center
-      
-      // Now map this angle to a circular path
-      const targetX = radius * Math.cos(angle);  // Calculate X position along the circular path
-      const targetY = radius * Math.sin(angle);  // Calculate Y position along the circular path
-    
-      // Update small sphere's position based on the calculated target
+      const angle = Math.atan2(mouseYPosition, mouseXPosition);
+      const targetX = radius * Math.cos(angle);
+      const targetY = radius * Math.sin(angle);
       gsap.to(smallSphere.position, { x: targetX, y: targetY, z: -1, duration: 0.5, ease: 'power3.out' });
-    
-      // Optional: Move the camera to give the feeling of interactivity
-      const parallaxX = mouseXPosition * 0.1;
-      const parallaxY = mouseYPosition * 0.1;
-      gsap.to(camera.position, { x: parallaxX, y: parallaxY, z: 5, duration: 0.6, ease: 'power3.out' });
-    }, 60);  // Reduced throttle delay for better responsiveness
-    
+      gsap.to(camera.position, { x: mouseXPosition * 0.1, y: mouseYPosition * 0.1, z: 5, duration: 0.6, ease: 'power3.out' });
+    }, 60);
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Animation loop
-    const animate = () => {
-      if (!isLoading) {
-        renderer.render(scene, camera);
-      }
-      requestAnimationFrame(animate);
-    };
-    animate();
-
-    // Resize handling
     const onWindowResize = () => {
       const aspect = window.innerWidth / window.innerHeight;
       camera.left = -2 * aspect;
@@ -172,29 +115,38 @@ const TitleBG = () => {
     };
     window.addEventListener('resize', onWindowResize);
 
-    // Cleanup function (unload)
-    const unload = () => {
+    // ✅ Move animate inside onLoad
+    const animate = () => {
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    };
+
+    loadingManager.onLoad = () => {
+      console.log("Loading complete!");
+      setIsLoading(false);
+
+      // Animate scale pop-in
+      gsap.fromTo(bigSphere.scale, { x: 0, y: 0, z: 0 }, { x: 1, y: 1, z: 1, duration: 1, ease: 'power3.out' });
+      gsap.fromTo(smallSphere.scale, { x: 0, y: 0, z: 0 }, { x: 1, y: 1, z: 1, duration: 1, ease: 'power3.out' });
+
+      // ✅ Start rendering only after loading
+      animate();
+    };
+
+    // Cleanup
+    return () => {
       window.removeEventListener('resize', onWindowResize);
       window.removeEventListener('mousemove', handleMouseMove);
-
-      // Dispose of materials, geometries, and textures
       matCapTextureBig.dispose();
       matCapTextureSmall.dispose();
       bigSphereGeometry.dispose();
       smallSphereGeometry.dispose();
       bigSphere.material.dispose();
       smallSphere.material.dispose();
-
-      // Clear scene
       scene.clear();
       renderer.dispose();
     };
-
-    // Call unload function on component unmount
-    return () => {
-      unload();
-    };
-  }, [isLoading]);
+  }, []);
 
   return (
     <div>

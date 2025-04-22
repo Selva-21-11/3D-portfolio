@@ -6,7 +6,7 @@ import "./styles/AboutMe.css";
 import './styles/Header.css';
 import './styles/PortfolioSection.css';
 import "./styles/Header.css";
-import Aurora from "./blocks/backgrounds/aurora/Aurora";
+import Aurora from "./blocks/Backgrounds/Aurora/Aurora";
 import "./styles/Hero.css";
 import Header from "./components/Header";
 

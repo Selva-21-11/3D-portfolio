@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const portfolioItems = [
-  { id: 1, type: 'image', src: './assets/Imagerender1.png' },
-  { id: 5, type: 'image', src: './assets/Imagerender2.png' },
-  { id: 6, type: 'image', src: './assets/Imagerender2.png' },
-  { id: 7, type: 'image', src: './assets/Imagerender2.png' },
-  //{ id: 2, type: 'video', src: './assets/portfolio/video1.mp4', thumbnail: './assets/Carchase.png' },
+  { id: 1, type: 'image', src: './assets/Imagerender1.webp' },
+  { id: 5, type: 'image', src: './assets/Imagerender2.webp' },
+  { id: 6, type: 'image', src: './assets/Imagerender2.webp' },
+  { id: 7, type: 'image', src: './assets/Imagerender2.webp' },
+  { id: 2, type: 'video', src: './assets/portfolio/video1.mp4', thumbnail: './assets/Carchase.png' },
   //{ id: 3, type: 'poster', src: './assets/SportsPoster.jpg' },
-  { id: 4, type: '3d', iframe: 'https://v3d.net/18q9', thumbnail: './assets/BMW-Config.png' },
+  { id: 4, type: '3d', iframe: 'https://v3d.net/18q9', thumbnail: './assets/BMW-Config.webp' },
 ];
-
 
 const containerVariants = {
   animate: {
@@ -21,9 +20,9 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  initial: { opacity: 0, y: 0, scale: 0.95 },
+  initial: { opacity: 0, y: 20, scale: 0.95 },
   animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: 0, scale: 0.95 },
+  exit: { opacity: 0, y: 20, scale: 0.95 },
 };
 
 const modalBackdropVariants = {
@@ -58,20 +57,45 @@ const PortfolioSection = () => {
       viewport={{ once: true, amount: 0.3 }}
     >
       <div className="portfolio-filter-bar">
-        {['all', 'image', 'video', 'poster', '3d'].map(category => (
-          <button
-            key={category}
-            className={`filter-btn ${filter === category ? 'active' : ''}`}
-            onClick={() => setFilter(category)}
-          >
-            {category.toUpperCase()}
-          </button>
-        ))}
+        <button
+          key="all"
+          className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
+          onClick={() => setFilter('all')}
+        >
+          All
+        </button>
+        <button
+          key="image"
+          className={`filter-btn ${filter === 'image' ? 'active' : ''}`}
+          onClick={() => setFilter('image')}
+        >
+          Image
+        </button>
+        <button
+          key="video"
+          className={`filter-btn ${filter === 'video' ? 'active' : ''}`}
+          onClick={() => setFilter('video')}
+        >
+          Video
+        </button>
+        <button
+          key="poster"
+          className={`filter-btn ${filter === 'poster' ? 'active' : ''}`}
+          onClick={() => setFilter('poster')}
+        >
+          Poster
+        </button>
+        <button
+          key="3d"
+          className={`filter-btn ${filter === '3d' ? 'active' : ''}`}
+          onClick={() => setFilter('3d')}
+        >
+          3D
+        </button>
       </div>
 
       <motion.div
         className="portfolio-grid"
-        layout
         variants={containerVariants}
         initial="initial"
         animate="animate"
@@ -88,20 +112,18 @@ const PortfolioSection = () => {
                   setSelectedItem(item);
                 }
               }}              
-              layout
               variants={itemVariants}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
+              transition={{ duration: 0.4, ease: 'easeInOut' }} // Subtle ease-in-out transition
             >
-{item.type === 'image' || item.type === 'poster' ? (
-  <img src={item.src} alt="" />
-) : item.type === 'video' || item.type === '3d' ? (
-  <div className="thumbnail-wrapper">
-    <img src={item.thumbnail} alt={`${item.type} thumbnail`} />
-    {item.type === '3d' && <div className="model-tag">3D</div>}
-    {item.type === 'video' && <div className="play-icon">▶</div>}
-  </div>
-) : null}
-
+              {item.type === 'image' || item.type === 'poster' ? (
+                <img src={item.src} alt="" />
+              ) : item.type === 'video' || item.type === '3d' ? (
+                <div className="thumbnail-wrapper">
+                  <img src={item.thumbnail} alt={`${item.type} thumbnail`} />
+                  {item.type === '3d' && <div className="model-tag">3D</div>}
+                  {item.type === 'video' && <div className="play-icon">▶</div>}
+                </div>
+              ) : null}
             </motion.div>
           ))}
         </AnimatePresence>

@@ -1,8 +1,6 @@
-/* Modern + Minimalistic */
+/* .portfolio-modern-section */
 .portfolio-modern-section {
-  background-color: transparent; /* ✅ Let glow pass through */
-  backdrop-filter: blur(0.5px);  /* optional */
-  z-index: 1;
+  background: #000;
   padding: 6rem 2rem;
   min-height: 100vh;
   color: white;
@@ -11,32 +9,61 @@
   align-items: center;
 }
 
+/* Portfolio filter bar */
 .portfolio-filter-bar {
   display: flex;
-  gap: 1rem;
+  gap: 2.5rem;
   margin-bottom: 3rem;
   flex-wrap: wrap;
   justify-content: center;
-}
-
-.filter-btn {
-  padding: 0.6rem 1.2rem;
+  position: relative;
   background: transparent;
-  border: 1px solid #444;
-  border-radius: 50px;
-  color: #aaa;
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
+  font-size: 1.2rem; /* Default size */
+}
+/* Filter button */
+.filter-btn {
+  all: unset;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #6F7D91;
+  position: relative;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.filter-btn:hover,
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(145deg, #8BBBC9, #6F7D91);
+  opacity: 0;
+  transform: scaleX(0.5);
+  transform-origin: center;
+  transition: all 0.4s ease;
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(73, 136, 207, 0.4);
+}
+
+.filter-btn:hover {
+  color: #8BBBC9;
+}
+
 .filter-btn.active {
-  background: #fff;
-  color: #000;
-  border-color: #fff;
+  color: #8BBBC9;
+  transform: scale(1.1);
 }
 
+.filter-btn.active::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Portfolio grid */
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -46,6 +73,7 @@
   will-change: transform;
 }
 
+/* Portfolio card */
 .portfolio-card {
   position: relative;
   overflow: hidden;
@@ -80,16 +108,7 @@
   transform: scale(1.08);
 }
 
-.model-placeholder {
-  height: 200px;
-  background: #222;
-  color: #999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-}
-
+/* View text on card hover */
 .portfolio-card::after {
   content: "View";
   position: absolute;
@@ -132,6 +151,8 @@
   height: 100%;
   object-fit: contain;
 }
+
+/* Thumbnail wrapper */
 .thumbnail-wrapper {
   position: relative;
   width: 100%;
@@ -148,6 +169,7 @@
   display: block;
 }
 
+/* Model tag and play icon */
 .model-tag,
 .play-icon {
   position: absolute;
@@ -165,7 +187,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
   padding: 12px 16px;
   font-size: 1.5rem;
   pointer-events: none;
@@ -174,3 +195,43 @@
   justify-content: center;
 }
 
+/* Responsive scaling for smaller screens */
+/* Responsive scaling for smaller screens */
+@media (max-width: 1024px) {
+  .portfolio-grid {
+    transform: scale(0.75); /* Adjusted scaling for 1024px and below */
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio-grid {
+    transform: scale(0.65); /* Adjusted scaling for 768px and below */
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-grid {
+    transform: scale(0.55); /* Adjusted scaling for 480px and below */
+  }
+}
+
+@media (max-width: 1024px) {
+  .portfolio-filter-bar {
+    font-size: 1rem; /* Adjust font size for 1024px and below */
+    gap: 1.5rem; /* Reduce gap for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio-filter-bar {
+    font-size: 0.9rem; /* Further reduce font size */
+    gap: 1rem; /* Reduce gap even more */
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-filter-bar {
+    font-size: 0.8rem; /* Further reduction for very small screens */
+    gap: 0.8rem; /* Reduce gap further */
+  }
+}

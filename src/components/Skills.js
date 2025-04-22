@@ -3,13 +3,14 @@ import TiltedCard from "../blocks/Components/TiltedCard/TiltedCard"; // Import T
 
 const SkillsSection = () => {
   const skills = [
-    { imageSrc: "./assets/Blender.png", captionText: "Blender", progressBarValue: 80, leveltext: "Expertise" },
-    { imageSrc: "./assets/unreal-engine.png", captionText: "Unreal Engine", progressBarValue: 60, leveltext: "Expertise" },
-    { imageSrc: "./assets/adobe-photoshop.png", captionText: "Photoshop", progressBarValue: 80, leveltext: "Expertise" },
-    { imageSrc: "./assets/Html.png", captionText: "HTML", progressBarValue: 60, leveltext: "Expertise" },
-    { imageSrc: "./assets/CSS.png", captionText: "CSS", progressBarValue: 60, leveltext: "Expertise" },
-    { imageSrc: "./assets/Javascript.png", captionText: "JavaScript", progressBarValue: 60, leveltext: "Expertise" },
-    { imageSrc: "./assets/Verge3d.png", captionText: "Verge3D", progressBarValue: 60, leveltext: "Expertise" },
+    { imageSrc: "./assets/Blender.webp", captionText: "Blender", progressBarValue: 80, leveltext: "Expertise" },
+    { imageSrc: "./assets/unreal-engine.webp", captionText: "Unreal Engine", progressBarValue: 60, leveltext: "Expertise" },
+    { imageSrc: "./assets/adobe-photoshop.webp", captionText: "Photoshop", progressBarValue: 80, leveltext: "Expertise" },
+    { imageSrc: "./assets/Verge3d.webp", captionText: "Verge3D", progressBarValue: 60, leveltext: "Expertise" },
+    { imageSrc: "./assets/Html.webp", captionText: "HTML", progressBarValue: 60, leveltext: "Expertise" },
+    { imageSrc: "./assets/CSS.webp", captionText: "CSS", progressBarValue: 60, leveltext: "Expertise" },
+    { imageSrc: "./assets/Javascript.webp", captionText: "JavaScript", progressBarValue: 60, leveltext: "Expertise" },
+    
   ];
 
   const sectionRef = useRef(null);

@@ -19,7 +19,7 @@
   font-family: "Lato", serif;
   font-weight: 900;
   font-style: normal;
-  color: #ffffff;
+  color: #cbf3ff;
 }
 
 .subheading,
@@ -29,7 +29,7 @@
   margin-bottom: 0;
   font-family: "Lato", serif;
   font-weight: 400;
-  color: #bdbdbd;
+  color: #5e7594;
   max-width: 700px;
 }
 
@@ -121,9 +121,23 @@
 }
 
 /* 🌍 Optional media query for ultra-small devices */
-@media (max-width: 360px) {
-  .hero-btn {
-    width: 100%;
-    text-align: center;
+@media (max-width: 1024px) {
+  .upgraded-hero-content {
+    transform: scale(0.9) translateY(-50%);
+    transform-origin: left center;
+  }
+}
+
+@media (max-width: 768px) {
+  .upgraded-hero-content {
+    transform: scale(0.75) translateY(-50%);
+    transform-origin: left center;
+  }
+}
+
+@media (max-width: 480px) {
+  .upgraded-hero-content {
+    transform: scale(0.6) translateY(-50%);
+    transform-origin: left center;
   }
 }

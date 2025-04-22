@@ -18,7 +18,7 @@ const Header = () => {
         initial={{ rotate: -360, opacity: 0, y: -100 }}
         animate={{ rotate: 0, opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
-      >
+      > 
 <motion.img
   src="./assets/logo.png"
   alt="logo"

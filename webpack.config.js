@@ -31,7 +31,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(png|jpe?g|gif)$/i,
+                test: /\.(png|jpe?g|gif|webp)$/i,
                 use: [
                     {
                         loader: 'file-loader',
@@ -75,7 +75,7 @@ module.exports = {
             ],
         }),
         new CompressionPlugin({
-            test: /\.(js|css|html|json|svg|png|jpg|jpeg|gif|woff|woff2|ttf|eot|otf|glb|mp4)$/, // Add file types to compress
+            test: /\.(js|css|html|json|svg|png|jpg|jpeg|gif|woff|woff2|ttf|eot|otf|glb|mp4|webp)$/, // Add file types to compress
             algorithm: 'gzip', // Using gzip for compression
             threshold: 10240, // Compress assets larger than 10KB
             minRatio: 0.8, // Compress if the compression ratio is greater than 80%

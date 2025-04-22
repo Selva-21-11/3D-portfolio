@@ -10,11 +10,9 @@
     justify-content: flex-start; /* Align elements to the left */
     align-items: center;
     padding: 0 2rem;
-    background: rgba(10, 10, 10, 0.7);
-    backdrop-filter: blur(10px);
+    background: transparent;
     box-sizing: border-box;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
   
   .logo-container {

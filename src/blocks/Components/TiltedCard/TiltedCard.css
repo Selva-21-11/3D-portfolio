@@ -120,11 +120,13 @@
 
 
 .progress-bar-fill {
-  background-color: #0084ff; /* Green color for progress */
+  background: linear-gradient(145deg, #8BBBC9, #6F7D91);
   border-radius: 3px;
   z-index: 2;
   will-change: transform;
   transform: translateZ(30px);
 }
+
+
 
 

@@ -1,13 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
+import { FaLinkedin, FaGithub } from "react-icons/fa"; // Removed FaTwitter
 
 
 const Header = () => {
   const socialLinks = [
     { icon: <FaLinkedin />, url: "https://linkedin.com/in/yourprofile" },
     { icon: <FaGithub />, url: "https://github.com/yourusername" },
-    { icon: <FaTwitter />, url: "https://twitter.com/yourhandle" },
+    // Twitter icon removed
   ];
 
   return (
@@ -19,16 +19,15 @@ const Header = () => {
         animate={{ rotate: 0, opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
       > 
-<motion.img
-  src="./assets/logo.png"
-  alt="logo"
-  className="logo"
-  whileHover={{
-    rotate: 360,
-    transition: { duration: 0.8, ease: "easeInOut" }
-  }}
-/>
-
+        <motion.img
+          src="./assets/logo.png"
+          alt="logo"
+          className="logo"
+          whileHover={{
+            rotate: 360,
+            transition: { duration: 0.8, ease: "easeInOut" }
+          }}
+        />
       </motion.div>
 
       {/* Text Reveal from behind the Logo */}
@@ -38,7 +37,7 @@ const Header = () => {
         animate={{ opacity: 1, x: 0 }}   // Slide in to the right, revealing the text
         transition={{ duration: 0.6, delay: 1 }} // Delay until logo finishes animating
       >
-        <span className="logo-text">SelvaRanjan</span>
+        <span className="logo-text">SELVARANJAN</span>
       </motion.div>
 
       {/* Social Icons */}
@@ -56,24 +55,22 @@ const Header = () => {
         }}
       >
         {socialLinks.map((link, index) => (
-            <motion.a
-  key={index}
-  href={link.url}
-  className="icon-link"
-  target="_blank"
-  rel="noopener noreferrer"
-  variants={{
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  }}
-  transition={{ duration: 0.5, ease: "easeOut" }}
-  whileHover={{ scale: 1.3, transition: { type: "spring", stiffness: 300, damping: 15 } }}
-  whileTap={{ scale: 0.95 }}
->
-  {link.icon}
-</motion.a>
-
-
+          <motion.a
+            key={index}
+            href={link.url}
+            className="icon-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            whileHover={{ scale: 1.3, transition: { type: "spring", stiffness: 300, damping: 15 } }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {link.icon}
+          </motion.a>
         ))}
       </motion.nav>
     </header>

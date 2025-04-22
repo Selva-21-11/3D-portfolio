@@ -1,28 +1,36 @@
 .site-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    height: 80px;
-    z-index: 10;
-    display: flex;
-    justify-content: flex-start; /* Align elements to the left */
-    align-items: center;
-    padding: 0 2rem;
-    background: transparent;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-  
-  .logo-container {
-    display: flex;
-    align-items: center;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 80px;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 2rem;
+  background: rgba(255, 255, 255, 0.05); /* softer transparency */
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px; /* smooth rounded edges */
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2); /* rich depth */
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 10px auto;
+  max-width: 95vw;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+  position: relative; /* Ensure that positioning works */
+  top: 4px; /* Adjust this value to move the logo down */
+}
+
   .logo {
-    width: 40px;
-    height: 40px;
+    width: 100px;  /* Increased size */
+    height: 100px; /* Increased size */
     object-fit: cover;
   }
   
@@ -36,7 +44,6 @@
     font-weight: bold;
     color: white;
   }
-  
   .social-icons {
     display: flex;
     gap: 1.5rem;
@@ -62,8 +69,9 @@
   }
   
   .logo-text-container {
-    margin-left: 10px;
-    position: relative;
+    position: relative; /* Allow absolute positioning */
+    transition: left 0.3s, top 0.3s; /* Smooth transition when changing */
   }
+  
     
   

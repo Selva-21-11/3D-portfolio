@@ -1,15 +1,14 @@
-// src/components/Hero.js
 import React from "react";
 import SplitText from "../blocks/TextAnimations/SplitText/SplitText";
 
-
 const Hero = () => {
   return (
-    <section className="hero" id="hero">
+    <section id="hero" className="hero">
       <div className="hero-content upgraded-hero-content">
         <h1 className="first-line fade-in">
           <SplitText text="DISCOVER" animation="fadeIn" delay={50} />
         </h1>
+
         <h2 className="second-line fade-in" style={{ animationDelay: "0.3s" }}>
           <SplitText text="THIRD DIMENSION!" animation="fadeIn" delay={50} />
         </h2>
@@ -19,14 +18,14 @@ const Hero = () => {
           <span className="highlight-text">3D & Creativity</span>
         </p>
 
-        <div className="cta-buttons fade-in" style={{ animationDelay: "1s" }}>
-          <a href="#portfolio" className="hero-btn primary">
+        <nav className="cta-buttons fade-in" style={{ animationDelay: "1s" }}>
+          <a href="#portfolio" className="hero-btn primary" aria-label="View Portfolio">
             View Work
           </a>
-          <a href="#contact" className="hero-btn secondary">
+          <a href="#contact" className="hero-btn secondary" aria-label="Contact Me">
             Contact Me
           </a>
-        </div>
+        </nav>
       </div>
     </section>
   );

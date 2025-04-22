@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
@@ -7,26 +7,27 @@ const AboutMe = () => {
   const cardRef = useRef(null);
   const [transform, setTransform] = useState({ rotateX: 0, rotateY: 0, scale: 1 });
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = useCallback((e) => {
     const card = cardRef.current;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+    if (!card) return;
 
-    const rotateX = ((y - centerY) / centerY) * 10;
-    const rotateY = ((x - centerX) / centerX) * -10;
+    const { left, top, width, height } = card.getBoundingClientRect();
+    const x = e.clientX - left;
+    const y = e.clientY - top;
 
-    setTransform({ rotateX, rotateY, scale: 1.05 }); // Pop-up scale
-  };
+    const rotateX = ((y - height / 2) / (height / 2)) * 10;
+    const rotateY = ((x - width / 2) / (width / 2)) * -10;
 
-  const resetTransform = () => {
-    setTransform({ rotateX: 0, rotateY: 0, scale: 1 }); // Reset
-  };
+    setTransform({ rotateX, rotateY, scale: 1.05 });
+  }, []);
+
+  const resetTransform = useCallback(() => {
+    setTransform({ rotateX: 0, rotateY: 0, scale: 1 });
+  }, []);
 
   return (
-    <div className="about-me-fullscreen" ref={ref}>
+    <section className="about-me-fullscreen" ref={ref} id="about">
+      {/* Text Section */}
       <motion.div
         className="about-me-text"
         initial={{ opacity: 0, x: -100 }}
@@ -42,14 +43,17 @@ const AboutMe = () => {
         </p>
       </motion.div>
 
+      {/* Divider Line */}
       <motion.div
         className="divider-line"
         initial={{ scaleY: 0 }}
         animate={inView ? { scaleY: 1 } : {}}
         transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
         style={{ originY: 0 }}
+        aria-hidden="true"
       />
 
+      {/* Image Section with Hover Effect */}
       <motion.div
         className="about-me-image"
         initial={{ opacity: 0, x: 100 }}
@@ -64,12 +68,18 @@ const AboutMe = () => {
           style={{
             transform: `perspective(1000px) rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg) scale(${transform.scale})`,
             transition: "transform 0.2s ease-out",
+            willChange: "transform",
           }}
         >
-          <img src="./assets/About_pic.jpg" alt="Selva Profile" className="profile-image" />
+          <img
+            src="./assets/About_pic.jpg"
+            alt="Portrait of Selva"
+            className="profile-image"
+            loading="lazy"
+          />
         </div>
       </motion.div>
-    </div>
+    </section>
   );
 };
 

@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const FILTERS = ['all', 'image', 'video', 'poster', '3d'];
 
 const portfolioItems = [
   { id: 1, type: 'image', src: './assets/Imagerender1.webp' },
@@ -10,66 +12,56 @@ const portfolioItems = [
     id: 2,
     type: 'video',
     iframe: 'https://www.youtube.com/embed/tZc1T28Oe20?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: 'https://img.youtube.com/vi/tZc1T28Oe20/hqdefault.jpg', // YouTube thumbnail URL
+    thumbnail: 'https://img.youtube.com/vi/tZc1T28Oe20/hqdefault.jpg',
   },
   {
     id: 8,
     type: 'video',
     iframe: 'https://www.youtube.com/embed/895sufvfnA0?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: 'https://img.youtube.com/vi/895sufvfnA0/hqdefault.jpg', // YouTube thumbnail URL
+    thumbnail: 'https://img.youtube.com/vi/895sufvfnA0/hqdefault.jpg',
   },
   {
     id: 9,
     type: 'video',
     iframe: 'https://www.youtube.com/embed/8fPSmTUGj1Q?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: 'https://img.youtube.com/vi/8fPSmTUGj1Q/hqdefault.jpg', // YouTube thumbnail URL
+    thumbnail: 'https://img.youtube.com/vi/8fPSmTUGj1Q/hqdefault.jpg',
   },
   {
     id: 10,
     type: 'video',
     iframe: 'https://www.youtube.com/embed/EVWK63G3Lf8?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: 'https://img.youtube.com/vi/EVWK63G3Lf8/hqdefault.jpg', // YouTube thumbnail URL
+    thumbnail: 'https://img.youtube.com/vi/EVWK63G3Lf8/hqdefault.jpg',
   },
-  //{ id: 3, type: 'poster', src: './assets/SportsPoster.jpg' },
+  // { id: 3, type: 'poster', src: './assets/SportsPoster.jpg' },
   { id: 4, type: '3d', iframe: 'https://v3d.net/18q9', thumbnail: './assets/BMW-Config.webp' },
 ];
-
-const containerVariants = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  initial: { opacity: 0, y: 20, scale: 0.95 },
-  animate: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: 20, scale: 0.95 },
-};
-
-const modalBackdropVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-  exit: { opacity: 0 }
-};
-
-const modalContentVariants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.95 }
-};
 
 const PortfolioSection = () => {
   const [filter, setFilter] = useState('all');
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const filteredItems =
-    filter === 'all' ? portfolioItems : portfolioItems.filter(item => item.type === filter);
-
   useEffect(() => {
     document.body.style.overflow = selectedItem ? 'hidden' : 'auto';
   }, [selectedItem]);
+
+  const filteredItems = useMemo(
+    () => (filter === 'all' ? portfolioItems : portfolioItems.filter(item => item.type === filter)),
+    [filter]
+  );
+
+  const renderItemContent = (item) => {
+    if (item.type === 'image' || item.type === 'poster') {
+      return <img src={item.src} alt={`${item.type} preview`} loading="lazy" />;
+    }
+
+    return (
+      <div className="thumbnail-wrapper">
+        <img src={item.thumbnail} alt={`${item.type} thumbnail`} loading="lazy" />
+        {item.type === 'video' && <div className="play-icon">▶</div>}
+        {item.type === '3d' && <div className="model-tag">3D</div>}
+      </div>
+    );
+  };
 
   return (
     <motion.div
@@ -79,47 +71,25 @@ const PortfolioSection = () => {
       transition={{ duration: 1, ease: 'easeOut' }}
       viewport={{ once: true, amount: 0.3 }}
     >
+      {/* Filter Bar */}
       <div className="portfolio-filter-bar">
-        <button
-          key="all"
-          className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
-          onClick={() => setFilter('all')}
-        >
-          All
-        </button>
-        <button
-          key="image"
-          className={`filter-btn ${filter === 'image' ? 'active' : ''}`}
-          onClick={() => setFilter('image')}
-        >
-          Image
-        </button>
-        <button
-          key="video"
-          className={`filter-btn ${filter === 'video' ? 'active' : ''}`}
-          onClick={() => setFilter('video')}
-        >
-          Video
-        </button>
-        <button
-          key="poster"
-          className={`filter-btn ${filter === 'poster' ? 'active' : ''}`}
-          onClick={() => setFilter('poster')}
-        >
-          Poster
-        </button>
-        <button
-          key="3d"
-          className={`filter-btn ${filter === '3d' ? 'active' : ''}`}
-          onClick={() => setFilter('3d')}
-        >
-          3D
-        </button>
+        {FILTERS.map((type) => (
+          <button
+            key={type}
+            className={`filter-btn ${filter === type ? 'active' : ''}`}
+            onClick={() => setFilter(type)}
+          >
+            {type.charAt(0).toUpperCase() + type.slice(1)}
+          </button>
+        ))}
       </div>
 
+      {/* Grid Items */}
       <motion.div
         className="portfolio-grid"
-        variants={containerVariants}
+        variants={{
+          animate: { transition: { staggerChildren: 0.1 } },
+        }}
         initial="initial"
         animate="animate"
       >
@@ -128,37 +98,33 @@ const PortfolioSection = () => {
             <motion.div
               key={item.id}
               className="portfolio-card"
-              onClick={() => {
-                if (item.type === '3d') {
-                  window.open(item.iframe, '_blank');
-                } else {
-                  setSelectedItem(item);
-                }
-              }}               
-              variants={itemVariants}
-              transition={{ duration: 0.4, ease: 'easeInOut' }} // Subtle ease-in-out transition
+              onClick={() =>
+                item.type === '3d' ? window.open(item.iframe, '_blank') : setSelectedItem(item)
+              }
+              variants={{
+                initial: { opacity: 0, y: 20, scale: 0.95 },
+                animate: { opacity: 1, y: 0, scale: 1 },
+                exit: { opacity: 0, y: 20, scale: 0.95 },
+              }}
+              transition={{ duration: 0.4, ease: 'easeInOut' }}
             >
-              {item.type === 'image' || item.type === 'poster' ? (
-                <img src={item.src} alt="" />
-              ) : item.type === 'video' || item.type === '3d' ? (
-                <div className="thumbnail-wrapper">
-                  <img src={item.thumbnail} alt={`${item.type} thumbnail`} />
-                  {item.type === '3d' && <div className="model-tag">3D</div>}
-                  {item.type === 'video' && <div className="play-icon">▶</div>}
-                </div>
-              ) : null}
+              {renderItemContent(item)}
             </motion.div>
           ))}
         </AnimatePresence>
       </motion.div>
 
-      {/* Modal with animation */}
+      {/* Modal */}
       <AnimatePresence>
         {selectedItem && (
           <motion.div
             className="portfolio-modal"
             onClick={() => setSelectedItem(null)}
-            variants={modalBackdropVariants}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1 },
+              exit: { opacity: 0 },
+            }}
             initial="hidden"
             animate="visible"
             exit="exit"
@@ -167,13 +133,17 @@ const PortfolioSection = () => {
             <motion.div
               className="modal-inner"
               onClick={(e) => e.stopPropagation()}
-              variants={modalContentVariants}
+              variants={{
+                hidden: { opacity: 0, scale: 0.95 },
+                visible: { opacity: 1, scale: 1 },
+                exit: { opacity: 0, scale: 0.95 },
+              }}
               initial="hidden"
               animate="visible"
               exit="exit"
               transition={{ duration: 0.3, ease: 'easeOut' }}
             >
-              {selectedItem.type === '3d' || selectedItem.type === 'video' ? (
+              {selectedItem.type === 'video' || selectedItem.type === '3d' ? (
                 <iframe
                   src={selectedItem.iframe}
                   frameBorder="0"
@@ -182,7 +152,7 @@ const PortfolioSection = () => {
                   title={selectedItem.type === '3d' ? '3D Model' : 'Video Player'}
                 />
               ) : (
-                <img src={selectedItem.src} alt="full" />
+                <img src={selectedItem.src} alt={`${selectedItem.type} full`} />
               )}
             </motion.div>
           </motion.div>

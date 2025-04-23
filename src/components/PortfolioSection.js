@@ -1,39 +1,40 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const FILTERS = ['all', 'image', 'video', 'poster', '3d'];
+const FILTERS = ['all', 'image renders', 'video renders', 'posters', '3d'];
 
 const portfolioItems = [
-  { id: 1, type: 'image', src: './assets/Imagerender1.webp' },
-  { id: 5, type: 'image', src: './assets/Imagerender2.webp' },
-  { id: 6, type: 'image', src: './assets/Imagerender2.webp' },
-  { id: 7, type: 'image', src: './assets/Imagerender2.webp' },
+  { id: 1, type: 'image renders', src: './assets/Imagerender1.webp' },
+  { id: 5, type: 'image renders', src: './assets/Imagerender2.webp' },
+  { id: 6, type: 'image renders', src: './assets/Imagerender2.webp' },
+  { id: 7, type: 'image renders', src: './assets/Imagerender2.webp' },
   {
     id: 2,
-    type: 'video',
+    type: 'video renders',
     iframe: 'https://www.youtube.com/embed/tZc1T28Oe20?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
     thumbnail: 'https://img.youtube.com/vi/tZc1T28Oe20/hqdefault.jpg',
   },
   {
     id: 8,
-    type: 'video',
+    type: 'video renders',
     iframe: 'https://www.youtube.com/embed/895sufvfnA0?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
     thumbnail: 'https://img.youtube.com/vi/895sufvfnA0/hqdefault.jpg',
   },
   {
     id: 9,
-    type: 'video',
+    type: 'video renders',
     iframe: 'https://www.youtube.com/embed/8fPSmTUGj1Q?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
     thumbnail: 'https://img.youtube.com/vi/8fPSmTUGj1Q/hqdefault.jpg',
   },
   {
     id: 10,
-    type: 'video',
+    type: 'video renders',
     iframe: 'https://www.youtube.com/embed/EVWK63G3Lf8?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
     thumbnail: 'https://img.youtube.com/vi/EVWK63G3Lf8/hqdefault.jpg',
   },
-  // { id: 3, type: 'poster', src: './assets/SportsPoster.jpg' },
+  // { id: 3, type: 'posters', src: './assets/SportsPoster.jpg' },
   { id: 4, type: '3d', iframe: 'https://v3d.net/18q9', thumbnail: './assets/BMW-Config.webp' },
+  { id: 11, type: '3d', iframe: 'https://v3d.net/18s1', thumbnail: './assets/Bevelgear.png' },
 ];
 
 const PortfolioSection = () => {
@@ -50,7 +51,7 @@ const PortfolioSection = () => {
   );
 
   const renderItemContent = (item) => {
-    if (item.type === 'image' || item.type === 'poster') {
+    if (item.type === 'image renders' || item.type === 'poster') {
       return <img src={item.src} alt={`${item.type} preview`} loading="lazy" />;
     }
 

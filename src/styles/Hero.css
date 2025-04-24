@@ -11,6 +11,12 @@
   width: 90vw;
   color: #ffffff;
 }
+.hero {
+  min-height: 100vh; /* Ensures space is reserved */
+  position: relative; /* Required since child is absolute */
+  overflow: hidden; /* Optional: prevents overflow issues */
+}
+
 
 .first-line,
 .second-line {
@@ -41,13 +47,14 @@
 @keyframes fadeInUp {
   0% {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(10px); /* smaller shift */
   }
   100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 
 .highlight-text {
   font-weight: 600;

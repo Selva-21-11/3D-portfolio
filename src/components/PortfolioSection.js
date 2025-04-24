@@ -4,37 +4,39 @@ import { motion, AnimatePresence } from 'framer-motion';
 const FILTERS = ['all', 'image renders', 'video renders', 'posters', '3d'];
 
 const portfolioItems = [
-  { id: 1, type: 'image renders', src: './assets/Imagerender1.webp' },
-  { id: 5, type: 'image renders', src: './assets/Imagerender2.webp' },
-  { id: 6, type: 'image renders', src: './assets/Imagerender2.webp' },
+  { id: 2, type: 'image renders', src: './assets/Imagerender2.webp' },
+  { id: 5, type: 'image renders', src: './assets/Imagerender3.webp' },
+  { id: 6, type: 'image renders', src: './assets/Imagerender1.webp' },
   { id: 7, type: 'image renders', src: './assets/Imagerender2.webp' },
   {
-    id: 2,
+    id: 1,
     type: 'video renders',
     iframe: 'https://www.youtube.com/embed/tZc1T28Oe20?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: '',
+    thumbnail: './assets/CarChase.webp',
   },
   {
     id: 8,
     type: 'video renders',
     iframe: 'https://www.youtube.com/embed/895sufvfnA0?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: './assets/Stromscene.png',
+    thumbnail: './assets/Stromscene.webp',
   },
   {
     id: 9,
     type: 'video renders',
     iframe: 'https://www.youtube.com/embed/8fPSmTUGj1Q?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: './assets/perfume.png',
+    thumbnail: './assets/perfume.webp',
   },
   {
     id: 10,
     type: 'video renders',
     iframe: 'https://www.youtube.com/embed/EVWK63G3Lf8?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: './assets/Motoranimationthumb.png',
+    thumbnail: './assets/Motoranimationthumb.webp',
   },
-  // { id: 3, type: 'posters', src: './assets/SportsPoster.jpg' },
+  { id: 3, type: 'posters', src: './assets/SportsPoster.webp' },
+  { id: 12, type: 'posters', src: './assets/SportsPoster_1.webp' },
+  { id: 13, type: 'posters', src: './assets/FilterPractice.webp' },
   { id: 4, type: '3d', iframe: 'https://v3d.net/18s8', thumbnail: './assets/BMW-Config.webp' },
-  { id: 11, type: '3d', iframe: 'https://v3d.net/18s1', thumbnail: './assets/Bevelgear.png' },
+  { id: 11, type: '3d', iframe: 'https://v3d.net/18s1', thumbnail: './assets/Bevelgear.webp' },
 ];
 
 const PortfolioSection = () => {
@@ -51,7 +53,7 @@ const PortfolioSection = () => {
   );
 
   const renderItemContent = (item) => {
-    if (item.type === 'image renders' || item.type === 'poster') {
+    if (item.type === 'image renders' || item.type === 'posters') {
       return <img src={item.src} alt={`${item.type} preview`} loading="lazy" />;
     }
 

@@ -33,7 +33,7 @@ const Header = () => (
       transition={{ duration: 1, ease: "easeOut" }}
     >
       <motion.img
-        src="./assets/logo.png"
+        src="./assets/logo.webp"
         alt="logo"
         className="logo"
         whileHover={{

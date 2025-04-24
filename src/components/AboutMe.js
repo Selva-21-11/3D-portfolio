@@ -36,10 +36,8 @@ const AboutMe = () => {
       >
         <h1 className="intro-text">Hi, I’m Selva</h1>
         <p className="description-text">
-          I’m a 3D artist dedicated to crafting clean, immersive digital experiences.
-          Whether it's detailed modeling or AR/VR storytelling, I blend design and
-          technology to create visuals that are both beautiful and meaningful.
-          My approach is minimal, but the impact is intentional.
+        Bridging design and technology through advanced 3D workflows.
+        I specialize in developing high-performance 3D assets and immersive environments for AR, VR, gaming, and interactive media. My focus lies in delivering optimized, scalable solutions that align with both creative vision and technical precision—ensuring every experience is as efficient as it is engaging.
         </p>
       </motion.div>
 
@@ -72,7 +70,7 @@ const AboutMe = () => {
           }}
         >
           <img
-            src="./assets/About_pic.jpg"
+            src="./assets/About_pic.webp"
             alt="Portrait of Selva"
             className="profile-image"
             loading="lazy"

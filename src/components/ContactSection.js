@@ -60,7 +60,7 @@ const ContactSection = () => {
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.5 }}
     >
       <motion.div className="contact-content" variants={itemVariants}>
         <h2 className="contact-title">Get in Touch</h2>

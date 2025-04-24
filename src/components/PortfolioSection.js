@@ -12,28 +12,28 @@ const portfolioItems = [
     id: 2,
     type: 'video renders',
     iframe: 'https://www.youtube.com/embed/tZc1T28Oe20?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: 'https://img.youtube.com/vi/tZc1T28Oe20/hqdefault.jpg',
+    thumbnail: '',
   },
   {
     id: 8,
     type: 'video renders',
     iframe: 'https://www.youtube.com/embed/895sufvfnA0?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: 'https://img.youtube.com/vi/895sufvfnA0/hqdefault.jpg',
+    thumbnail: './assets/Stromscene.png',
   },
   {
     id: 9,
     type: 'video renders',
     iframe: 'https://www.youtube.com/embed/8fPSmTUGj1Q?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: 'https://img.youtube.com/vi/8fPSmTUGj1Q/hqdefault.jpg',
+    thumbnail: './assets/perfume.png',
   },
   {
     id: 10,
     type: 'video renders',
     iframe: 'https://www.youtube.com/embed/EVWK63G3Lf8?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
-    thumbnail: 'https://img.youtube.com/vi/EVWK63G3Lf8/hqdefault.jpg',
+    thumbnail: './assets/Motoranimationthumb.png',
   },
   // { id: 3, type: 'posters', src: './assets/SportsPoster.jpg' },
-  { id: 4, type: '3d', iframe: 'https://v3d.net/18q9', thumbnail: './assets/BMW-Config.webp' },
+  { id: 4, type: '3d', iframe: 'https://v3d.net/18s8', thumbnail: './assets/BMW-Config.webp' },
   { id: 11, type: '3d', iframe: 'https://v3d.net/18s1', thumbnail: './assets/Bevelgear.png' },
 ];
 
@@ -58,7 +58,7 @@ const PortfolioSection = () => {
     return (
       <div className="thumbnail-wrapper">
         <img src={item.thumbnail} alt={`${item.type} thumbnail`} loading="lazy" />
-        {item.type === 'video' && <div className="play-icon">▶</div>}
+        {item.type === 'video renders' && <div className="play-icon">▶</div>}
         {item.type === '3d' && <div className="model-tag">3D</div>}
       </div>
     );
@@ -144,17 +144,18 @@ const PortfolioSection = () => {
               exit="exit"
               transition={{ duration: 0.3, ease: 'easeOut' }}
             >
-              {selectedItem.type === 'video' || selectedItem.type === '3d' ? (
-                <iframe
-                  src={selectedItem.iframe}
-                  frameBorder="0"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                  title={selectedItem.type === '3d' ? '3D Model' : 'Video Player'}
-                />
-              ) : (
-                <img src={selectedItem.src} alt={`${selectedItem.type} full`} />
-              )}
+{selectedItem.type === 'video renders' || selectedItem.type === '3d' ? (
+  <iframe
+    src={selectedItem.iframe}
+    frameBorder="0"
+    allow="autoplay; encrypted-media"
+    allowFullScreen
+    title={selectedItem.type === '3d' ? '3D Model' : 'Video Player'}
+  />
+) : (
+  <img src={selectedItem.src} alt={`${selectedItem.type} full`} />
+)}
+
             </motion.div>
           </motion.div>
         )}

@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const socialLinks = [
-  { icon: <FaLinkedin />, url: "https://linkedin.com/in/yourprofile" },
-  { icon: <FaGithub />, url: "https://github.com/yourusername" },
+  { icon: <FaLinkedin />, url: "https://www.linkedin.com/in/selva-ranjan-03a5ab239/" },
+  { icon: <FaGithub />, url: "https://github.com/Selva-21-11" },
 ];
 
 const logoVariants = {

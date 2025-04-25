@@ -6,8 +6,8 @@ const FILTERS = ['all', 'image renders', 'video renders', 'posters', '3d'];
 const portfolioItems = [
   { id: 2, type: 'image renders', src: './assets/Imagerender2.webp' },
   { id: 5, type: 'image renders', src: './assets/Imagerender3.webp' },
-  { id: 6, type: 'image renders', src: './assets/Imagerender1.webp' },
-  { id: 7, type: 'image renders', src: './assets/Imagerender2.webp' },
+  { id: 6, type: 'image renders', src: './assets/Imagerender4.webp' },
+  { id: 7, type: 'image renders', src: './assets/Imagerender1.webp' },
   {
     id: 1,
     type: 'video renders',

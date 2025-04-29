@@ -8,7 +8,6 @@
   width: 100%;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
   gap: 4rem;
   flex-wrap: nowrap; /* ✅ Force horizontal layout */
   overflow: hidden;   /* ✅ Prevent accidental scroll bars */

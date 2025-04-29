@@ -38,11 +38,12 @@ const ContactSection = () => {
     setStatus("Sending...");
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || "http://localhost:5000"}/send-email`, {
+      const response = await fetch("https://threed-portfolio-backend.onrender.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+      
 
       const data = await response.json();
       setStatus(data.success ? "Message sent successfully!" : "Failed to send message.");

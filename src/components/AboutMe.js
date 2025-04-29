@@ -51,8 +51,8 @@ const AboutMe = () => {
         </div>
         
         <p className="description-text">
-          Bridging design and technology through advanced 3D workflows.
-          I specialize in developing high-performance 3D assets and immersive environments for AR, VR, gaming, and interactive media. My focus lies in delivering optimized, scalable solutions that align with both creative vision and technical precision—ensuring every experience is as efficient as it is engaging.
+        I create high-performance 3D models, immersive environments, and interactive web experiences tailored for AR, VR, gaming, and digital platforms. 
+        My work merges technical precision with creative intent—delivering optimized, scalable solutions that are as functional as they are visually compelling. Alongside this, I design clean, purpose-driven graphics and posters that elevate storytelling across mediums. 
         </p>
       </motion.div>
 

@@ -5,7 +5,7 @@
     "main": "src/index.js",
     "homepage": "https://Selva-21-11.github.io/3D-portfolio",
     "scripts": {
-        "start": "node server.js",
+        "start": "webpack serve --mode development",
         "build": "webpack --mode production",
         "test": "echo \"No test specified\" && exit 0"
     },

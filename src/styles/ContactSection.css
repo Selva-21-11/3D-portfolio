@@ -76,3 +76,16 @@
   color: #8BBBC9;
   font-weight: 500;
 }
+
+.input-error {
+  border: 2px solid #3cb9e7;
+  outline: none;
+}
+
+.error-message {
+  color: #3ca8e7;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+

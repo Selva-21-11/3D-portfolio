@@ -8,6 +8,7 @@ import "./styles/PortfolioSection.css";
 import "./styles/Hero.css";
 import Aurora from "./blocks/Backgrounds/Aurora/Aurora";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Cursor from "./components/Cursor";
 
 // Lazy-load components
@@ -73,6 +74,7 @@ const App = () => {
               <ContactSection />
             </Suspense>
           </section>
+          <Footer />
         </div>
       </div>
     </Suspense>

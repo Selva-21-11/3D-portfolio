@@ -7,23 +7,19 @@ const Cursor = () => {
 
   useEffect(() => {
     const move = (e) => setPosition({ x: e.clientX, y: e.clientY });
-    const mouseOver = () => setHovering(true);
-    const mouseOut = () => setHovering(false);
-
     window.addEventListener("mousemove", move);
 
-    // Add hover detection for all interactive elements
     const hoverables = document.querySelectorAll("a, button, input, textarea");
-    hoverables.forEach(el => {
-      el.addEventListener("mouseenter", mouseOver);
-      el.addEventListener("mouseleave", mouseOut);
+    hoverables.forEach((el) => {
+      el.addEventListener("mouseenter", () => setHovering(true));
+      el.addEventListener("mouseleave", () => setHovering(false));
     });
 
     return () => {
       window.removeEventListener("mousemove", move);
-      hoverables.forEach(el => {
-        el.removeEventListener("mouseenter", mouseOver);
-        el.removeEventListener("mouseleave", mouseOut);
+      hoverables.forEach((el) => {
+        el.removeEventListener("mouseenter", () => setHovering(true));
+        el.removeEventListener("mouseleave", () => setHovering(false));
       });
     };
   }, []);

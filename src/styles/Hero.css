@@ -85,7 +85,7 @@
   overflow: hidden;
   z-index: 1;
   transition: all 0.3s ease;
-  cursor: pointer;
+  cursor: none ;
   color: white;
   border: none;
   background: linear-gradient(135deg, #1B1E30, #2A3341);

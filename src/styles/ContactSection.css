@@ -60,7 +60,6 @@
   background: linear-gradient(145deg, #8BBBC9, #6F7D91); /* Frosted Glass Blue */
   border: none;
   border-radius: 8px;
-  cursor: pointer;
   transition: 0.3s;
   position: relative;
   left: 10px;

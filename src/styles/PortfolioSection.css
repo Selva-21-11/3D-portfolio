@@ -22,7 +22,6 @@
 /* Filter button */
 .filter-btn {
   all: unset;
-  cursor: pointer;
   padding: 0.5rem 0;
   font-size: 1.2rem;
   font-weight: 500;
@@ -80,7 +79,6 @@
   height: 200px;
   width: 250px;
   background: #111;
-  cursor: pointer;
   transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.3s ease;
   backface-visibility: hidden;
   perspective: 1000px;

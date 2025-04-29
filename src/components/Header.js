@@ -47,29 +47,14 @@ const Header = () => (
 
     {/* Text Reveal from behind the Logo */}
     <motion.div
-  className="logo-text-container"
-  initial="hidden"
-  animate="visible"
-  transition={{ staggerChildren: 0.05, delayChildren: 1 }}
->
-  {"SELVARANJAN".split("").map((char, index) => (
-    <motion.span
-      key={index}
-      className="logo-text"
-      initial={{ y: 20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      whileHover={{
-        y: -5,
-        scale: 1.2,
-        color: "#00BFFF",
-        textShadow: "0px 0px 8px rgba(0, 191, 255, 0.8)",
-      }}
-      transition={{ type: "spring", stiffness: 300 }}
+      className="logo-text-container"
+      variants={logoTextVariants}
+      initial="hidden"
+      animate="visible"
+      transition={{ duration: 0.6, delay: 1 }}
     >
-      {char}
-    </motion.span>
-  ))}
-</motion.div>
+      <span className="logo-text">SELVARANJAN</span>
+    </motion.div>
 
     {/* Social Icons */}
     <motion.nav

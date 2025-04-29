@@ -1,10 +1,12 @@
 import React, { useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import VariableProximity from "../blocks/TextAnimations/VariableProximity/VariableProximity";
 
 const AboutMe = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
   const cardRef = useRef(null);
+  const containerRef = useRef(null); // Added ref for the container
   const [transform, setTransform] = useState({ rotateX: 0, rotateY: 0, scale: 1 });
 
   const handleMouseMove = useCallback((e) => {
@@ -34,9 +36,23 @@ const AboutMe = () => {
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
-        <h1 className="intro-text">Hi, I’m Selva</h1>
+        <div ref={containerRef} style={{ position: "relative" }}>
+          {/* VariableProximity for the heading */}
+          <VariableProximity
+  label="Hi, I’m Selva"
+  className="intro-text"
+  fromFontVariationSettings="'wght' 600" // Start from weight 400 (normal)
+  toFontVariationSettings="'wght' 200" // End at weight 900 (bold)
+  containerRef={containerRef}
+  radius={120}
+  falloff="linear"
+/>
+
+        </div>
+        
         <p className="description-text">
-        I specialize in creating high-performance 3D assets, interactive environments, and compelling graphic designs for AR, VR, gaming, and digital media. With a strong focus on both creative storytelling and technical execution, I deliver scalable, optimized solutions that elevate user engagement. Whether it’s a dynamic virtual space or a striking visual identity, my work bridges aesthetic vision with engineering precision.
+          Bridging design and technology through advanced 3D workflows.
+          I specialize in developing high-performance 3D assets and immersive environments for AR, VR, gaming, and interactive media. My focus lies in delivering optimized, scalable solutions that align with both creative vision and technical precision—ensuring every experience is as efficient as it is engaging.
         </p>
       </motion.div>
 

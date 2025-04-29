@@ -8,6 +8,7 @@ import "./styles/PortfolioSection.css";
 import "./styles/Hero.css";
 import Aurora from "./blocks/Backgrounds/Aurora/Aurora";
 import Header from "./components/Header";
+import Cursor from "./components/Cursor";
 
 // Lazy-load components
 const TitleBG = React.lazy(() => import("./components/TitleBG"));
@@ -20,6 +21,7 @@ const PortfolioSection = React.lazy(() => import("./components/PortfolioSection"
 const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
+      <Cursor />
       <div className="aurora-wrapper">
         {/* Background and Aurora component */}
         <Aurora

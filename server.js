@@ -38,6 +38,7 @@ app.post("/send-email", (req, res) => {
 
 // Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {  // This listens on all network interfaces
   console.log(`Server running on port ${PORT}`);
 });
+

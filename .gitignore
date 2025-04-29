@@ -1,13 +1,9 @@
-# Node modules
-node_modules/
+
 
 # Environment variables
 .env
 
-# Logs
-logs/
-*.log
-npm-debug.log*
+
 
 # OS-specific
 .DS_Store
@@ -18,9 +14,6 @@ dist/
 .cache/
 *.tsbuildinfo
 
-# Editor folders
-.vscode/
-.idea/
 
 # Render local config
 render.yaml

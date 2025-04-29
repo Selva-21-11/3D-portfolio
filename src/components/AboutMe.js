@@ -36,8 +36,7 @@ const AboutMe = () => {
       >
         <h1 className="intro-text">Hi, I’m Selva</h1>
         <p className="description-text">
-        Bridging design and technology through advanced 3D workflows.
-        I specialize in developing high-performance 3D assets and immersive environments for AR, VR, gaming, and interactive media. My focus lies in delivering optimized, scalable solutions that align with both creative vision and technical precision—ensuring every experience is as efficient as it is engaging.
+        I specialize in creating high-performance 3D assets, interactive environments, and compelling graphic designs for AR, VR, gaming, and digital media. With a strong focus on both creative storytelling and technical execution, I deliver scalable, optimized solutions that elevate user engagement. Whether it’s a dynamic virtual space or a striking visual identity, my work bridges aesthetic vision with engineering precision.
         </p>
       </motion.div>
 

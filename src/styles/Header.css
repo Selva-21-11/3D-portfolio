@@ -28,15 +28,10 @@
   top: 4px; /* Adjust this value to move the logo down */
 }
 
-  .logo {
+.logo {
     width: 100px;  /* Increased size */
     height: 100px; /* Increased size */
     object-fit: cover;
-  }
-  
-  .logo-text-container {
-    margin-left: 10px;
-    position: relative; /* To allow proper positioning */
   }
   
   .logo-text {

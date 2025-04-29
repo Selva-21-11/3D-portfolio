@@ -17,7 +17,7 @@
 /* .about-me-text */
 .about-me-text {
   flex: 1;
-  max-width: 600px;
+  max-width: 150px;
 }
 
 /* Intro and description texts */
@@ -26,6 +26,7 @@
   font-weight: 600;
   margin-bottom: 1.5rem;
   color: #cbf3ff;
+  
 }
 
 
@@ -34,6 +35,7 @@
   line-height: 1.8;
   color: #5e7594;
   font-family: 'Inter', sans-serif;
+  text-align: justify; /* ✅ Justify alignment added */
 }
 
 

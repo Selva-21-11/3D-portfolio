@@ -32,9 +32,9 @@ const portfolioItems = [
     iframe: 'https://www.youtube.com/embed/EVWK63G3Lf8?autoplay=1&mute=0&controls=0&modestbranding=0&rel=0&showinfo=1',
     thumbnail: './assets/Motoranimationthumb.webp',
   },
-  { id: 3, type: 'posters', src: './assets/SportsPoster.webp' },
-  { id: 12, type: 'posters', src: './assets/SportsPoster_1.webp' },
-  { id: 13, type: 'posters', src: './assets/FilterPractice.webp' },
+  //{ id: 3, type: 'posters', src: './assets/SportsPoster.webp' },
+  //{ id: 12, type: 'posters', src: './assets/SportsPoster_1.webp' },
+  //{ id: 13, type: 'posters', src: './assets/FilterPractice.webp' },
   { id: 4, type: '3d', iframe: 'https://v3d.net/18s8', thumbnail: './assets/BMW-Config.webp' },
   { id: 11, type: '3d', iframe: 'https://v3d.net/18s1', thumbnail: './assets/Bevelgear.webp' },
 ];

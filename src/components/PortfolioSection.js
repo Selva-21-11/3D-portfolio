@@ -37,6 +37,7 @@ const portfolioItems = [
   //{ id: 13, type: 'posters', src: './assets/FilterPractice.webp' },
   { id: 4, type: '3d', iframe: 'https://v3d.net/18s8', thumbnail: './assets/BMW-Config.webp' },
   { id: 11, type: '3d', iframe: 'https://v3d.net/18s1', thumbnail: './assets/Bevelgear.webp' },
+  { id: 12, type: '3d', iframe: 'https://v3d.net/1909', thumbnail: './assets/Jet.webp' },
 ];
 
 const PortfolioSection = () => {
